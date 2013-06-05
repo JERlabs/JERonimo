@@ -9,6 +9,10 @@ Description
 - Provides an SDL surface.
 - Controls creation of game window
 
+Constructor
+-----------
+- Initalizes SDL
+- Initalizes main surface
 
 Entity
 ======
@@ -20,6 +24,20 @@ Description
 - Must provide a static method to iterate through a list/array of itself and preform physics (position changes)  on each object
 - Must provide methods to get coordinates
 - must provide initalization and quit methods
+
+Constructor
+-----------
+- Do stuff, set inital coords, velocity, etc.
+
+Methods
+-------
+Names not final
+- getCoords() - Get coordinates of the object
+- setCoords() - Set coordinates
+- getVelocity() - Get velocity vector
+- setVelocity() - 
+### Static ###
+- method to iterate through a list of itself and do physics for velocities
 
 
 Vector
@@ -34,3 +52,12 @@ Description
 - Overloads operator * (right hand operator is number) which returns a vector constructed with the X and Y components both multiplied by the parameter
 - Overloads operator / which works similarly to operator *
 - Used for holding object positions/velocities/etc.
+
+Constructor
+-----------
+- take initial X, Y, magnitude, and direction.
+
+Methods
+-------
+- getX() - May be changed to just x()
+- getY() - ""
