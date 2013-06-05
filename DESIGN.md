@@ -21,3 +21,16 @@ Description
 - Must provide methods to get coordinates
 - must provide initalization and quit methods
 
+
+Vector
+======
+
+Description
+------------
+- An object which holds an X and Y component
+- Must have the methods to set and get X, Y, Magnitude, and Direction
+- Overloads operators + which returns a vector constructed with the X and Y  of two argument components added (+= will work as expected)
+- Overloads operator - which returns a vector to the difference of two vectors (say to find the distance or angle between two entities)
+- Overloads operator * (right hand operator is number) which returns a vector constructed with the X and Y components both multiplied by the parameter
+- Overloads operator / which works similarly to operator *
+- Used for holding object positions/velocities/etc.
