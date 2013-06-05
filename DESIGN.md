@@ -13,6 +13,7 @@ Constructor
 -----------
 - Initalizes SDL
 - Initalizes main surface
+- Loads XML?
 
 Entity
 ======
@@ -32,10 +33,10 @@ Constructor
 Methods
 -------
 Names not final
-- getCoords() - Get coordinates of the object
-- setCoords() - Set coordinates
-- getVelocity() - Get velocity vector
-- setVelocity() - 
+- getCoords(Vector) - Get coordinates of the object
+- Vector setCoords() - Set coordinates
+- Vector getVelocity() - Get velocity vector
+- setVelocity(Vector) - 
 ### Static ###
 - method to iterate through a list of itself and do physics for velocities
 
@@ -55,9 +56,14 @@ Description
 
 Constructor
 -----------
-- take initial X, Y, magnitude, and direction.
+- take initial X, Y.
+- take initial Magnitude and Direction (x and y will have to have different types from mag and dir
+
+
 
 Methods
 -------
 - getX() - May be changed to just x()
 - getY() - ""
+- getMagnitude()
+- getDirection()
