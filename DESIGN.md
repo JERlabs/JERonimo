@@ -20,4 +20,3 @@ Description
 - Must provide a static method to iterate through a list/array of itself and preform physics (position changes)  on each object
 - Must provide methods to get coordinates
 - must provide initalization and quit methods
-
