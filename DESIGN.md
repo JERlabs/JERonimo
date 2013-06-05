@@ -33,37 +33,46 @@ Constructor
 Methods
 -------
 Names not final
-- getCoords(Vector) - Get coordinates of the object
-- Vector setCoords() - Set coordinates
+- Position getCoords() - Get coordinates of the object
+- setCoords(Position) - Set coordinates
 - Vector getVelocity() - Get velocity vector
 - setVelocity(Vector) - 
 ### Static ###
 - method to iterate through a list of itself and do physics for velocities
 
 
-Vector
+Space
 ======
 
 Description
 ------------
-- An object which holds an X and Y component
-- Must have the methods to set and get X, Y, Magnitude, and Direction
-- Overloads operators + which returns a vector constructed with the X and Y  of two argument components added (+= will work as expected)
-- Overloads operator - which returns a vector to the difference of two vectors (say to find the distance or angle between two entities)
-- Overloads operator * (right hand operator is number) which returns a vector constructed with the X and Y components both multiplied by the parameter
-- Overloads operator / which works similarly to operator *
-- Used for holding object positions/velocities/etc.
+- Namespace containing postion class and vector class
+- Contains velocity class.
+- Contains functions which include both classes for certain compatibility.
 
-Constructor
------------
-- take initial X, Y.
-- take initial Magnitude and Direction (x and y will have to have different types from mag and dir
+Position
+--------
+- Class containing X and Y component
+- X() and Y() return the values and X(number) Y(number) set them (return reference to this?)
+- Operator + returns the sum of the X and Y components (vector addition essentially
+- Operator - returns the difference of the X and Y components (for relative vector computation)
+- Operators * and / scale position from (0, 0) at a factor of the right hand operator
+- Overloads respective += -= *= and /=
+- Constructed with X and Y (default 0)
 
+Vector
+------
+- Class containing Magnitude and Direction
+- Respective setter and getter functions
+- Constructed with init mag and vec
+- Constructed with a position (calculates vector from origin to position)
+- Constructed with two positions (calculates vector from one to the other)
+- Default Constructor sets direction to 0 with mag of 0
 
+Velocity
+--------
+- tbd
 
-Methods
--------
-- getX() - May be changed to just x()
-- getY() - ""
-- getMagnitude()
-- getDirection()
+Other Methods
+-------------
+- Position getPos(Vector) returns position of vector relative to origin
