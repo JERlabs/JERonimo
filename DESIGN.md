@@ -56,15 +56,15 @@ Names not final
 #### Static ####
 - method to iterate through a list of itself and do physics for velocities
 
-# Namespace Space #
+# Namespace Space2D #
 
 ### Description ###
 - Namespace containing postion class and vector class
 - Contains velocity class.
 - Contains functions which include both classes for certain compatibility.
 
-## Position ##
-Used for positions
+## Point ##
+Used for an ordered pair
 ### Description ###
 - Class containing X and Y component
 - X() and Y() return the values and X(number) Y(number) set them (return reference to this?)
@@ -87,7 +87,7 @@ Used when things need to point somewhere
 ## Velocity ##
 Used when you need to point somewhere, and have easy access to coords
 ### Description ###
-- Class which subclasses Vector and Position
+- Class which subclasses Vector and Point
 - Allows the position of a vector relative to the origin to be stored,
   allowing for easy (computation-wise) access to position-updating methods
 
