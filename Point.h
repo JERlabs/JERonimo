@@ -18,8 +18,8 @@ class Point {
     Point operator -= (Point);
     Point operator *= (long double);
     Point operator /= (long double);
-    Point operator == (Point);
-    Point operator != (Point);
+    bool operator == (Point);
+    bool operator != (Point);
 };
 
 }
