@@ -1,25 +1,25 @@
 #include "Point.h"
 namespace Space2D {
 
-Point::Point (long double const &x, long double const &y) {
-  X = x;
-  Y = y;
+Point::Point (long double const &x, long double const &y): X(x), Y(y) {
 }
 Point::Point (Point const &p2) {
   X = p2.x();
   Y = p2.y();
 }
-long double Point::x() const{
+Point::Point (): X(0), Y(0) {
+}
+const long double Point::x() const{
   return X;
 }
-long double Point::x(long double const &x) {
+const long double Point::x(long double const &x) {
   X = x;
   return X;
 }
-long double Point::y() const{
+const long double Point::y() const{
   return Y;
 }
-long double Point::y(long double const &y) {
+const long double Point::y(long double const &y) {
   Y = y;
   return Y;
 }
@@ -57,14 +57,15 @@ Point& Point::operator *= (long double const &scale) {
   return *this;
 }
 Point& Point::operator /= (long double const &scale) {
-  X /= scale;
-  Y /= scale;
+  X /= scale == 0? 1:scale;
+  Y /= scale == 0? 1:scale;
   return *this;
 }
-bool Point::operator == (Point const &p2) const{
+const bool Point::operator == (Point const &p2) const{
   return (X == p2.x())&&(Y == p2.y());
 }
-bool Point::operator != (Point const &p2) const{
+const bool Point::operator != (Point const &p2) const{
   return (X != p2.x())||(Y != p2.y());
 }
+
 }
