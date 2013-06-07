@@ -1,3 +1,6 @@
+#ifndef _POINT_H_
+#define _POINT_H_
+
 namespace Space2D {
 
 class Point {
@@ -5,21 +8,22 @@ class Point {
     long double X;
     long double Y;
   public:
-    Point (long double, long double);
+    Point (long double const&, long double const&);
     long double x();
-    long double x(long double);
+    long double x(long double const&);
     long double y();
-    long double y(long double);
-    Point operator + (Point);
-    Point operator - (Point);
-    Point operator * (long double);
-    Point operator / (long double);
-    Point operator += (Point);
-    Point operator -= (Point);
-    Point operator *= (long double);
-    Point operator /= (long double);
-    bool operator == (Point);
-    bool operator != (Point);
+    long double y(long double const&);
+    Point operator + (Point &);
+    Point operator - (Point &);
+    Point operator * (long double const&);
+    Point operator / (long double const&);
+    Point operator += (Point &);
+    Point operator -= (Point &);
+    Point operator *= (long double const&);
+    Point operator /= (long double const&);
+    bool operator == (Point &);
+    bool operator != (Point &);
 };
 
 }
+#endif
