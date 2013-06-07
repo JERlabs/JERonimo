@@ -8,7 +8,7 @@ Point makePoint(long double const &x, long double const &y, char const *name) {
   << lol.y() << ")\n";
   return lol;
 }
-void printPoint(char const *name, Point &point) {
+void printPoint(char const *name, Point const &point) {
   std::cout << "Point " << name << " has value: (" << point.x() << ","
   << point.y() << ")\n";
 }
@@ -29,5 +29,11 @@ int main(int argc, char *argv[]) {
   std::cout << "Dividing a by 5 \n";
   a /= 5;
   printPoint("a", a);
+  std::cout << "Setting a to b\n";
+  a = b;
+  printPoint("a", a);
+  std::cout << "Add a and b \n";
+  printPoint("a + b", a+b);
+  printPoint("(a+b)-b", (a+b)-b);
   return 0;
 }
