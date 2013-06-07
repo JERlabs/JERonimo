@@ -1,6 +1,8 @@
 #ifndef _POINT_H_
 #define _POINT_H_
 
+#include "Space2D.h"
+
 namespace Space2D {
 
 class Point {
@@ -10,6 +12,7 @@ class Point {
   public:
     Point (long double const& xInit, long double const& yInit);
     Point (Point const& p2);
+	Point (Vector const& v2);
 	Point ();
     const long double x() const;
     const long double x(long double const&);
