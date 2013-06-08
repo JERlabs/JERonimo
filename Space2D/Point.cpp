@@ -1,4 +1,6 @@
 #include "Point.h"
+#include "Vector.h"
+
 namespace Space2D {
 
 Point::Point (long double const &x, long double const &y): X(x), Y(y) {
@@ -6,6 +8,11 @@ Point::Point (long double const &x, long double const &y): X(x), Y(y) {
 Point::Point (Point const &p2) {
   X = p2.x();
   Y = p2.y();
+}
+Point::Point(Vector const &v2)
+{
+	X = v2.mag() * cos(v2.theta());
+	Y = v2.mag() * sin(v2.theta());
 }
 Point::Point (): X(0), Y(0) {
 }
