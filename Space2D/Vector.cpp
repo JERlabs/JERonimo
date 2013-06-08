@@ -21,7 +21,7 @@ Vector::Vector(Point const &p2) {
       return;
   }
   else if(p2.x() < 0) {
-    Theta = 180 + atan(p2.y()/p2.x());
+    Theta = ANGLE_LEFT + atan(p2.y()/p2.x());
   }
   else {
     Theta = atan(p2.y()/p2.x());
