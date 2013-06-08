@@ -5,7 +5,7 @@
 
 namespace Space2D {
 
-class Velocity: protected Point, protected Vector{
+class Velocity: protected Point, protected Vector {
   public:
     /// Create a velocity from an angle and magnitude
     Velocity(long double const &mag, long double const &theta);
@@ -40,6 +40,49 @@ class Velocity: protected Point, protected Vector{
     /// Set and return angle
     long double const theta(long double const &theta);
 
+    Point const operator+ (Point const& p2) const {
+      return (Point)*this + p2;
+    };
+
+    Point const operator- (Point const& p2) const {
+      return (Point)*this - p2;
+    };
+
+    Point const operator* (const long double& scale) const {
+      return (Point)*this * scale;
+    };
+
+    Point const operator/ (const long double& scale) const {
+      return (Point)*this / scale;
+    };
+
+    Point const operator+= (Point const& p2) const {
+      (Vector)*this = ((Point)*this += p2);
+      return *this;
+    };
+
+    Point const operator-= (Point const& p2) const {
+      (Vector)*this = ((Point)*this -= p2);
+      return *this;
+    };
+
+    Point const operator*= (const long double &scale) const {
+      (Vector)*this = ((Point)*this *= scale);
+      return *this;
+    };
+
+    Point const operator/= (const long double &scale) const {
+      (Vector)*this = ((Point)*this /= scale);
+      return *this;
+    };
+
+    const bool operator== (const Point& comp) const {
+      return (Point)*this == comp;
+    };
+
+    const bool operator!= (const Vector& comp) const {
+      return (Point)*this != comp;
+    };
 };
 
 }
