@@ -20,3 +20,22 @@ Rules for things following '#define', enum identifiers, or some sort of static c
 - ```
   const int PRIMES[10] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
 ``` not macros, but still const.
+
+## Classes ##
+All Class names are capitalized and use CamelCase.
+
+### Methods ###
+All method names start with a lowercase letter
+
+### Variables ###
+All member variables start with an uppercase letter
+
+## Syntax ##
+Left curly brackets belong at the end of the syntax element they belong to.
+Example:
+```
+int main(int argc, char *argv) {
+  int a = 2+2;
+}
+```
+Tab width is 2, spaces are preffered over tabs.
