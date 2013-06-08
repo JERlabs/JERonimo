@@ -39,6 +39,7 @@ class Velocity: protected Point, protected Vector{
     
     /// Set and return angle
     long double const theta(long double const &theta);
+
 };
 
 }
