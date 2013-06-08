@@ -16,19 +16,17 @@ Point::Point(Vector const &v2)
 }
 Point::Point (): X(0), Y(0) {
 }
-inline const long double Point::x() const{
+const long double Point::x() const{
   return X;
 }
 const long double Point::x(long double const &x) {
-  X = x;
-  return X;
+  return X = x;
 }
-inline const long double Point::y() const{
+const long double Point::y() const{
   return Y;
 }
 const long double Point::y(long double const &y) {
-  Y = y;
-  return Y;
+  return Y = y;
 }
 
 Point const Point::operator+ (Point const &p2) const{
@@ -68,11 +66,11 @@ Point& Point::operator /= (long double const &scale) {
   Y /= scale == 0? 1:scale;
   return *this;
 }
-const bool Point::operator == (Point const &p2) const{
+const bool Point::operator == (Point const &p2) const {
   return (X == p2.x())&&(Y == p2.y());
 }
-const bool Point::operator != (Point const &p2) const{
-  return (X != p2.x())||(Y != p2.y());
+const bool Point::operator != (Point const &p2) const {
+  return !(*this == p2);
 }
 
 }

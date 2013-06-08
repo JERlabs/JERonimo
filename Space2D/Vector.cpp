@@ -28,7 +28,7 @@ namespace Space2D {
 		}
 	}
 
-	inline const long double Vector::mag() const {
+	const long double Vector::mag() const {
 		return Mag;
 	}
 
@@ -36,7 +36,7 @@ namespace Space2D {
 		return Mag = m;
 	}
 
-	inline const long double Vector::theta() const {
+	const long double Vector::theta() const {
 		return Theta;
 	}
 
@@ -63,6 +63,7 @@ namespace Space2D {
 	Vector& Vector::operator= (Vector const &v2) {
 		Mag = v2.mag();
 		Theta = v2.theta();
+		return *this;
 	}
 
 	Vector& Vector::operator+= (Point const &p2) {
