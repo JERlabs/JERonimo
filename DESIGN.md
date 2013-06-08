@@ -59,7 +59,8 @@ Names not final
 # Namespace Space2D #
 
 ### Description ###
-- Namespace containing postion class and vector class
+- Namespace containing position class and vector class
+- Point and Vector are symmetrically compatible
 - Contains velocity class.
 - Contains functions which include both classes for certain compatibility.
 
@@ -72,7 +73,9 @@ Used for an ordered pair
 - Operator - returns the difference of the X and Y components (for relative vector computation)
 - Operators * and / scale position from (0, 0) at a factor of the right hand operator
 - Overloads respective += -= *= and /=
+- Overloads == and != as would be expected
 - Constructed with X and Y (default 0)
+- Constructed with Vector (calculates destination if origin is translated by Vector)
 
 ## Vector ##
 Used when things need to point somewhere
@@ -80,8 +83,7 @@ Used when things need to point somewhere
 - Class containing Magnitude and Direction
 - Respective setter and getter functions
 - Constructed with init magnitude and direction
-- Constructed with a position (calculates vector from origin to position)
-- Constructed with two positions (calculates vector from one to the other)
+- Constructed with a Point (calculates vector from origin to position)
 - Default Constructor sets direction to 0 with mag of 0
 
 ## Velocity ##
