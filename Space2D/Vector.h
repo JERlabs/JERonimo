@@ -45,10 +45,10 @@ class Vector {
     Point const operator - (Point const& p2) const;
     
     /// Returns the vector as a point scaled by scale
-    Point const operator * (const long double &scale) const;
+    Vector const operator * (const long double &scale) const;
     
     /// Returns the vector as a point scaled by 1/scale
-    Point const operator / (const long double &scale) const;
+    Vector const operator / (const long double &scale) const;
     
     /// Sets the magnitude and angle of the vector to that of another
     Vector& operator = (Vector const& v2);

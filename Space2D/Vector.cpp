@@ -52,12 +52,12 @@ Point const Vector::operator- (Point const& p2) const {
   return (Point)*this - p2;
 }
 
-Point const Vector::operator* (const long double& scale) const {
-  return (Point)*this * scale;
+Vector const Vector::operator* (const long double& scale) const {
+  return Vector(*this) *= scale;
 }
 
-Point const Vector::operator/ (const long double& scale) const {
-  return (Point)*this / scale;
+Vector const Vector::operator/ (const long double& scale) const {
+  return Vector(*this) /= scale;
 }
 
 Vector& Vector::operator= (Vector const &v2) {
@@ -75,11 +75,13 @@ Vector& Vector::operator-= (Point const &p2) {
 }
 
 Vector& Vector::operator*= (const long double &scale) {
-  return *this = *this * scale;
+  Mag *= scale;
+  return *this;
 }
 
 Vector& Vector::operator/= (const long double &scale) {
-  return *this = *this / scale;
+  Mag /= scale;
+  return *this;
 }
 
 const bool Vector::operator== (Vector const &v2) const {
