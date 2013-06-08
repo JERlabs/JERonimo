@@ -1,0 +1,10 @@
+DESIGN.md.orig
+Debug/*
+*.opensdf
+*.sdf
+*.sln
+*.suo
+*.vcxproj
+*.filters
+*.user
+ipch/*
