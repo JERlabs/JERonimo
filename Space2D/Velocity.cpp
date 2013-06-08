@@ -20,15 +20,15 @@ const long double Velocity::y() const {
   return Y;
 }
 
-const long double Velocity::x(const long double &X) {
-  this->X = X;
-  (Vector)*this = (Point)*this;
+const long double Velocity::x(const long double &x) {
+  X = x;
+  Vector(X,Y);
   return X;
 }
 
-const long double Velocity::y(const long double &Y) {
-  this->Y = Y;
-  (Vector)*this = (Point)*this;
+const long double Velocity::y(const long double &y) {
+  Y = y;
+  Vector(X,Y);
   return Y;
 }
 
@@ -41,14 +41,18 @@ const long double Velocity::theta() const {
 }
 
 const long double Velocity::mag(const long double &m) {
+  (X /= Mag) *= m;
   Mag = m;
-  (Point)*this = (Vector)*this;
   return Mag;
 }
 
 const long double Velocity::theta(const long double &t) {
+  long double ct = cos(t);
+  long double st = sin(t);
+  X = (X*ct - Y*st);
+  int x(X);
+  Y = (x*st + Y*ct);
   Theta = t;
-  (Point)*this = (Vector)*this;
   return Mag;
 }
 
