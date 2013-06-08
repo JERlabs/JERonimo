@@ -5,7 +5,7 @@
 
 namespace Space2D {
 
-class Velocity: protected Point, protected Vector {
+class Velocity: virtual Point, virtual Vector {
   public:
     /// Create a velocity from an angle and magnitude
     Velocity(long double const &mag, long double const &theta);
