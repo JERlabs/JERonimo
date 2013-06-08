@@ -40,54 +40,65 @@ class Velocity: virtual Point, virtual Vector {
     /// Set and return angle
     long double const theta(long double const &theta);
 
+    /// Construct and return sum of of this velocity and vv2
     Velocity const operator+ (Velocity const& vv2) const {
       return Velocity(*this) += vv2;
     };
 
+    /// Construct and return difference between this velocity and vv2
     Velocity const operator- (Velocity const& vv2) const {
       return Velocity(*this) += vv2;
     };
 
+    /// Construct and return the velocity with the magnitude and coordinates multiplied by scale
     Velocity const operator* (const long double& scale) const {
       return Velocity(*this) *= scale;
     };
     
+    /// Construct and return the velocity with the magnitude and coordinates divided by scale
     Velocity const operator/ (const long double& scale) const {
       return Velocity(*this) /= scale;
     };
 
-    Velocity const operator+= (Velocity const& vv2) {
+    /// Adds vv2 to the velocity and returns a reference to it
+    Velocity const& operator+= (Velocity const& vv2) {
       X += vv2.x();
       Y += vv2.y();
       Vector(X,Y);
       return *this;
     };
 
-    Velocity const operator-= (Velocity const& vv2) {
+    /// Subtracts vv2 from the velocity
+    Velocity const& operator-= (Velocity const& vv2) {
       X -= vv2.x();
       Y -= vv2.y();
       Vector(X,Y);
       return *this;
     };
 
-    Velocity const operator*= (const long double &scale) {
+    /// Multiplies the magnitude and x-y of the velocity by scale
+    Velocity const& operator*= (const long double &scale) {
       X *= scale;
       Y *= scale;
       Mag *= scale;
       return *this;
     };
 
-    Velocity const operator/= (const long double &scale) {
-      X /= scale;
+    /// Divides the magnitude and x-y of the velocity by scale
+    Velocity const& operator/= (const long double &scale) {
+      if(scale == 0.0) return *this;
+      X /= scale==0;
       Y /= scale;
       Mag /= scale;
       return *this;
     };
 
+    // returns true if comp conatins the same x and y component as the velocity
     const bool operator== (const Velocity& comp) const {
       return (X == comp.x())&&(Y == comp.y());
     };
 
+    /// returns true if comp doesn't contain the same x and y component as the velocity
     const bool operator!= (const Velocity& comp) const {
       return !(*this == comp);
     };
