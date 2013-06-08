@@ -16,14 +16,14 @@ Point::Point(Vector const &v2)
 }
 Point::Point (): X(0), Y(0) {
 }
-const long double Point::x() const{
+inline const long double Point::x() const{
   return X;
 }
 const long double Point::x(long double const &x) {
   X = x;
   return X;
 }
-const long double Point::y() const{
+inline const long double Point::y() const{
   return Y;
 }
 const long double Point::y(long double const &y) {

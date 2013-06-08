@@ -23,15 +23,15 @@ public:
 public:
 	Point const operator + (Point const&) const;
 	Point const operator - (Point const&) const;
-	Point const operator * (Point const&) const;
-	Point const operator / (Point const&) const;
-	Vector& const operator = (Vector const&);
-	Vector& const operator += (Point const&);
-	Vector& const operator -= (Point const&);
-	Vector& const operator *= (Point const&);
-	Vector& const operator /= (Point const&);
-	const bool operator == (Vector const &);
-	const bool operator != (Vector const &);
+	Point const operator * (const long double &scale) const;
+	Point const operator / (const long double &scale) const;
+	Vector& operator = (Vector const&);
+	Vector& operator += (Point const&);
+	Vector& operator -= (Point const&);
+	Vector& operator *= (const long double &scale);
+	Vector& operator /= (const long double &scale);
+	const bool operator == (Vector const &) const;
+	const bool operator != (Vector const &) const;
 };
 
 }
