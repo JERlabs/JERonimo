@@ -12,11 +12,11 @@
 
 
 namespace Space2D {	
-	/*space containing code related to 2D space algorithm 
-	* such as coordinate plane geometry, vector math, 
-	* and certain physics calculations */
-
-	class Point;	//class containing X and Y components
-	class Vector;	//class containing Magnitude and Direction components
-	class Velocity;	//class inheriting Vector and Point
+  /*space containing code related to 2D space algorithm 
+  * such as coordinate plane geometry, vector math, 
+  * and certain physics calculations */
+  
+  class Point;	//class containing X and Y components
+  class Vector;	//class containing Magnitude and Direction components
+  class Velocity;	//class inheriting Vector and Point
 }

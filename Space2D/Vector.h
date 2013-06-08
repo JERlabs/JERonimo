@@ -7,32 +7,70 @@ namespace Space2D
 {
 
 class Vector {
-private:
-	long double Mag;
-	long double Theta;
-public:
-	Vector(long double const &magInit, long double const &thetaInit);
-	Vector(Vector const &v2);	
-	Vector(const Point &p2);
-	Vector();
-public:
-	const long double mag() const;
-	const long double mag(const long double &m);
-	const long double theta() const;
-	const long double theta(const long double &t);
-public:
-	Point const operator + (Point const&) const;
-	Point const operator - (Point const&) const;
-	Point const operator * (const long double &scale) const;
-	Point const operator / (const long double &scale) const;
-	Vector& operator = (Vector const&);
-	Vector& operator += (Point const&);
-	Vector& operator -= (Point const&);
-	Vector& operator *= (const long double &scale);
-	Vector& operator /= (const long double &scale);
-	const bool operator == (Vector const &) const;
-	const bool operator != (Vector const &) const;
-};
+  protected:
+    /// Magnitude of the vector
+    long double Mag;
+    
+    /// Angle of the vector
+    long double Theta;
+  public:
+    /// Create a vector from a magnitude and angle
+    Vector(long double const &mag, long double const &theta);
+    
+    /// Create a vector from another vector
+    Vector(Vector const &v2);	
+    
+    /// Create a vector from a point
+    Vector(const Point &p2);
+    
+    /// Create a vector with default values
+    Vector();
+  public:
+    /// Returns the magnitude of the vector
+    const long double mag() const;
+    
+    /// Sets the magnitude of the vector to m, returns new magnitude.
+    const long double mag(const long double &m);
+    
+    /// Returns the angle of the vector
+    const long double theta() const;
+    
+    /// Sets the angle of the vector to t, returns new angle
+    const long double theta(const long double &t);
+  public:
+    /// Adds a point and a vector
+    Point const operator + (Point const& p2) const;
+    
+    /// Subtracts a point from a vector
+    Point const operator - (Point const& p2) const;
+    
+    /// Returns the vector as a point scaled by scale
+    Point const operator * (const long double &scale) const;
+    
+    /// Returns the vector as a point scaled by 1/scale
+    Point const operator / (const long double &scale) const;
+    
+    /// Sets the magnitude and angle of the vector to that of another
+    Vector& operator = (Vector const& v2);
+    
+    /// Adds the vector to a point
+    Vector& operator += (Point const& p2);
+    
+    /// Subtracts a point from the vector
+    Vector& operator -= (Point const& p2);
+    
+    /// Scales the vector by scale
+    Vector& operator *= (const long double &scale);
+    
+    /// Scales the vector by scale
+    Vector& operator /= (const long double &scale);
+    
+    /// Checks for equality of two vectors
+    const bool operator == (Vector const &v2) const;
+    
+    /// Checks for inequality of two vectors
+    const bool operator != (Vector const &v2) const;
+  };
 
 }
 

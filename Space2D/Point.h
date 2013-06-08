@@ -6,7 +6,7 @@
 namespace Space2D {
 
 class Point {
-  private:
+  protected:
     long double X; ///< X coordinate
     long double Y; ///< Y coordinate
   public:
@@ -23,16 +23,16 @@ class Point {
     Point ();
     
     /// Return the X coordinate as a long double
-    long double x() const;
+    const long double x() const;
     
     /// Set the X coordinate, returns the new X value
-    long double x(long double const& x);
+    const long double x(long double const& x);
     
     /// Return the Y coordinate as a long double
-    long double y() const;
+    const long double y() const;
     
     /// Set the Y coordinate, returns the new Y value
-    long double y(long double const& y);
+    const long double y(long double const& y);
     
     /// Add two points together, result it (x1+x2,y1+y2);
     Point const operator + (Point const& p2) const;
