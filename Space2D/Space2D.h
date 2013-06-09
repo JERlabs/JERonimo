@@ -1,3 +1,6 @@
+#ifndef _SPACE_2D_H_
+#define _SPACE_2D_H_
+
 #include <stdlib.h>
 
 #define _USE_MATH_DEFINES
@@ -20,3 +23,6 @@ namespace Space2D {
   class Vector;	//class containing Magnitude and Direction components
   class Velocity;	//class inheriting Vector and Point
 }
+
+
+#endif
