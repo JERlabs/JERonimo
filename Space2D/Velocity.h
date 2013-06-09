@@ -64,7 +64,8 @@ class Velocity: virtual Point, virtual Vector {
     Velocity const& operator+= (Velocity const& vv2) {
       X += vv2.x();
       Y += vv2.y();
-      Vector(X,Y);
+      Mag = sqrt(X*X + Y*Y);
+      Theta = atan2(X,Y);
       return *this;
     };
 
@@ -72,7 +73,8 @@ class Velocity: virtual Point, virtual Vector {
     Velocity const& operator-= (Velocity const& vv2) {
       X -= vv2.x();
       Y -= vv2.y();
-      Vector(X,Y);
+      Mag = sqrt(X*X + Y*Y);
+      Theta = atan2(X,Y);
       return *this;
     };
 
@@ -87,7 +89,7 @@ class Velocity: virtual Point, virtual Vector {
     /// Divides the magnitude and x-y of the velocity by scale
     Velocity const& operator/= (const long double &scale) {
       if(scale == 0.0) return *this;
-      X /= scale==0;
+      X /= scale;
       Y /= scale;
       Mag /= scale;
       return *this;

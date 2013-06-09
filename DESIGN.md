@@ -1,5 +1,4 @@
-# Namespace Something #
-Working title
+# Namespace GameControl #
 
 ## App ##
 Main class which is called from the int main function of your code. Runs
