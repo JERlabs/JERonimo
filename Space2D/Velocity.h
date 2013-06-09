@@ -88,7 +88,6 @@ class Velocity: virtual Point, virtual Vector {
 
     /// Divides the magnitude and x-y of the velocity by scale
     Velocity const& operator/= (const long double &scale) {
-      if(scale == 0.0) return *this;
       X /= scale;
       Y /= scale;
       Mag /= scale;
