@@ -94,3 +94,7 @@ Used when you need to point somewhere, and have easy access to coords
 
 ## Other Methods ##
 - Position getPos(Vector) returns position of vector relative to origin
+
+
+# Easter Eggs #
+- huehuehuehuehue
