@@ -3,11 +3,11 @@
 
 #include <bitset>
 #include <vector>
-#include <SDL.h>
+#include <SDL/SDL.h>
 
-#include "Point.h"
-#include "Vector.h"
-#include "Velocity.h"
+#include "Space2D/Point.h"
+#include "Space2D/Vector.h"
+#include "Space2D/Velocity.h"
 
 #define NUM_KEYS 133
 
