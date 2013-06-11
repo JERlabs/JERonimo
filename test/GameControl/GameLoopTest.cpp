@@ -11,11 +11,12 @@ class MyLoop: public GameLoop {
   protected:
     int const init() {
       cout << "Starting MyLoop" << endl;
+      Running = true;
       return 0;
     }
     int const loop() {
       cout << "PHYSICS" << endl;
-      if(Loopnum++ > 5) {
+      if(++Loopnum > 5) {
         Running = false;
       }
       return 0;
