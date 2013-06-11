@@ -36,7 +36,7 @@ class GameLoop: protected Events {
     GameLoop(const GameLoop&)=delete;
     
     /// Run this loop, accepts an App pointer, returns next gameloop to be run
-    GameLoop const * run(App const *);
+    GameLoop const * run(App*);
 };
 
 }

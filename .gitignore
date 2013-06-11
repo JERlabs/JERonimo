@@ -6,4 +6,7 @@ Debug/*
 *.vcxproj
 *.filters
 *.user
+*.so
+*.o
+*.gch
 ipch/*

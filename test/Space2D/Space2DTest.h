@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-#include "Point.h"
-#include "Vector.h"
+#include "Space2D/Point.h"
+#include "Space2D/Vector.h"
 
 using namespace Space2D;
 using std::cout;

@@ -1,4 +1,4 @@
-#include "Space2dTest.h"
+#include "Space2DTest.h"
 
 int main(int argc, char *argv[]) {
   Point a = makePoint(4,4, "a");
