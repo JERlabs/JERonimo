@@ -3,6 +3,7 @@
 
 #include "GameControl.h"
 
+
 namespace GameControl {
 
 
@@ -20,6 +21,9 @@ class Events {
   * in some child class of GameLoop.
   */
 public:
+  static bitset<NUM_KEYS> keys; ///< keeps track of every current key state (1 pressed, 0 not pressed)
+  static bitset<NUM_MOUSE_BUTTON> mouseButtons; ///< keeps track of every current mouse button state (1 pressed, 0 not pressed)
+  static vector<bool> joystickButtons; ///< keeps track of every joy button
   Events();
   virtual ~Events();
 
@@ -52,7 +56,7 @@ public:
   virtual const EVENT_RESULT exposed();
   
   /// Called when the SDL window is X-ed (won't automatically close). Pure virtaul, Must be overloaded.
-  virtual const EVENT_RESULT exiedt()=0;
+  virtual const EVENT_RESULT exited()=0;
 
   /** Called when a key on the keyboard is reported to be in the down state, 
     * which if held down happens as often as is specified in SDL_EnableKeyRepeat(int delay, int interval) by interval
