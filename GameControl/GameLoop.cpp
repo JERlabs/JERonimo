@@ -9,12 +9,14 @@ namespace GameControl {
 */
 GameLoop const * GameLoop::run(App* currentApp) {
   CurrentApp = currentApp;
+  NextLoop = this;
   init();
   while (Running) {
     loop();
     render();
   }
   cleanup();
+  return NextLoop;
 }
 
 }
