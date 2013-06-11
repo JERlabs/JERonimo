@@ -32,8 +32,7 @@ class GameLoop: protected Events {
     /// Runs before control is yielded back to App
     virtual int const cleanup()=0;
   public:
-    GameLoop()=delete; // YAY C++11 FEATURE
-    GameLoop(const GameLoop&)=delete;
+//    GameLoop(const GameLoop&)=delete; //YAY C++11 FEATURE
     
     /// Run this loop, accepts an App pointer, returns next gameloop to be run
     GameLoop const * run(App*);
