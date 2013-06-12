@@ -1,6 +1,6 @@
 MINGW = i486-mingw32-g++
 CC = g++
-CXXFLAGS = -g -I. --std=c++11
+CXXFLAGS = -g -I. -std=c++0x
 LDFLAGS = -g -lSDL -shared
 MINGWFLAGS = -shared -lSDL -Wl,-no-undefined --enable-runtime-psuedo-alloc
 SOURCES = Space2D/Point.cpp Space2D/Vector.cpp Space2D/Velocity.cpp \

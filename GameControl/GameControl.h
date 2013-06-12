@@ -3,7 +3,7 @@
 
 #include <bitset>
 #include <vector>
-#include <SDL/SDL.h>
+#include "SDL/SDL.h"
 
 #include "Space2D/Point.h"
 #include "Space2D/Vector.h"

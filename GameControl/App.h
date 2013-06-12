@@ -1,7 +1,6 @@
 #ifndef _APP_H_
 #define _APP_H_
 
-#include "SDL/SDL.h"
 #include "GameControl.h"
 #include "GameLoop.h"
 #include "DataManager.h"
