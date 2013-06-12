@@ -1,7 +1,7 @@
 MINGW = i486-mingw32-g++
 CC = g++
 CXXFLAGS = -g -I. -std=c++0x
-LDFLAGS = -g -lSDL -shared
+LDFLAGS = -g -lSDL -L "C:\Users\Eric\Documents\programming libraries\SDL-1.2.15\bin" -shared
 MINGWFLAGS = -shared -lSDL -Wl,-no-undefined --enable-runtime-psuedo-alloc
 SOURCES = Space2D/Point.cpp Space2D/Vector.cpp Space2D/Velocity.cpp \
   GameControl/App.cpp GameControl/Events.cpp GameControl/GameLoop.cpp

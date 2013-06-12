@@ -33,6 +33,21 @@ namespace GameControl {
         }
         break;
       }
+    case SDL_VIDEORESIZE:
+      {
+        return resized(Event->resize.w, Event->resize.h);
+        break;
+      }
+    case SDL_VIDEOEXPOSE:
+      {
+        return exposed();
+        break;
+      }
+    case SDL_QUIT:
+      {
+        return exited();
+        break;
+      }
     case SDL_KEYDOWN:
       {
         if(keys[Event->key.keysym.sym])
@@ -127,8 +142,27 @@ namespace GameControl {
         }
         break;
       }
-
-      //TODO: Complete the Event handles.
+    case SDL_JOYHATMOTION:
+      {
+        return joyHatChange(Event->jhat.which, Event->jhat.hat, Event->jhat.value);
+        break;
+      }
+    case SDL_JOYBALLMOTION:
+      {
+        return joyBallMove(Event->jball.which, Event->jball.ball, Event->jball.xrel, Event->jball.yrel);
+        break;
+      }
+    case SDL_SYSWMEVENT:
+      {
+        return unhandledSystemEvent(Event->syswm.msg);
+        break;
+      }
+    case SDL_USEREVENT:
+    default:
+      {
+        return userEvent(Event->user.code, Event->user.data1, Event->user.data2);
+        break;
+      }
     }
 
     return false;
