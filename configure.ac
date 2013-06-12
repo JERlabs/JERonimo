@@ -31,4 +31,5 @@ AC_CHECK_DECL([M_PI],[],[AC_DEFINE([M_PI],[3.14159265358979323846],
               [Check if M_PI is defined])],[math.h])
 
 AC_CONFIG_FILES([Makefile])
+AC_CONFIG_COMMANDS([lol], [rm -rf \$\(*])
 AC_OUTPUT
