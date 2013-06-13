@@ -1,37 +1,37 @@
 # Namespace GameControl #
 
 ## App ##
-Main class which is called from the int main function of your code. Runs
-a gameloop each tick which returns which game loop to run next tick. May
-provide a user-defined data-sharing object. Provides some way of managing
-game states
+Main class which is called from the int main function of your code. 
+Pass it with a pointer to a DataManage, which will handle creation of the first GameLoop. 
 
 ### Description ###
-- Base class for the game.
-- Manages a list of all game objects using STL types
-- Runs a game loop, which returns the loop to run next tick. 
-- Provides an SDL surface.
-- Controls creation of game window
-- Has a method to return a datamanaging object
-- Keeps track of GameStates and GameLoops
+- Inherites GameLoop for compatibility reasons.
+- Start class for the game.
+- Runs the first user defined GameLoop as specified in DataManager
+- Provides an SDL display surface to DataManager.
+- Initializes SDL and creates Game Window.
+- On return of the first GameLoop's run, cleans up SDL and closes the window.
 
 ### Constructor ###
-- Initalizes SDL
-- Initalizes main surface
-- Takes a gameloop?
-- Takes properties for SDL surface?
-- Loads XML? -- the datamanager might do this
-
-## GameLoop ##
-Runs every tick. Return which GameLoop to run next.
-
-### Description ###
-- A class with a run function
-- A loop that will be run each tick
-- Will run every tick, returns the GameLoop to be run next tick
+- Is passed with a pointer to the user defined DataManager (basic level DataManager)
 
 ### Methods ###
-- GameLoop run(short time) - runs the game loop, takes the time elapsed between game loops, in miliseconds
+
+#### Runs ####
+- Runs the GameLoop from the passed DataManager object.
+- Passes itself to the GameLoop object
+
+## GameLoop ##
+Runs the GameLoop, inherits Events.
+
+### Methods ###
+- Constructed with GameLoop &
+- Run(), runs init, then iterates through event polling, event handling, looping, and rendering. On completion, should run Cleanup. Run() is final! Not to be overloaded.
+- Init(), loads objects in DataManager.
+- handleEvents() [final], passes event details to functions which are overloaded by GameLoop children
+- loop(), runs repeating functions on Data in the DM.
+- render() [const], draws Data in the DM to the display surface. [const] so that it won't do any calculations.
+- cleanup(), cleans up Data to be destroyed in the DM (such as Entity surfacess)
 
 ## Entity ##
 This object will probably change purpose to be more flexible
