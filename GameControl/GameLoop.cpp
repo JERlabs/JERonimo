@@ -8,7 +8,7 @@ namespace GameControl {
   is false, then runs cleanup(). Any events are polled after render(), and
   passed to their respective methods by handleEvents
 */
-GameLoop * GameLoop::run(App* currentApp) {
+GameLoop * const GameLoop::run(App* const currentApp) {
   CurrentApp = currentApp;
   NextLoop = this;
   SDL_Event event;

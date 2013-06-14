@@ -35,7 +35,7 @@ class GameLoop: protected Events {
 //    GameLoop(const GameLoop&)=delete; //YAY C++11 FEATURE
     
     /// Run this loop, accepts an App pointer, returns next gameloop to be run
-    GameLoop * run(App*);
+    GameLoop * const run(App* const );
 };
 
 }
