@@ -7,24 +7,18 @@
 
 namespace GameControl {
 
-class App {
+class App: public GameLoop {
   private:
-    /// Pointer to the running GameLoop
-    GameLoop* CurrentLoop;
-    
     /// The window's SDL surface
     SDL_Surface Surface;
-    
-    /// DataManager pointer
-    DataManager* DataM;
     
     //TODO: Put list of Gameloops here
   public:
     /// Create an app and call SDL_Init with flags, and create a surface with width, height, and sflags
-    App(Uint32 flags, int width, int height, int bpp, Uint32 sflags);
+    App(DataManager * const dataM ,Uint32 flags, int width, int height, int bpp, Uint32 sflags);
     
-    /// Start the app with GameLoop loop
-    int start(GameLoop* loop, DataManager* dataM);
+    /// Calls init() of DataM, then calls run() of DataManager->firstGameLoop(this)
+    virtual const int loop() override;
     
     /// Return the DataManager
     DataManager* dataM();
