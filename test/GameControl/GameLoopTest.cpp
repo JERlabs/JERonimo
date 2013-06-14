@@ -34,11 +34,15 @@ class MyLoop: public GameLoop {
     EVENT_RESULT const exited() {
       Running = false;
     }
+  public:
+    MyLoop(char* l, char* m): GameLoop(NULL,NULL) {
+    
+    }
 };
 
 int main(int argc, char* argv[]) {
-  MyLoop olo = MyLoop();
+  MyLoop olo = MyLoop(NULL,NULL);
   GameLoop* lol = &olo;
-  lol->run(NULL);
+  lol->run();
 } 
   

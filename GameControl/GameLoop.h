@@ -2,7 +2,7 @@
 #define _GAME_LOOP_H_
 
 #include "GameControl.h"
-#include "App.h"
+#include "DataManager.h"
 #include "Events.h"
 
 namespace GameControl {
@@ -10,10 +10,13 @@ namespace GameControl {
 class GameLoop: protected Events {
   protected:
     /// Pointer to the gameloop to be run next
-    GameLoop* NextLoop;
+    int Status;
     
     /// Pointer to the App that is running us
-    App* CurrentApp;
+    DataManager* DataM;
+    
+    /// The GameLoop that called run() on this one
+    GameLoop* Parent;
     
     /// Whether to continue loop execution
     bool Running;
@@ -32,10 +35,18 @@ class GameLoop: protected Events {
     /// Runs before control is yielded back to App
     virtual int const cleanup()=0;
   public:
-//    GameLoop(const GameLoop&)=delete; //YAY C++11 FEATURE
+    /// Initialize GameLoop with DataManager dataM, and parent GameLoop parent passed as pointers
+    GameLoop(DataManager * const dataM, GameLoop * const parent);
+    
+    /// Initialize GameLoop with DataManager dataM, and parent GameLoop parent passed by reference
+    GameLoop(DataManager &dataM, GameLoop &parent);
     
     /// Run this loop, accepts an App pointer, returns next gameloop to be run
+<<<<<<< HEAD
     GameLoop * const run(App* const );
+=======
+    int const run();
+>>>>>>> 6e8380cbf70e9e92943c65b04cce5c8ae166932b
 };
 
 }
