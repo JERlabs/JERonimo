@@ -41,12 +41,10 @@ class GameLoop: protected Events {
     /// Initialize GameLoop with DataManager dataM, and parent GameLoop parent passed by reference
     GameLoop(DataManager &dataM, GameLoop &parent);
     
+    GameLoop(const GameLoop&);
+    
     /// Run this loop, accepts an App pointer, returns next gameloop to be run
-<<<<<<< HEAD
-    GameLoop * const run(App* const );
-=======
     int const run();
->>>>>>> 6e8380cbf70e9e92943c65b04cce5c8ae166932b
 };
 
 }

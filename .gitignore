@@ -12,3 +12,5 @@ Debug/*
 ipch/*
 nbproject/*
 SDL/*
+.lineno
+config.log

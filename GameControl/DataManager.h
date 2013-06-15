@@ -11,9 +11,11 @@ class DataManager {
     GameLoop* currentGL;
   public:
     /// Run by App before the first GameLoop is run
-    int virtual init()=0;
+    virtual const int init()=0;
     
-    virtual GameLoop * firstGameLoop(App* parent)=0;
+    virtual const bool running();
+    
+    virtual GameLoop * const firstGameLoop(App* parent)=0;
 };
 
 }

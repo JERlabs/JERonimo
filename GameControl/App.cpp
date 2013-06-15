@@ -9,7 +9,7 @@ App::App(DataManager * const dataM, Uint32 flags, int width, int height, int bpp
   Running = true;
 }
 
-const int App::loop() {
+const int App::loop()  {
   DataM->init();
   DataM->firstGameLoop(this)->run();
   Running = false;
