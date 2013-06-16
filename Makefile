@@ -14,6 +14,9 @@ all: $(SOURCES) $(LIBRARY)
 $(LIBRARY): $(LIBOBJECTS)
 	$(LIBTOOL) --mode=link $(CXX) $(LDFLAGS) -o $@ $^
 
+install:
+	libtool --mode=install install -c libGameFrame.la /usr/local/lib/libGameFrame.la
+
 %.lo: %.cpp
 	$(LIBTOOL) --mode=compile $(CXX) $(CXXFLAGS) -c -o $@ $<
 
