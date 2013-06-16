@@ -8,9 +8,13 @@ Debug/*
 *.user
 *.so
 *.o
+*.lo
+*.la
 *.gch
+.libs/*
 ipch/*
 nbproject/*
 SDL/*
 .lineno
 config.log
+doc/*

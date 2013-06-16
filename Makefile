@@ -1,33 +1,28 @@
-MINGW = i486-mingw32-g++
-CC = g++
-CXXFLAGS = -g -I. -std=c++0x -fPIC
-LDFLAGS = -g -lSDL -L "C:\Users\Eric\Documents\programming libraries\SDL-1.2.15\bin" -shared
-MINGWFLAGS = -shared -lSDL -Wl,-no-undefined --enable-runtime-psuedo-alloc
+CXXFLAGS = -g -I. -std=c++0x -fPIC -fPIE
+LDFLAGS = -lSDL -lm -rpath /usr/local/lib
+LIBTOOL = libtool
+
 SOURCES = Space2D/Point.cpp Space2D/Vector.cpp Space2D/Velocity.cpp \
   GameControl/Events.cpp GameControl/GameLoop.cpp GameControl/App.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
+LIBOBJECTS = $(SOURCES:.cpp=.lo)
+LIBRARY = libGameFrame.la
 
-#WORKING TITLE
-EXECUTABLE = libGameFrame.so
 
-all: $(SOURCES) $(EXECUTABLE)
+all: $(SOURCES) $(LIBRARY)
 
-#build - compile my code
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) -o $@ $^
+$(LIBRARY): $(LIBOBJECTS)
+	$(LIBTOOL) --mode=link $(CXX) $(LDFLAGS) -o $@ $^
 
-dll: $(SOURCES) GameFrame.dll
-	
-GameFrame.dll: $(OBJECTS)
-	$(MINGW) $(MINGWFLAGS) -o $@ $^
+%.lo: %.cpp
+	$(LIBTOOL) --mode=compile $(CXX) $(CXXFLAGS) -c -o $@ $<
 
-.cpp:.o
-	$(CC) $(CXXFLAGS) -c -o $@ $<
 .PHONY: clean doc
 
 clean:
-	rm -f $(OBJECTS)
-	
+	rm -f $(OBJECTS) $(LIBOBJECTS)
+	rm -rf Space2D/.libs/ GameControl/.libs/
+
 doc: 
 	rm -r doc/
 	doxygen
