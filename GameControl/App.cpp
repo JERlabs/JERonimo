@@ -3,20 +3,20 @@
 
 namespace GameControl {
 
-App::App(DataManager * const dataM, Uint32 flags, int width, int height, int bpp, Uint32 sflags) :GameLoop(dataM, this) {
+App::App(DataManager * const dataM, const Uint32 flags, const int width, const int height, const int bpp, const Uint32 sflags) :GameLoop(dataM, this) {
   SDL_Init(flags);
-  Surface = *SDL_SetVideoMode(width, height, bpp, sflags);
+  dataM->Display = SDL_SetVideoMode(width, height, bpp, sflags);
   Running = true;
 }
 
-const int App::loop()  {
+const int App::loop() {
   DataM->init();
   DataM->firstGameLoop(this)->run();
   Running = false;
   return 0;
 }
 
-DataManager* App::dataM() {
+DataManager* const App::dataM() {
   return DataM;
 }
 

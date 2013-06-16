@@ -9,13 +9,10 @@ namespace GameControl {
 
 class App: public GameLoop {
   private:
-    /// The window's SDL surface
-    SDL_Surface Surface;
-    
     //TODO: Put list of Gameloops here
   public:
     /// Create an app and call SDL_Init with flags, and create a surface with width, height, and sflags
-    App(DataManager * const dataM ,Uint32 flags, int width, int height, int bpp, Uint32 sflags);
+    App(DataManager * const dataM , const Uint32 flags, const int width, const int height, const int bpp, const Uint32 sflags);
     
     
     /// Calls init() of DataM, then calls run() of DataManager->firstGameLoop(this)
@@ -30,7 +27,7 @@ class App: public GameLoop {
     const EVENT_RESULT exited() override {};
     
     /// Return the DataManager
-    DataManager* dataM();
+    DataManager * const dataM();
 };
 
 }    
