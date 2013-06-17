@@ -3,6 +3,7 @@
 
 #include <bitset>
 #include <vector>
+#include <string>
 #include "SDL/SDL.h"
 
 #include "Space2D/Point.h"
@@ -15,6 +16,7 @@ enum {MOUSE_LEFT, MOUSE_RIGHT, MOUSE_MIDDLE, NUM_MOUSE_BUTTON};
 
 using std::bitset;
 using std::vector;
+using std::string;
 
 namespace GameControl {
   class Events;     ///< handles events and allows GameLoop to inherit every event as an overloadable function

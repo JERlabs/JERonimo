@@ -134,8 +134,6 @@ public:
     */
   virtual const EVENT_RESULT userEvent(const int code, void * const data1, void * const data2) {};
 
-  //This comment is here for no purpose. Recent git push was unsuccessful, so by making this change, it will have to push changes again,
-  //without claiming things are up to date.
 };
 
 }

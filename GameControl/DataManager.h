@@ -9,6 +9,7 @@ namespace GameControl {
 class DataManager {
   protected:
     GameLoop* currentGL;
+  public:
     bool Running;
   public:
     SDL_Surface *Display;
