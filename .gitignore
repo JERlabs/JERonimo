@@ -18,3 +18,7 @@ SDL/*
 .lineno
 config.log
 doc/*
+GAMEFRAME
+GameLoopTest
+TestEventsTest
+

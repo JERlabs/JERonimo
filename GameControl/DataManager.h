@@ -16,6 +16,8 @@ class DataManager {
   public:
     /// Run by any GameLoop introducing new data to be loaded before the first GameLoop is run
     virtual const int init();
+
+    DataManager(): Running(true) {};
     
     virtual const bool running();
     

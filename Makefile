@@ -1,10 +1,10 @@
-CXXFLAGS = -g -I. -std=c++0x -fPIC -fPIE
-LDFLAGS = -lSDL -lm -rpath /usr/local/lib -g
-LIBTOOL = libtool
+CXXFLAGS = -g -I. -std=gnu++0x -fPIC -fPIE
+LDFLAGS =  -lSDL -lm -rpath /usr/local/lib -g
+LIBTOOL = libtool --tag=CXX
 
 SOURCES = Space2D/Point.cpp Space2D/Vector.cpp Space2D/Velocity.cpp \
   GameControl/Events.cpp GameControl/GameLoop.cpp GameControl/App.cpp \
-  GameControl/DataManager.cpp
+  GameControl/DataManager.cpp GameControl/TestEvents.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 LIBOBJECTS = $(SOURCES:.cpp=.lo)
 LIBRARY = libGameFrame.la

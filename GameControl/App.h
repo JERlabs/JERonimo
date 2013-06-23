@@ -1,4 +1,4 @@
-#ifndef _APP_H_
+#ifndef _APPH_
 #define _APP_H_
 
 #include "GameControl.h"
@@ -18,9 +18,9 @@ class App: public GameLoop {
     /// Calls init() of DataM, then calls run() of DataManager->firstGameLoop(this)
     const int loop() override;
     
-    const int render() const override {};
+    const int render() const override  {};
     
-    const int init() override {};
+    const int init()  override {};
     
     const int cleanup() override {};
     

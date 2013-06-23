@@ -3,6 +3,7 @@
 namespace GameControl {
 
 const int DataManager::init() {
+  Running = true;
   return 0;
 }
 

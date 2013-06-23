@@ -8,6 +8,7 @@ TestEvents::TestEvents(DataManager &dataM, GameLoop &parent): GameLoop(dataM, pa
 
 int const TestEvents::init() {
   cout<<"Starting Event printer"<<endl;
+  Running = true;
   return 0;
 }
 
@@ -21,12 +22,12 @@ int const TestEvents::loop() {
   return 0;
 }
 
-int const TestEvents::render() {
+int const TestEvents::render() const  {
   return 0;
 }
 
-int const cleanup() {
-  return GameLoop::cleanup();
+int const TestEvents::cleanup() {
+  return 0;
 }
 
 const EVENT_RESULT TestEvents::inputFocus() {
@@ -42,6 +43,7 @@ const EVENT_RESULT TestEvents::inputBlur() {
 const EVENT_RESULT TestEvents::mouseFocus() {
   cout<<"The Game Window has gained control of mouse events"<<endl;
   return EVENT_SUCCESS;
+}
 
 const EVENT_RESULT TestEvents::mouseBlur() {
   cout<<"The Game Window has lost control of mouse events"<<endl;
@@ -74,7 +76,7 @@ const EVENT_RESULT TestEvents::exited() {
   return EVENT_SUCCESS;
 }
 
-string printKeys(const SDLKey sym, const SDLMod mod, const Uint16 unicode, const char * const state) {
+string TestEvents::printKeys(const SDLKey sym, const SDLMod mod, const Uint16 unicode) {
   string rtrn;
   if(mod & KMOD_NUM) rtrn += "NumLock is on,\n";
   if(mod & KMOD_CAPS) rtrn += "Caps Lock is on,\n";
@@ -180,7 +182,7 @@ string printKeys(const SDLKey sym, const SDLMod mod, const Uint16 unicode, const
   case SDLK_F15:
     rtrn += "F15 ";
     break;
-  case SDLK_NUMBLOCK:
+  case SDLK_NUMLOCK:
     rtrn += "NumLock ";
     break;
   case SDLK_CAPSLOCK:
@@ -192,13 +194,13 @@ string printKeys(const SDLKey sym, const SDLMod mod, const Uint16 unicode, const
   case SDLK_RSHIFT:
     rtrn += "Right Shift ";
     break;
-  case SLDK_LSHIFT:
+  case SDLK_LSHIFT:
     rtrn += "Left Shift ";
     break;
   case SDLK_RCTRL:
     rtrn += "Right Control ";
     break;
-  case SDLK_LCRTL:
+  case SDLK_LCTRL:
     rtrn += "Left Control ";
     break;
   case SDLK_RALT:
@@ -228,7 +230,7 @@ string printKeys(const SDLKey sym, const SDLMod mod, const Uint16 unicode, const
   case SDLK_PRINT:
     rtrn += "Print Screen ";
     break;
-  case SDLK_SYSRQ:
+  case SDLK_SYSREQ:
     rtrn += "SysRq ";
     break;
   case SDLK_BREAK:
@@ -244,7 +246,8 @@ string printKeys(const SDLKey sym, const SDLMod mod, const Uint16 unicode, const
     rtrn += "Euro ";
     break;
   default:
-    rtrn += unicode += ' ';
+    rtrn += (char)unicode;
+    rtrn += ' ';
     break;
 
 
@@ -271,9 +274,9 @@ const EVENT_RESULT TestEvents::keyReleased(const SDLKey sym, const SDLMod mod, c
 
 const EVENT_RESULT TestEvents::mouseMove(const int mX, const int mY, const int relX, const int relY, const bool lDown, const bool rDown, const bool mDown) {
   cout<<"Mouse moved to ("<<mX<<", "<<mY<<") with a relative movement of ("<<relX<<", "<<relY<<") "<<endl;
-  cout<<"The left mouse button is "<<(lDown? "pressed":"released")<<endl;
-  cout<<"The right mouse button is "<<(rDown? "pressed":"released")<<endl;
-  cout<<"The middle mouse button is "<<(mDown? "pressed":"released")<<endl;
+  cout<<"The left mouse button is "<<(lDown? "down":"up")<<endl;
+  cout<<"The right mouse button is "<<(rDown? "down":"up")<<endl;
+  cout<<"The middle mouse button is "<<(mDown? "down":"up")<<endl;
   return EVENT_SUCCESS;
 }
 
@@ -379,12 +382,12 @@ const EVENT_RESULT TestEvents::joyBallMove(const Uint8 which, const Uint8 ball, 
   return EVENT_SUCCESS;
 }
 
-const EVENT_RESULT unhandledSystemEvent(SDL_SysWMmsg * const msg) {
+const EVENT_RESULT TestEvents::unhandledSystemEvent(SDL_SysWMmsg * const msg) {
   cout<<"Encountered unhandled system msg"<<endl;
   return EVENT_SUCCESS;
 }
 
-const EVENT_RESULT userEvent(const int code, void * const data1, void * const data2) {
+const EVENT_RESULT TestEvents::userEvent(const int code, void * const data1, void * const data2) {
   cout<<"User event with code of "<<code<<" was encountered"<<endl;
   return EVENT_SUCCESS;
 }
