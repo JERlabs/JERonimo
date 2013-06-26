@@ -9,6 +9,7 @@ TestEvents::TestEvents(DataManager &dataM, GameLoop &parent): GameLoop(dataM, pa
 int const TestEvents::init() {
   cout<<"Starting Event printer"<<endl;
   Running = true;
+  DataM->init();
   return 0;
 }
 

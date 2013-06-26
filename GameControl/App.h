@@ -20,7 +20,7 @@ class App: public GameLoop {
     
     const int render() const override  {};
     
-    const int init()  override {};
+    const int init()  override;
     
     const int cleanup() override {};
     

@@ -9,6 +9,11 @@ App::App(DataManager * const dataM, const Uint32 flags, const int width, const i
   Running = true;
 }
 
+const int App::init() {
+  DataM->init();
+  return 0;
+}
+
 const int App::loop() {
   DataM->init();
   DataM->firstGameLoop(this)->run();
