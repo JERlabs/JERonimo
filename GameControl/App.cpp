@@ -10,7 +10,7 @@ App::App(DataManager * const dataM, const Uint32 flags, const int width, const i
 }
 
 const int App::init() {
-  if(DataM->init()) {
+  if(DataM->init() < 0) {
     Running = false;
     return 1;
   }
@@ -24,7 +24,6 @@ const int App::loop() {
 }
 
 const int App::cleanup() {
-  SDL_FreeSurface(DataM->Display);
   SDL_Quit();
 }
 

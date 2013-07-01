@@ -23,7 +23,7 @@ GameLoop::GameLoop(const GameLoop& other): DataM(other.DataM), Parent(other.Pare
 */
 int const GameLoop::run() {
   SDL_Event event;
-  if(init())
+  if(init() < 0)
     return Status;
   while (Running && (DataM==NULL? true: DataM->running())) {
     while(SDL_PollEvent(&event)) {
