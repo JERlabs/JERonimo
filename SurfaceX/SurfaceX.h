@@ -1,9 +1,12 @@
 #ifndef _SURFACEX_H_
 #define _SURFACEX_H_
 
+#include <stdlib.h>
+#include <iostream>
+
 #include "SDL/SDL.h"
-#include "SDL/SDL_Image.h"
-#include "SDL/SDL_gfx"
+#include "SDL/SDL_image.h"
+#include "SDL/SDL_gfxPrimitives.h"
 
 #include "Space2D/Velocity.h"
 
@@ -13,14 +16,39 @@ namespace SurfaceX {
  * to perform same function.
  */
 
-class StaticSurf;	///< Container class for SDL_Surfaces, handles creation and destruction
-class VolatileSurf;	///< Surface which handles scaling and rotating surfaces
+using std::cout;
+using std::endl;
 
-SDL_Surface * const loadSurf(const char * const file);
+//class JustYourAverageEverydayOrdinarySurface;
+class JustASurf;
+/// Abstract surface interface. (load and draw). No actual memory for surface. 
+
+class OpenSurf;  //Part of the free surface movement. Keep images OpenSurf. JK, only do that if you know what you're doing
+/// Inherits JustASurf. Allows implicit surface conversion to SDL_Surface *. 
+
+class StaticSurf;
+/// Inherits JustASurf. Remains read(draw)-only after initialization.
+
+class DoubleSurf;
+/// Inherits both OpenSurf and StaticSurf. Essentially keeps track of original surface through StaticSurf, and uses OpenSurf to manipulate.
+
+class CanvasSurf;
+/// Inherits OpenSurf. Equipped with transformation functions and data members which keep track of transformations.
+
+class SuperSurf;
+/// Inherits DoubleSurf and CanvasSurf. 
+
+const bool transparentSurf(SDL_Surface * const surf, const Uint8 R, const Uint8 G, const Uint8 B);
+
+/*
+SDL_Surface * const loadSurf(char * const file);
 /// Loads file and returns surface. returns NULL on failure
 
 const bool drawSurf(SDL_Surface * const src, SDL_Surface * const dest, const SDL_Rect &srcRect, const SDL_Rect &destRect);
 /// Draws the srcRect portion of src to the destRec portion of dest
+
+const bool drawSurf(SDL_Surface * const src, SDL_Surface * const dest, const Space2D::Point destPoint);
+/// Same as other drawSurf but draws entire src to dest at point destPoint
 
 const bool transparentSurf(SDL_Surface * const surf, const Uint8 R, const Uint8 G, const Uint8 B);
 /// Makes every pixel of the color RGB in the surface surf transparent
@@ -40,8 +68,8 @@ SDL_Surface * const rotateSurf(SDL_Surface * const surf, const double angle, con
 SDL_Surface * const rotateSurf(SDL_Surface * const surf, const Space2D::Vector &change, const bool smooth);
 /// Acts like rotateSurf and scaleSurf. Rotates surf by change.Theta() and scales both X and Y by change.Magnitude().  
 
+*/
 
-  
 }
 
 
