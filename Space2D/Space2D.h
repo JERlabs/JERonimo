@@ -14,6 +14,9 @@
 #define ANGLE_LEFT TAO/2.0
 #define ANGLE_DOWN 3.0*TAO/4.0
 
+#define DEGREES_TO_RAD(degrees) (((degrees)/360.0)*TAO)
+#define RAD_TO_DEGREES(rad) (((rad)/TAO)*360.0)
+
 
 namespace Space2D {	
   /*space containing code related to 2D space algorithm 

@@ -20,6 +20,10 @@ class DataManager {
     virtual const bool running();
     
     virtual GameLoop * const firstGameLoop(App* parent)=0;
+    
+  public:
+    virtual ~DataManager() {};
+  
 };
 
 }

@@ -23,13 +23,14 @@ GameLoop::GameLoop(const GameLoop& other): DataM(other.DataM), Parent(other.Pare
 */
 int const GameLoop::run() {
   SDL_Event event;
-  init();
+  if(init())
+    return Status;
   while (Running && (DataM==NULL? true: DataM->running())) {
-    loop();
-    render();
     while(SDL_PollEvent(&event)) {
       handleEvent(&event);
     }
+    loop();
+    render();
   }
   cleanup();
   return Status;

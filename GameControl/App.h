@@ -22,7 +22,7 @@ class App: public GameLoop {
     
     const int init()  override;
     
-    const int cleanup() override {};
+    const int cleanup() override;
     
     const EVENT_RESULT exited() override {};
     

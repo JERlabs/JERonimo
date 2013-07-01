@@ -10,15 +10,22 @@ App::App(DataManager * const dataM, const Uint32 flags, const int width, const i
 }
 
 const int App::init() {
-  DataM->init();
+  if(DataM->init()) {
+    Running = false;
+    return 1;
+  }
   return 0;
 }
 
 const int App::loop() {
-  DataM->init();
   DataM->firstGameLoop(this)->run();
   Running = false;
   return 0;
+}
+
+const int App::cleanup() {
+  SDL_FreeSurface(DataM->Display);
+  SDL_Quit();
 }
 
 DataManager* const App::dataM() {
