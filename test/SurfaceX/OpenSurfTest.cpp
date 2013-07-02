@@ -27,9 +27,10 @@ public:
 	cout<<"Failed to load, exiting"<<endl;
 	return 1;
       }
+      Uint8 r=0, g=255, b=0;
+      //SDL_GetRGB(*((Uint32 *)testPic->pixels), testPic->format, &r, &g, &b);
+      transparentSurf(testPic, r, g, b);
     }
-    
-    transparentSurf(testPic, 255, 0, 255);
     
     testLoc.x(100);
     testLoc.y(100);
@@ -67,6 +68,7 @@ public:
   
   const EVENT_RESULT keyDown(const SDLKey sym, const SDLMod mod, const Uint16 unicode) {
     static Point R(1, 0), L(-1, 0), U(0, -1), D(0, 1);
+    static Uint8 r=0, g=0, b=0;
     switch(sym)
     {
     case SDLK_RIGHT:
@@ -81,10 +83,30 @@ public:
     case SDLK_DOWN:
       MyDataM->testLoc += D;
       break;
+    case SDLK_g:
+      cout<<"G: "<<(int)++g<<endl;
+      break;
+    case SDLK_f:
+      cout<<"G: "<<(int)--g<<endl;
+      break;
+    case SDLK_r:
+      cout<<"R: "<<(int)++r<<endl;
+      break;
+    case SDLK_e:
+      cout<<"R: "<<(int)--r<<endl;
+      break;
+    case SDLK_b:
+      cout<<"B: "<<(int)++b<<endl;
+      break;
+    case SDLK_v:
+      cout<<"B: "<<(int)--b<<endl;
+      break;      
     default:
       break;
     }
     
+    //transparentSurf(MyDataM->testPic, r, g, b);
+    SDL_SetColorKey(MyDataM->testPic, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(MyDataM->testPic->format, r, g, b));
     return EVENT_SUCCESS;
   };
   
