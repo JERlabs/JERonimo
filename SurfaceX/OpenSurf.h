@@ -10,7 +10,6 @@ private:
   SDL_Surface *canvas;
   
 public:
-<<<<<<< HEAD
   /// Return the internal raw surface
   SDL_Surface * const Surf() const {return canvas;};
   /// Set the internal raw surface to set
@@ -18,7 +17,6 @@ public:
   /// Return the internal raw surface
   operator SDL_Surface *() const {return canvas;};
   SDL_Surface *operator->() const {return canvas;};
-=======
   /// Return the internal raw surface
   virtual SDL_Surface * const Surf() const {return canvas;};
   /// Set the internal raw surface to set
@@ -26,7 +24,6 @@ public:
   /// Return the internal raw surface
   virtual operator SDL_Surface *() const {return Surf();};
   virtual SDL_Surface *operator->() const {return canvas;};
->>>>>>> 5e63aa426c06a97e75c65ea1e7d6eeb267f40efd
   
 public:
   /// Create a new OpenSurf with the internal surface set to NULL
