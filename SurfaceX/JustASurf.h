@@ -5,8 +5,8 @@
 
 namespace SurfaceX {
 
-class JustASurf {
 /// Uses abstract raw data get functions to get the SDL_Surfaces present child classes.
+class JustASurf {
 
 public:
   virtual SDL_Surface * const Surf() const=0;	///< Explicit raw data (SDL_Surface) get access function.
@@ -20,7 +20,10 @@ public:
   const bool draw(SDL_Surface * const dest, SDL_Rect &srcRect, SDL_Rect &destRect) const; ///< Blits Surf to dest bounded by srcRect and destRect.
   
 public:
+  /// Loads image from file into a new object
   JustASurf(char * const file);
+  
+  /// Default constructor, behavior determined by subclasses
   JustASurf() {};
   
 };
