@@ -5,7 +5,7 @@ LIBTOOL = libtool --tag=CXX
 SOURCES = Space2D/Point.cpp Space2D/Vector.cpp Space2D/Velocity.cpp \
   GameControl/Events.cpp GameControl/GameLoop.cpp GameControl/App.cpp \
   GameControl/DataManager.cpp GameControl/TestEvents.cpp SurfaceX/JustASurf.cpp \
-  SurfaceX/OpenSurf.cpp SurfaceX/SurfaceX.cpp
+  SurfaceX/OpenSurf.cpp SurfaceX/StaticSurf.cpp SurfaceX/SurfaceX.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 LIBOBJECTS = $(SOURCES:.cpp=.lo)
 LIBRARY = libGameFrame.la
