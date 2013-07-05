@@ -1,4 +1,4 @@
-#include "SurfaceX/OpenSurf.h"
+#include "SurfaceX/SimpleSurf.h"
 #include "GameControl/App.h"
 #include "GameControl/DataManager.h"
 
@@ -11,7 +11,7 @@ class SurfaceTestGL;
 
 class SurfaceTestDM: public DataManager {
 public:
-  OpenSurf testPic;
+  SimpleSurf testPic;
   char *picFile;
   Point testLoc;
   
@@ -22,14 +22,11 @@ public:
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
     SDL_EnableUNICODE(1);
     
-    if(testPic.Surf() == NULL) {
-      if(!testPic.load(picFile)) {
+    if(testPic.get() == NULL) {
+      if(testPic.load(picFile)) {
 	cout<<"Failed to load, exiting"<<endl;
-	return 1;
+	return -1;
       }
-      Uint8 r=0, g=255, b=0;
-      //SDL_GetRGB(*((Uint32 *)testPic->pixels), testPic->format, &r, &g, &b);
-      transparentSurf(testPic, r, g, b);
     }
     
     testLoc.x(100);
@@ -53,9 +50,9 @@ public:
   };
   
   int const render() const {
-    SDL_FillRect(MyDataM->Display, NULL, SDL_MapRGB(((SDL_Surface *)(MyDataM->testPic))->format, 0, 0, 0));
-    if(!MyDataM->testPic.draw(MyDataM->Display, MyDataM->testLoc)) {
-      return 1;
+    SDL_FillRect(MyDataM->Display, NULL, SDL_MapRGB(MyDataM->Display->format, 0, 0, 0));
+    if(MyDataM->testPic.draw(MyDataM->Display, MyDataM->testLoc)) {
+      return -1;
     }
     SDL_Flip(MyDataM->Display);
     return 0;
@@ -106,7 +103,7 @@ public:
     }
     
     //transparentSurf(MyDataM->testPic, r, g, b);
-    SDL_SetColorKey(MyDataM->testPic, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(MyDataM->testPic->format, r, g, b));
+    //SDL_SetColorKey(MyDataM->testPic, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(MyDataM->testPic->format, r, g, b));
     return EVENT_SUCCESS;
   };
   

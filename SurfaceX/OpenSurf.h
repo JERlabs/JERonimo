@@ -11,18 +11,20 @@ private:
   
 public:
   /// Return the internal raw surface
-  SDL_Surface * const Surf() const {return canvas;};
+  virtual SDL_Surface * const get() const {return canvas;};
   /// Set the internal raw surface to set
-  SDL_Surface * const Surf(SDL_Surface * const set) {return canvas = set;};
+  virtual void set(SDL_Surface * const s);
   /// Return the internal raw surface
-  operator SDL_Surface *() const {return canvas;};
-  SDL_Surface *operator->() const {return canvas;};
+  operator SDL_Surface *() const {return get();};
+  SDL_Surface *operator->() const {return get();};
+  SDL_Surface *operator*() const {return get();};
   
 public:
   /// Create a new OpenSurf with the internal surface set to NULL
   OpenSurf(): canvas(NULL) {};
   /// Create a new OpenSurf with the internal surface set to init
-  OpenSurf(SDL_Surface * const init): canvas(init) {canvas->refcount++;};
+  OpenSurf(SDL_Surface * const init): canvas(init) {canvas==NULL? 0:canvas->refcount++;};
+  OpenSurf(const OpenSurf& other): canvas(other.get()) {canvas==NULL? 0:canvas->refcount++;};
   /// Create a new OpenSurf with an image loaded from file
   OpenSurf(char * const file): JustASurf(file) {};
   /// Destroy this OpenSurf, frees the internal surface as well

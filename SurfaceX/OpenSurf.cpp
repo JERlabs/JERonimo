@@ -3,8 +3,17 @@
 namespace SurfaceX {
 
 OpenSurf::~OpenSurf() {
-  SDL_FreeSurface(canvas);
+  if(canvas != NULL)
+    SDL_FreeSurface(canvas);
   canvas = NULL;
+}
+
+void OpenSurf::set(SDL_Surface * const s) {
+  if(canvas != NULL)
+    SDL_FreeSurface(canvas);
+  canvas = s;
+  if(s == NULL)
+    canvas->refcount++;
 }
 
 }

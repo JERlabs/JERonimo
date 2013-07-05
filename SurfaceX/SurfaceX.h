@@ -20,25 +20,35 @@ using std::cout;
 using std::endl;
 
 //class JustYourAverageEverydayOrdinarySurface;
-class JustASurf;
+class SimpleSurf;
 /// Abstract surface interface. (load and draw). No actual memory for surface. 
 
+/*
 class OpenSurf;  //Part of the free surface movement. Keep images OpenSurf. JK, only do that if you know what you're doing
 /// Inherits JustASurf. Allows implicit surface conversion to SDL_Surface *. 
+*/
 
-class StaticSurf;
-/// Inherits JustASurf. Remains read(draw)-only after initialization.
+class SafeSurf;
+/// Inherits SimpleSurf. Remains read(draw)-only after initialization.
 
 class DoubleSurf;
-/// Inherits both OpenSurf and StaticSurf. Essentially keeps track of original surface through StaticSurf, and uses OpenSurf to manipulate.
+/// Inherits both SimpleSurf and SafeSurf. Essentially keeps track of original surface through SafeSurf, and uses SimpleSurf to manipulate.
 
 class CanvasSurf;
-/// Inherits OpenSurf. Equipped with transformation functions and data members which keep track of transformations.
+/// Inherits SimpleSurf. Equipped with transformation functions and data members which keep track of transformations.
 
 class SuperSurf;
-/// Inherits DoubleSurf and CanvasSurf. 
+/// Inherits SafeSurf and CanvasSurf. 
 
 const bool transparentSurf(SDL_Surface * const surf, const Uint8 R, const Uint8 G, const Uint8 B);
+
+/*
+/** Allows for quick incrementing of refcount for surfaces.*
+SDL_Surface &operator++ (SDL_Surface &surf) {return ++surf.refcount;};
+SDL_Surface &operator++ (SDL_Surface &surf, int a) {return surf.refcount++;};
+SDL_Surface &operator-- (SDL_Surface &surf) {return --surf.refcount;};
+SDL_Surface &operator-- (SDL_Surface &surf, inta ) {return surf.refcount--;};
+*/
 
 /*
 SDL_Surface * const loadSurf(char * const file);
