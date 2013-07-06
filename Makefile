@@ -18,6 +18,12 @@ $(LIBRARY): $(LIBOBJECTS)
 
 install:
 	libtool --mode=install install -c libGameFrame.la /usr/local/lib/libGameFrame.la
+	mkdir -p /usr/local/include/Space2D/ /usr/local/include/GameControl/ \
+	/usr/local/include/SurfaceX /usr/local/include/Entity
+	install -c Space2D/*.h /usr/local/include/Space2D/
+	install -c GameControl/*.h /usr/local/include/GameControl/
+	install -c SurfaceX/*.h /usr/local/include/SurfaceX/
+	install -c Entity/*.h /usr/local/include/Entity/
 
 %.lo: %.cpp
 	$(LIBTOOL) --mode=compile $(CXX) $(CXXFLAGS) -c -o $@ $<
@@ -26,7 +32,7 @@ install:
 
 clean:
 	rm -f $(OBJECTS) $(LIBOBJECTS)
-	rm -rf Space2D/.libs/ GameControl/.libs/
+	rm -rf Space2D/.libs/ GameControl/.libs/ SurfaceX/.libs/ Entity/.libs/
 
 doc: 
 	rm -r doc/
