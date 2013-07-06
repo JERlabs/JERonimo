@@ -1,13 +1,13 @@
+#include "Space2D/Vector.h"
 #include "Space2D/Velocity.h"
 #include "GameControl/App.h"
 #include "GameControl/GameLoop.h"
 #include "GameControl/DataManager.h"
 #include "SurfaceX/DoubleSurf.h"
 
-
+using namespace Space2D;
 using namespace GameControl;
 using namespace SurfaceX;
-using namespace Space2D;
 
 class SurfaceTestDM;
 class SurfaceTestGL;
@@ -25,13 +25,18 @@ public:
     Running = true;
     currentGL = NULL;
     
-    if(varPic.get() == NULL) {
+    if(varPic == NULL) {
       if(varPic.load(picFile)) {
 	cout<<"Failed to load, exiting"<<endl;
 	return -1;
       }
-      controlPic = varPic;
+      controlPic.set(varPic.get());
     }
+    
+    
+    center.x(Display->w/2);
+    center.y(Display->h/2);
+    
     return 0;
   };
   
@@ -57,10 +62,10 @@ public:
   
   int const render() const {
     SDL_FillRect(MyDataM->Display, NULL, SDL_MapRGB(MyDataM->Display->format, 0, 0, 0));
-    if(MyDataM->controlPic.draw(MyDataM->Display, MyDataM->center/2.0)) {
+    if(MyDataM->controlPic.draw(MyDataM->Display, Point(MyDataM->center.x()/2, MyDataM->center.y()))) {
       return -1;
     }
-    if(MyDataM->varPic.draw(MyDataM->Display, MyDataM->center*3.0/2.0)) {
+    if(MyDataM->varPic.draw(MyDataM->Display, Point(MyDataM->center.x()*3.0/2.0, MyDataM->center.y()))) {
       return -1;
     }
     SDL_Flip(MyDataM->Display);
@@ -74,29 +79,31 @@ public:
   
   const EVENT_RESULT mouseMove(const int mX, const int mY, const int relX, const int relY,
 			       const bool lDown, const bool rDown, const bool mDown) {
+    static Vector mousePrev;
+    static bool first = true;
     Point mPos(mX, mY);
     MyDataM->mouse = mPos - MyDataM->center;
-    MyDataM->varPic.set(rotozoomSurface(MyDataM->varPic, MyDataM->mouse.theta(),
-				       2*MyDataM->mouse.magnitude()/Vector(MyDataM->center*2).magnitude()));
     
-    MyDataM->controlPic.set(rotozoomSurface(MyDataM->controlPic, MyDataM->mouse.theta(),
-					    2*MyDataM->mouse.magnitude()/Vector(MyDataM->center*2).magnitude()));
+    if(first) {
+      mousePrev = MyDataM->mouse;
+      first = false;
+    }
     
-    /*
-    SDL_Surface *tmp = MyDataM->varPic;
-    SDL_Surface *tmp2 = rotozoomSurface(tmp, MyDataM->mouse.theta(), 
-			       2*MyDataM->mouse.magnitude()/Vector(MyDataM->center*2).x());
-    std::swap(*tmp, *tmp2);
-    SDL_FreeSurface(tmp2);
-    MyDataM->varPic.set(
-    */
+    MyDataM->varPic.set(rotozoomSurface(MyDataM->varPic, RAD_TO_DEGREES(MyDataM->mouse.theta()),
+				       2*MyDataM->mouse.mag()/Vector(MyDataM->center*2).mag(), false));
     
+    MyDataM->controlPic.set(rotozoomSurface(MyDataM->controlPic, RAD_TO_DEGREES(MyDataM->mouse.theta() - mousePrev.theta()),
+					    MyDataM->mouse.mag()/mousePrev.mag(), false));
     
+    mousePrev = MyDataM->mouse;
+    
+    return EVENT_SUCCESS;
   };
   
   const EVENT_RESULT resized(const int W, const int H) {
     MyDataM->Display = SDL_SetVideoMode(W, H, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
-    MyDataM->center = Point(W/2, H/2);
+    MyDataM->center.x(W/2);
+    MyDataM->center.y(H/2);
     return EVENT_SUCCESS;
   }
   

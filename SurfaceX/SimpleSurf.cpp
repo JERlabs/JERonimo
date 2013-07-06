@@ -10,10 +10,9 @@ SimpleSurf::SimpleSurf(char * const file) {
 void SimpleSurf::set(SDL_Surface * const s) {
   if(s == Surf)
     return;
-  SDL_FreeSurface(Surf);
+  if(Surf != NULL)
+    SDL_FreeSurface(Surf);
   Surf = s;
-  if(Surf == NULL)
-    return;
   //Surf->refcount++;
 }
 
@@ -54,10 +53,10 @@ const int SimpleSurf::draw(SDL_Surface * const dest, SDL_Rect &srcRect, SDL_Rect
 }
 
 const int SimpleSurf::draw(SDL_Surface * const dest, const Space2D::Point &p) const {
-  SDL_Rect destRect = {p.x(), p.y(), get()->w, get()->h};
-  
   if(getToDraw() == NULL || dest == NULL)
     return -1;
+  
+  SDL_Rect destRect = {p.x(), p.y(), getToDraw()->w, getToDraw()->h};
   
   if(SDL_BlitSurface(getToDraw(), NULL, dest, &destRect))
     return -1;

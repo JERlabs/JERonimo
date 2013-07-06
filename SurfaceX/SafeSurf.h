@@ -6,8 +6,14 @@
 namespace SurfaceX {
 
 class SafeSurf: public SimpleSurf {
-public:
+private:
+  virtual operator SDL_Surface *() const {return get();};  	///< Implicit raw data (SDL_Surface) get access function.
+  virtual SDL_Surface * const operator->() const {return get();};  	///< Implicit raw data member access function.
+  virtual SDL_Surface * const operator*() const {return get();};	///< Explicit raw data access operator.
+
   virtual SDL_Surface * const get() const {return copy();};
+  
+public:
   virtual void set(SDL_Surface * const s);
   //operator SDL_Surface *() const {return copy();};
   //ommitted since there really isn't an implementation for this

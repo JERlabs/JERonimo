@@ -18,9 +18,10 @@ SDL/*
 .lineno
 config.log
 doc/*
+*-swp
 GAMEFRAME
 GameLoopTest
 TestEventsTest
-OpenSurfTest
+DoubleSurfTest
 *~
 

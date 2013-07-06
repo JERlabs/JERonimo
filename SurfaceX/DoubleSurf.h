@@ -25,7 +25,21 @@ SimpleDummy::~SimpleDummy() {};
 }
 */
 
-class DoubleSurf: public SimpleDummy, private SafeSurf { 
+class DoubleSurf: public SimpleDummy, public SafeSurf { 
+public:
+  //using SafeSurf::load;
+  const int load(char * const file) {return this->SafeSurf::load(file);};
+  //using SimpleDummy::draw;
+  const int draw(SDL_Surface * const dest, const Space2D::Point &p) const {return this->SimpleDummy::draw(dest, p);};
+  const int draw(SDL_Surface * const dest, SDL_Rect &srcRect, SDL_Rect &destRect) const {
+    return this->SimpleDummy::draw(dest, srcRect, destRect);
+  };
+  operator SDL_Surface *() const {return get();};
+  SDL_Surface * const operator->() const {return get();};
+  SDL_Surface * const operator*() const {return get();};
+  const bool operator== (SDL_Surface * const other) const {return this->SimpleDummy::operator==(other);};
+  const bool operator!= (SDL_Surface * const other) const {return !(*this == other);};
+  
 public:
   virtual void set(SDL_Surface * const s);
   virtual SDL_Surface * const get() const;

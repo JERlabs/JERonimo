@@ -3,9 +3,10 @@
 namespace SurfaceX {
 
 void DoubleSurf::set(SDL_Surface * const s) {
-  if(this->SafeSurf::get() == NULL) {
+  if(this->SafeSurf::operator==(NULL)) {
     this->SafeSurf::set(s);
     this->SimpleDummy::set(copy());
+    return;
   }
   this->SimpleDummy::set(s);
 }

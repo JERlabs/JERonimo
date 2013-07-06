@@ -28,6 +28,10 @@ Vector::Vector(Point const &p2) {
   }
 }
 
+Vector::Vector(): Mag(1), Theta(0) {
+}
+
+
 const long double Vector::mag() const {
   return Mag;
 }
