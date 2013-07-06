@@ -16,4 +16,10 @@ SDL_Surface * const DoubleSurf::get() const {
   return this->SimpleDummy::get();
 }
 
+const int DoubleSurf::load(char * const file) {
+  const int rtrn = this->SafeSurf::load(file);
+  this->set(copy());
+  return rtrn;
+}
+
 }

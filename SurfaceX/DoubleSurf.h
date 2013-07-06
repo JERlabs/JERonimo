@@ -28,7 +28,7 @@ SimpleDummy::~SimpleDummy() {};
 class DoubleSurf: public SimpleDummy, public SafeSurf { 
 public:
   //using SafeSurf::load;
-  const int load(char * const file) {return this->SafeSurf::load(file);};
+  const int load(char * const file);
   //using SimpleDummy::draw;
   const int draw(SDL_Surface * const dest, const Space2D::Point &p) const {return this->SimpleDummy::draw(dest, p);};
   const int draw(SDL_Surface * const dest, SDL_Rect &srcRect, SDL_Rect &destRect) const {
