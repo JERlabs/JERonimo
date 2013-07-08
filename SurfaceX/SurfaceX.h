@@ -16,9 +16,6 @@
  */
 namespace SurfaceX {
 
-using std::cout;
-using std::endl;
-
 /// Abstract surface interface. (load and draw). No actual memory for surface. 
 class SimpleSurf;
 /*
@@ -29,13 +26,13 @@ class OpenSurf;  //Part of the free surface movement. Keep images OpenSurf. JK, 
 /// Inherits SimpleSurf. Remains read(draw)-only after initialization.
 class SafeSurf;
 
-/// Inherits both SimpleSurf and SafeSurf. Essentially keeps track of original surface through SafeSurf, and uses SimpleSurf to manipulate.
+/// Inherits SimpleSurf and has a SafeSurf. Essentially keeps track of original surface through SafeSurf, and uses SimpleSurf to manipulate.
 class DoubleSurf;
 
 /// Inherits SimpleSurf. Equipped with transformation functions and data members which keep track of transformations.
 class CanvasSurf;
 
-/// Inherits SafeSurf and CanvasSurf. 
+/// Inherits CanvasSurf and DoubleSurf.
 class SuperSurf;
 
 

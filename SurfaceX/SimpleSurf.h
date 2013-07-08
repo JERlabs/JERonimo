@@ -13,21 +13,25 @@ private:
 public:
   virtual SDL_Surface * const get() const {return Surf;};	///< Explicit raw data (SDL_Surface) get access function.
   virtual void set(SDL_Surface * const s);  ///< Explicit raw data (SDL_Surface) set access function.
-  virtual operator SDL_Surface *() const {return get();};  	///< Implicit raw data (SDL_Surface) get access function.
-  virtual SDL_Surface * const operator->() const {return get();};  	///< Implicit raw data member access function.
-  virtual SDL_Surface * const operator*() const {return get();};	///< Explicit raw data access operator.
+  SDL_Surface * const copy() const; ///< Returns new Surface with all pixels of data copied over.
+  
+public:
+  operator SDL_Surface *() const {return get();};  	///< Implicit raw data (SDL_Surface) get access function.
+  SDL_Surface * const operator->() const {return get();};  	///< Implicit raw data member access function.
+  SDL_Surface * const operator*() const {return get();};	///< Explicit raw data access operator.
   virtual const bool operator== (const SDL_Surface * const other) const {return Surf == other;};
   virtual const bool operator!= (const SDL_Surface * const other) const {return Surf != other;};
   
 public:
   virtual const int load(char * const file); ///< Loads image passed by file. Returns false on failure. Sets Surf to NULL.
   
+//protected:
 private:
   virtual SDL_Surface * const getToDraw() const {return Surf;};  ///< Function that is only called by draw. Allows specification of internal memory transfer.
 
 public:
-  virtual const int draw(SDL_Surface * const dest, const Space2D::Point &p) const; ///< Blits Surf to dest at p.
-  virtual const int draw(SDL_Surface * const dest, SDL_Rect &srcRect, SDL_Rect &destRect) const; ///< Blits Surf to dest bounded by srcRect and destRect.
+  const int draw(SDL_Surface * const dest, const Space2D::Point &p) const; ///< Blits Surf to dest at p.
+  const int draw(SDL_Surface * const dest, SDL_Rect &srcRect, SDL_Rect &destRect) const; ///< Blits Surf to dest bounded by srcRect and destRect.
   
 public:
   
@@ -40,8 +44,9 @@ public:
   /// Copy Constructor
   SimpleSurf(const SimpleSurf &other): Surf(other.Surf) {Surf? Surf->refcount++:0;};
   
-  /// Loads image from file into a new object
-  SimpleSurf(char * const file);
+  //// Loads image from file into a new object
+  //SimpleSurf(char * const file); 
+  //leaving file loading out for now
   
   /// Frees Surface.
   virtual ~SimpleSurf();

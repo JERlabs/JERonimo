@@ -1,11 +1,12 @@
 #include "SimpleSurf.h"
 
 namespace SurfaceX {
-  
+/*  
 SimpleSurf::SimpleSurf(char * const file) {
   if(load(file))
     cout<<"Failed to load "<<file<<endl<<"Personally, I blame you"<<endl;
 }
+*/
 
 void SimpleSurf::set(SDL_Surface * const s) {
   if(s == Surf)
@@ -14,6 +15,12 @@ void SimpleSurf::set(SDL_Surface * const s) {
     SDL_FreeSurface(Surf);
   Surf = s;
   //Surf->refcount++;
+}
+
+SDL_Surface * const SimpleSurf::copy() const {
+  if(Surf == NULL)
+    return NULL;
+  return SDL_ConvertSurface(Surf, Surf->format, Surf->flags);
 }
 
 const int SimpleSurf::load(char * const file) {

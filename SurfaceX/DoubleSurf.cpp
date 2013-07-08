@@ -3,24 +3,34 @@
 namespace SurfaceX {
 
 void DoubleSurf::set(SDL_Surface * const s) {
-  if(this->SafeSurf::operator==(NULL)) {
-    this->SafeSurf::set(s);
-    this->SimpleDummy::set(copy());
+  if(original == NULL) {
+    original.set(s);
+    SimpleSurf::set(original.copy());
     return;
   }
-  this->SimpleDummy::set(s);
+  SimpleSurf::set(s);
 }
 
 SDL_Surface * const DoubleSurf::get() const {
-  (const_cast<DoubleSurf *>(this))->SimpleDummy::set(copy());
-  return this->SimpleDummy::get();
+  //if(refresh) {
+  (const_cast<DoubleSurf *>(this))->SimpleSurf::set(original.copy());
+  //refresh = false;
+  //}
+  return SimpleSurf::get();
 }
 
+/*
+SDL_Surface * const DoubleSurf::getToDraw() const {
+  //refresh = true;
+  return SimpleSurf::getToDraw();
+}
+*/
+
 const int DoubleSurf::load(char * const file) {
-  const int rtrn = this->SafeSurf::load(file);
+  const int rtrn = original.load(file);
   if(rtrn)
     return rtrn;
-  this->set(copy());
+  SimpleSurf::set(original.copy());
   return 0;
 }
 
