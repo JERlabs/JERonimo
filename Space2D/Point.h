@@ -7,67 +7,147 @@ namespace Space2D {
 
 class Point {
   protected:
-    long double X; ///< X coordinate
-    long double Y; ///< Y coordinate
+    X_t X; ///< X coordinate
+    Y_t Y; ///< Y coordinate
   public:
-    /// Construct a point from 2 long doubles
-    Point (long double const& x, long double const& y);
+    /// Construct a point from an X and Y value
+    Point (const X_t& x, const Y_t& y): X(x), Y(y) {};
     
     /// Construct a point from another point
-    Point (Point const& p2);
+    Point (Point const& p2): X(p2.X), Y(p2.Y) {};
     
     /// Construct a point from a vector
-    Point (Vector const& v2);
+    Point(Vector const &v2); //: X(getX(v2.mag(), v2.theta())), Y(getY(v2.mag(), v2.theta())) {};
     
     /// Construct a point with value (0,0)
-    Point ();
+    Point (): X(), Y() {};
     
-    /// Return the X coordinate as a long double
-    const long double x() const;
+    /// Return the X coordinate as an X_t
+    const X_t& x() const {
+      return X;
+    };
     
-    /// Set the X coordinate, returns the new X value
-    const long double x(long double const& x);
+    /// Set the X coordinate, returns *this
+    Point& x(const X_t & x);
     
     /// Return the Y coordinate as a long double
-    const long double y() const;
+    const Y_t &y() const {
+      return Y;
+    };
     
-    /// Set the Y coordinate, returns the new Y value
-    const long double y(long double const& y);
-    
-    /// Add two points together, result it (x1+x2,y1+y2);
-    Point const operator + (Point const& p2) const;
-    
-    /// Subtract two points, result is (x1-x2,y1-y2)
-    Point const operator - (Point const& p2) const;
-    
-    /// Return a point representing this point under a size transformation with magnitude scale
-    Point const operator * (long double const& scale) const;
-    
-    /// Return a point representing this point under a size transformation with magnitude 1/scale
-    Point const operator / (long double const& scale) const;
+    /// Set the Y coordinate, returns *this
+    Point& y(const Y_t& y);
     
     /// Set x,y of this point to equal x,y of another point
     Point& operator = (Point const& p2);
     
     /// Set x to x+p2.x(), set y to y+p2.y()
     Point& operator += (Point const& p2);
+    Point& operator += (const X_t& x);
+    Point& operator += (const Y_t& y);
     
     /// Set x to x-p2.x(), set y to y-p2.y()
     Point& operator -= (Point const& p2);
+    Point& operator -= (const X_t& x);
+    Point& operator -= (const Y_t& y);
     
     /// Apply a size transformation of magnitude scale
-    Point& operator *= (long double const& scale);
+    Point& operator *= (const PIXEL_TYPE& scale);
+    
     
     /// Apply a size transformation of magnitude 1/scale
-    Point& operator /= (long double const& scale);
+    Point& operator /= (const PIXEL_TYPE& scale);
     
-    /// Check equality of values between this point and another point
-    const bool operator == (Point const& p2) const;
+    /// Checks for equality in both X and Y.
+    const bool operator == (const Point &p) const {
+      return X == p.x() && Y == p.y();
+    };
     
-    /// Check inequality of values between this point and another point
-    const bool operator != (Point const& p2) const;
+    /// Returns opposite of ==.
+    const bool operator != (const Point &p) const {
+      return !(*this == p);
+    };
 };
 
+/// Point+Point addition.
+inline const Point operator+ (const Point& lhs, const Point& rhs) {
+  return Point(lhs) += rhs;
+};
+
+/// Point+X addition.
+inline const Point operator+ (const Point& lhs, const X_t& rhs) {
+  return Point(lhs) += rhs;
+};
+
+/// Point+Y addition
+inline const Point operator+ (const Point& lhs, const Y_t& rhs) {
+  return Point(lhs) += rhs;
+};
+
+/// X+Point addition
+inline const Point operator+ (const X_t& lhs, const Point& rhs) {
+  return rhs+lhs;
+};
+
+/// Y+Point addition
+inline const Point operator+ (const Y_t& lhs, const Point& rhs) {
+  return rhs+lhs;
+};
+
+/// Point-Point subtraction
+inline const Point operator- (const Point& lhs, const Point& rhs) {
+  return Point(lhs) -= rhs;
+};
+
+/// Point-X addition.
+inline const Point operator- (const Point& lhs, const X_t& rhs) {
+  return Point(lhs) -= rhs;
+};
+
+/// Point-Y addition
+inline const Point operator- (const Point& lhs, const Y_t& rhs) {
+  return Point(lhs) -= rhs;
+};
+
+/// X-Point addition
+inline const Point operator- (const X_t& lhs, const Point& rhs) {
+  return rhs+lhs;
+};
+
+/// Y-Point addition
+inline const Point operator- (const Y_t& lhs, const Point& rhs) {
+  return lhs+rhs;
+};
+
+/// Point*scale multiplication
+inline const Point operator* (const Point &lhs, const PIXEL_TYPE& scale) {
+  return Point(lhs) *= scale;
+};
+
+/// scale*Point multiplication
+inline const Point operator* (const PIXEL_TYPE& lhs, const Point &rhs) {
+  return rhs * lhs;
+};
+
+/// Point/scale division
+inline const Point operator/ (const Point &lhs, const PIXEL_TYPE &scale) {
+  return Point(lhs)/scale;
+};
+
+inline const Point operator- (const Point &lhs) {
+  return Point(-lhs.x(), -lhs.y());
+}
+
+/// Returns the square root of p.x() squared + p.y() squared.
+inline const PIXEL_TYPE pythagoras(const Point& p) {
+  return pythagoras(p.x(), p.y());
+}
+
+
+inline const Radians getTheta(const Point &p) {
+  return getTheta(p.x(), p.y());
+}
+  
 }
 
 #endif

@@ -1,0 +1,8 @@
+#ifndef _CANVASSURF_H_
+#define _CANVASSURF_H_
+
+#include "SimpleSurf.h"
+
+class CanvasSurf: public virtual SimpleSurf {
+  
+}

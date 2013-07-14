@@ -2,66 +2,18 @@
 #include "Vector.h"
 
 namespace Space2D {
-Vector::Vector(long double const &mag, long double const &theta): Mag(mag), Theta(theta) {
+  
+Vector::Vector(const Point &p2): Mag(pythagoras(p2)), Theta(getTheta(p2)) {
 }
 
-Vector::Vector(Vector const &v2) {
-  Mag = v2.mag();
-  Theta = v2.theta();
+Vector& Vector::mag(const Mag_t &m) {
+  Mag = m;
+  return *this;
 }
 
-Vector::Vector(Point const &p2) {
-  Mag = sqrt(p2.x()*p2.x() + p2.y()*p2.y());
-  if(p2.x() == 0) {
-    if(p2.y() > 0)
-      Theta = ANGLE_UP;
-    else if(p2.y() < 0)
-      Theta = ANGLE_DOWN;
-    else
-      return;
-  }
-  else if(p2.x() < 0) {
-    Theta = ANGLE_LEFT + atan(p2.y()/p2.x());
-  }
-  else {
-    Theta = atan(p2.y()/p2.x());
-  }
-}
-
-Vector::Vector(): Mag(1), Theta(0) {
-}
-
-
-const long double Vector::mag() const {
-  return Mag;
-}
-
-const long double Vector::mag(const long double &m) {
-  return Mag = m;
-}
-
-const long double Vector::theta() const {
-  return Theta;
-}
-
-const long double Vector::theta(const long double &t) {
-  return Theta = t;
-}
-
-Point const Vector::operator+ (Point const& p2) const {
-  return (Point)*this + p2;
-}
-
-Point const Vector::operator- (Point const& p2) const {
-  return (Point)*this - p2;
-}
-
-Vector const Vector::operator* (const long double& scale) const {
-  return Vector(*this) *= scale;
-}
-
-Vector const Vector::operator/ (const long double& scale) const {
-  return Vector(*this) /= scale;
+Vector& Vector::theta(const Radians &t) {
+  Theta = t;
+  return *this;
 }
 
 Vector& Vector::operator= (Vector const &v2) {
@@ -71,29 +23,26 @@ Vector& Vector::operator= (Vector const &v2) {
 }
 
 Vector& Vector::operator+= (Point const &p2) {
-  return *this = *this + p2;
+  Mag = pythagoras(p2.x() + getX(*this), p2.y() + getY(*this));
+  Theta = getTheta(p2.x() + getX(*this), p2.y() + getY(*this));
+  return *this;
 }
 
 Vector& Vector::operator-= (Point const &p2) {
-  return *this = *this - p2;
+  Mag = pythagoras(getX(*this) - p2.x(), getY(*this) - p2.y());
+  Theta = getTheta(getX(*this) - p2.x(), getY(*this) - p2.y());
+  return *this;
 }
 
-Vector& Vector::operator*= (const long double &scale) {
+Vector& Vector::operator*= (const PIXEL_TYPE &scale) {
   Mag *= scale;
   return *this;
 }
 
-Vector& Vector::operator/= (const long double &scale) {
+Vector& Vector::operator/= (const PIXEL_TYPE &scale) {
   Mag /= scale;
   return *this;
 }
 
-const bool Vector::operator== (Vector const &v2) const {
-  return (Mag == v2.mag()) && (Theta == v2.theta());
-}
-
-const bool Vector::operator!= (Vector const &v2) const {
-  return !(*this == v2);
-}
 
 }

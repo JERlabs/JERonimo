@@ -5,7 +5,7 @@
 
 namespace SurfaceX {
 
-class DoubleSurf: public SimpleSurf { 
+class DoubleSurf: public virtual SimpleSurf { 
 private:
   SafeSurf original;
 //  mutable bool refresh;

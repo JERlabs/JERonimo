@@ -8,7 +8,7 @@ namespace Space2D {
 class Velocity: virtual Point, virtual Vector {
   public:
     /// Create a velocity from an angle and magnitude
-    Velocity(long double const &mag, long double const &theta);
+    Velocity(const PIXEL_TYPE &mag, const PIXEL_TYPE &theta);
     
     /// Create a velocity from a point
     Velocity(Point const &p2);
@@ -17,28 +17,28 @@ class Velocity: virtual Point, virtual Vector {
     Velocity(Vector const &v2);
     
     /// Return the x coordinate
-    long double const x() const;
+    X_t const x() const;
     
     /// Set and return the x coordinate
-    long double const x(long double const &x);
+    x(const PIXEL_TYPE &x);
     
     /// Return the y coordinate
     long double const y() const;
     
     /// Set and return the y coordinate
-    long double const y(long double const &x);
+    long double const y(const PIXEL_TYPE &x);
     
     /// Return magnitude
     long double const mag() const;
     
     /// Set and return magnitude
-    long double const mag(long double const &mag);
+    long double const mag(const PIXEL_TYPE &mag);
     
     /// Return angle
     long double const theta() const;
     
     /// Set and return angle
-    long double const theta(long double const &theta);
+    long double const theta(const PIXEL_TYPE &theta);
 
     /// Construct and return sum of of this velocity and vv2
     Velocity const operator+ (Velocity const& vv2) const {
@@ -51,12 +51,12 @@ class Velocity: virtual Point, virtual Vector {
     };
 
     /// Construct and return the velocity with the magnitude and coordinates multiplied by scale
-    Velocity const operator* (const long double& scale) const {
+    Velocity const operator* (const PIXEL_TYPE& scale) const {
       return Velocity(*this) *= scale;
     };
     
     /// Construct and return the velocity with the magnitude and coordinates divided by scale
-    Velocity const operator/ (const long double& scale) const {
+    Velocity const operator/ (const PIXEL_TYPE& scale) const {
       return Velocity(*this) /= scale;
     };
 
@@ -79,7 +79,7 @@ class Velocity: virtual Point, virtual Vector {
     };
 
     /// Multiplies the magnitude and x-y of the velocity by scale
-    Velocity const& operator*= (const long double &scale) {
+    Velocity const& operator*= (const PIXEL_TYPE &scale) {
       X *= scale;
       Y *= scale;
       Mag *= scale;
@@ -87,7 +87,7 @@ class Velocity: virtual Point, virtual Vector {
     };
 
     /// Divides the magnitude and x-y of the velocity by scale
-    Velocity const& operator/= (const long double &scale) {
+    Velocity const& operator/= (const PIXEL_TYPE &scale) {
       X /= scale;
       Y /= scale;
       Mag /= scale;

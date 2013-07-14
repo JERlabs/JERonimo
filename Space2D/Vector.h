@@ -7,49 +7,44 @@ namespace Space2D
 {
 
 class Vector {
-  protected:
+  private:
     /// Magnitude of the vector
-    long double Mag;
+    Mag_t Mag;
     
     /// Angle of the vector
-    long double Theta;
+    Radians Theta;
+    
   public:
     /// Create a vector from a magnitude and angle
-    Vector(long double const &mag, long double const &theta);
+    Vector(const Mag_t &mag, Radians &theta): Mag(mag), Theta(theta) {};
     
     /// Create a vector from another vector
-    Vector(Vector const &v2);	
+    Vector(Vector const &v2): Mag(v2.Mag), Theta(v2.Theta) {};
     
-    /// Create a vector from a point
+    /// Create a vector from a Point
     Vector(const Point &p2);
     
     /// Create a vector with default values
-    Vector();
+    Vector(): Mag(1), Theta() {};
+    
   public:
     /// Returns the magnitude of the vector
-    const long double mag() const;
+    const Mag_t &mag() const {
+      return Mag;
+    };
     
     /// Sets the magnitude of the vector to m, returns new magnitude.
-    const long double mag(const long double &m);
+    Vector& mag(const Mag_t &m);
     
     /// Returns the angle of the vector
-    const long double theta() const;
+    const Radians &theta() const {
+      return Theta;
+    };
     
     /// Sets the angle of the vector to t, returns new angle
-    const long double theta(const long double &t);
+    Vector &theta(const Radians &t);
+    
   public:
-    /// Adds a point and a vector
-    Point const operator + (Point const& p2) const;
-    
-    /// Subtracts a point from a vector
-    Point const operator - (Point const& p2) const;
-    
-    /// Returns the vector as a point scaled by scale
-    Vector const operator * (const long double &scale) const;
-    
-    /// Returns the vector as a point scaled by 1/scale
-    Vector const operator / (const long double &scale) const;
-    
     /// Sets the magnitude and angle of the vector to that of another
     Vector& operator = (Vector const& v2);
     
@@ -60,17 +55,41 @@ class Vector {
     Vector& operator -= (Point const& p2);
     
     /// Scales the vector by scale
-    Vector& operator *= (const long double &scale);
+    Vector& operator *= (const PIXEL_TYPE &scale);
     
     /// Scales the vector by scale
-    Vector& operator /= (const long double &scale);
+    Vector& operator /= (const PIXEL_TYPE &scale);
     
     /// Checks for equality of two vectors
-    const bool operator == (Vector const &v2) const;
+    const bool operator == (Vector const &v2) const {
+      return Mag == v2.mag() && Theta == v2.theta();
+    };
     
     /// Checks for inequality of two vectors
-    const bool operator != (Vector const &v2) const;
+    const bool operator != (Vector const &v2) const {
+      return !(*this == v2);
+    };
   };
+  
+  inline const Vector& operator * (const Vector& lhs, const PIXEL_TYPE &rhs) {
+    return Vector(lhs) *= rhs;
+  }
+  
+  inline const Vector& operator * (const PIXEL_TYPE &lhs, const Vector& rhs) {
+    return rhs * lhs;
+  }
+  
+  inline const Vector& operator / (const Vector& lhs, const PIXEL_TYPE &rhs) {
+    return Vector(lhs) /= rhs;
+  }
+  
+  inline const PIXEL_TYPE getX(const Vector& v) {
+    return v.mag() * cos(v.theta());
+  }
+  
+  inline const PIXEL_TYPE getY(const Vector& v) {
+    return v.mag() * sin(v.theta());
+  }
 
 }
 

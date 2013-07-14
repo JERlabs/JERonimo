@@ -2,7 +2,7 @@
 
 namespace Space2D {
 
-Velocity::Velocity (long double const &M, long double const &T): Vector(M, T), Point(Vector(M, T)) {
+Velocity::Velocity (const PIXEL_TYPE &M, const PIXEL_TYPE &T): Vector(M, T), Point(Vector(M, T)) {
 }
 
 Velocity::Velocity (Point const &p2): Vector(p2), Point(p2) {
@@ -12,43 +12,43 @@ Velocity::Velocity (Point const &p2): Vector(p2), Point(p2) {
 Velocity::Velocity (Vector const &v2): Point(v2), Vector(v2) {
 }
 
-const long double Velocity::x() const {
+const PIXEL_TYPE Velocity::x() const {
   return X;
 }
 
-const long double Velocity::y() const {
+const PIXEL_TYPE Velocity::y() const {
   return Y;
 }
 
-const long double Velocity::x(const long double &x) {
+const PIXEL_TYPE Velocity::x(const PIXEL_TYPE &x) {
   X = x;
   Vector(X,Y);
   return X;
 }
 
-const long double Velocity::y(const long double &y) {
+const PIXEL_TYPE Velocity::y(const PIXEL_TYPE &y) {
   Y = y;
   Vector(X,Y);
   return Y;
 }
 
-const long double Velocity::mag() const {
+const PIXEL_TYPE Velocity::mag() const {
   return Mag;
 }
 
-const long double Velocity::theta() const {
+const PIXEL_TYPE Velocity::theta() const {
   return Theta;
 }
 
-const long double Velocity::mag(const long double &m) {
+const PIXEL_TYPE Velocity::mag(const PIXEL_TYPE &m) {
   (X /= Mag) *= m;
   Mag = m;
   return Mag;
 }
 
-const long double Velocity::theta(const long double &t) {
-  long double ct = cos(t);
-  long double st = sin(t);
+const PIXEL_TYPE Velocity::theta(const PIXEL_TYPE &t) {
+  PIXEL_TYPE ct = cos(t);
+  PIXEL_TYPE st = sin(t);
   X = (X*ct - Y*st);
   int x(X);
   Y = (x*st + Y*ct);
