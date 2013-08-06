@@ -49,27 +49,27 @@ namespace Space2D {
     Scalar(const Scalar &other): val(other.val) {};
   };
   
-  const Scalar& Scalar::operator+= (const PIXEL_TYPE& rhs) {
+  inline const Scalar& Scalar::operator+= (const PIXEL_TYPE& rhs) {
     val+=rhs;
     return *this;
   }
   
-  const Scalar& Scalar::operator-= (const PIXEL_TYPE& rhs) {
+  inline const Scalar& Scalar::operator-= (const PIXEL_TYPE& rhs) {
     val-=rhs;
     return *this;
   }
   
-  const Scalar& Scalar::operator*= (const PIXEL_TYPE& rhs) {
+  inline const Scalar& Scalar::operator*= (const PIXEL_TYPE& rhs) {
     val*=rhs;
     return *this;
   }
   
-  const Scalar& Scalar::operator/= (const PIXEL_TYPE& rhs) {
+  inline const Scalar& Scalar::operator/= (const PIXEL_TYPE& rhs) {
     val/=rhs;
     return *this;
   }
   
-  const Scalar& Scalar::operator= (const PIXEL_TYPE& rhs) {
+  inline const Scalar& Scalar::operator= (const PIXEL_TYPE& rhs) {
     val = rhs;
     return *this;
   }

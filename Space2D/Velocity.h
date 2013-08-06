@@ -1,71 +1,47 @@
 #ifndef _VELOCITY_H_
 #define _VELOCITY_H_
-#include "Point.h"
 #include "Vector.h"
 
 namespace Space2D {
 
 class Velocity: virtual Point, virtual Vector {
   public:
+    using Point::x;
+    using Point::y;
+    using Vector::mag;
+    using Vector::theta;
     /// Create a velocity from an angle and magnitude
-    Velocity(const PIXEL_TYPE &mag, const PIXEL_TYPE &theta);
+    Velocity(const Mag_t &M, const Radians &T): Vector(M, T), Point(Vector(M, T)) {};
+    
+    /// Create a velocity from an X and Y
+    Velocity(const X_t &x, const Y_t &y): Point(x, y), Vector(Point(x, y)) {};
     
     /// Create a velocity from a point
-    Velocity(Point const &p2);
+    Velocity (Point const &p2): Vector(p2), Point(p2) {
+          /*Just point constructor function call ^ */   /*  ^ Parent class constructor call   */
+    };
     
     /// Create a velocity from a vector
-    Velocity(Vector const &v2);
+    Velocity (Vector const &v2): Vector(v2), Point(v2) {};
     
-    /// Return the x coordinate
-    X_t const x() const;
-    
-    /// Set and return the x coordinate
-    x(const PIXEL_TYPE &x);
-    
-    /// Return the y coordinate
-    long double const y() const;
-    
+    /// Set and return the x-coordinate
+    Point &x(const X_t &x);
+        
     /// Set and return the y coordinate
-    long double const y(const PIXEL_TYPE &x);
-    
-    /// Return magnitude
-    long double const mag() const;
+    Point &y(const Y_t &y);
     
     /// Set and return magnitude
-    long double const mag(const PIXEL_TYPE &mag);
-    
-    /// Return angle
-    long double const theta() const;
+    Vector &mag(const Mag_t &mag);
     
     /// Set and return angle
-    long double const theta(const PIXEL_TYPE &theta);
-
-    /// Construct and return sum of of this velocity and vv2
-    Velocity const operator+ (Velocity const& vv2) const {
-      return Velocity(*this) += vv2;
-    };
-
-    /// Construct and return difference between this velocity and vv2
-    Velocity const operator- (Velocity const& vv2) const {
-      return Velocity(*this) += vv2;
-    };
-
-    /// Construct and return the velocity with the magnitude and coordinates multiplied by scale
-    Velocity const operator* (const PIXEL_TYPE& scale) const {
-      return Velocity(*this) *= scale;
-    };
-    
-    /// Construct and return the velocity with the magnitude and coordinates divided by scale
-    Velocity const operator/ (const PIXEL_TYPE& scale) const {
-      return Velocity(*this) /= scale;
-    };
+    Vector &theta(const Radians &theta);
 
     /// Adds vv2 to the velocity and returns a reference to it
     Velocity const& operator+= (Velocity const& vv2) {
       X += vv2.x();
       Y += vv2.y();
-      Mag = sqrt(X*X + Y*Y);
-      Theta = atan2(X,Y);
+      Mag = pythagoras(X, Y);
+      Theta = getTheta(X, Y);
       return *this;
     };
 
@@ -73,8 +49,8 @@ class Velocity: virtual Point, virtual Vector {
     Velocity const& operator-= (Velocity const& vv2) {
       X -= vv2.x();
       Y -= vv2.y();
-      Mag = sqrt(X*X + Y*Y);
-      Theta = atan2(X,Y);
+      Mag = pythagoras(X, Y);
+      Theta = getTheta(X, Y);
       return *this;
     };
 
@@ -104,7 +80,30 @@ class Velocity: virtual Point, virtual Vector {
       return !(*this == comp);
     };
 };
+    
+    /// Construct and return sum of of this velocity and vv2
+    inline Velocity const operator+ (Velocity const& vv1, Velocity const& vv2) {
+      return Velocity(vv1) += vv2;
+    }
+
+    /// Construct and return difference between this velocity and vv2
+    inline Velocity const operator- (Velocity const& vv1, Velocity const& vv2) {
+      return Velocity(vv1) += vv2;
+    }
+
+    /// Construct and return the velocity with the magnitude and coordinates multiplied by scale
+    inline Velocity const operator* (Velocity const &vv1, const PIXEL_TYPE& scale) {
+      return Velocity(vv1) *= scale;
+    }
+    
+    inline Velocity const operator* (const PIXEL_TYPE& scale, Velocity const &vv1) {
+      return vv1*scale;
+    }
+    
+    /// Construct and return the velocity with the magnitude and coordinates divided by scale
+    inline Velocity const operator/ (Velocity const& vv1, const PIXEL_TYPE& scale) {
+      return Velocity(vv1) /= scale;
+    }
 
 }
 #endif
-

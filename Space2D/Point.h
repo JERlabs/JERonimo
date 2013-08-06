@@ -28,7 +28,7 @@ class Point {
     };
     
     /// Set the X coordinate, returns *this
-    Point& x(const X_t & x);
+    virtual Point& x(const X_t & x);
     
     /// Return the Y coordinate as a long double
     const Y_t &y() const {
@@ -36,7 +36,7 @@ class Point {
     };
     
     /// Set the Y coordinate, returns *this
-    Point& y(const Y_t& y);
+    virtual Point& y(const Y_t& y);
     
     /// Set x,y of this point to equal x,y of another point
     Point& operator = (Point const& p2);

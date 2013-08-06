@@ -1,13 +1,13 @@
 #ifndef _VECTOR_H_
 #define _VECTOR_H_
 
-#include "Space2D.h"
+#include "Point.h"
 
 namespace Space2D
 {
 
 class Vector {
-  private:
+  protected:
     /// Magnitude of the vector
     Mag_t Mag;
     
@@ -16,7 +16,7 @@ class Vector {
     
   public:
     /// Create a vector from a magnitude and angle
-    Vector(const Mag_t &mag, Radians &theta): Mag(mag), Theta(theta) {};
+    Vector(const Mag_t &mag, const Radians &theta): Mag(mag), Theta(theta) {};
     
     /// Create a vector from another vector
     Vector(Vector const &v2): Mag(v2.Mag), Theta(v2.Theta) {};
@@ -34,7 +34,7 @@ class Vector {
     };
     
     /// Sets the magnitude of the vector to m, returns new magnitude.
-    Vector& mag(const Mag_t &m);
+    virtual Vector& mag(const Mag_t &m);
     
     /// Returns the angle of the vector
     const Radians &theta() const {
@@ -42,7 +42,7 @@ class Vector {
     };
     
     /// Sets the angle of the vector to t, returns new angle
-    Vector &theta(const Radians &t);
+    virtual Vector &theta(const Radians &t);
     
   public:
     /// Sets the magnitude and angle of the vector to that of another
