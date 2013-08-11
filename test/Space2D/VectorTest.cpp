@@ -1,11 +1,11 @@
-#include "Space2dTest.h"
+#include "Space2DTest.h"
 
 int main(int argc, char *argv[])
 {
-  Vector a = makeVector(2, ANGLE_UP/3, "a");
+  Vector a = makeVector(Mag_t(2.0), Radians::ANGLE_UP/3.0, "a");
   cout<<"Getting X and Y components of a"<<endl;
   PRINT_POINT(a);
-  Point b = makePoint(5, 12, "b");
+  Point b = makePoint(5.0, 12.0, "b");
   cout<<"Getting Vector from origin to b"<<endl;
   PRINT_VECTOR(b);
   cout<<"Getting resultant Vector between a and b (a+b)"<<endl;

@@ -3,6 +3,16 @@
 
 #include "SimpleSurf.h"
 
+
 class CanvasSurf: public virtual SimpleSurf {
+private:
+  Point zoom;
+  Radians angle;
+  
+  
+public:
+  
   
 }
+
+#endif

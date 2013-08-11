@@ -16,6 +16,8 @@
  */
 namespace SurfaceX {
 
+using namespace Space2D;
+  
 /// Abstract surface interface. (load and draw). No actual memory for surface. 
 class SimpleSurf;
 /*

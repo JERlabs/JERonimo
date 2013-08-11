@@ -1,10 +1,10 @@
-#include "Velocity.h"
+#include "Space2D/Velocity.h"
 #include <iostream>
 using namespace Space2D;
 using std::cout;
 using std::endl;
 
-Velocity makeVelocity(long double const &mag, long double const &theta, char const *name) {
+Velocity makeVelocity(const Mag_t &mag, const Radians &theta, char const *name) {
   Velocity lol(mag,theta);
   cout << "Created Velocity " << name << ": (" << lol.x()<< ", " <<
   lol.y() << ") [" << lol.mag() << ", " << lol.theta() << "]" << endl;
@@ -15,8 +15,8 @@ void printVelocity(Velocity v, char const *name) {
   ") [" << v.mag() << ", " << v.theta() << "]" << endl;
 }
 int main( int argc, char *argv[]) {
-  Velocity a = makeVelocity(1,M_PI/4,"a");
-  Velocity b = makeVelocity(1,M_PI*(3.0L/4.0L),"b");
+  Velocity a = makeVelocity((Mag_t)1.0, TAO/8.0, "a");
+  Velocity b = makeVelocity((Mag_t)1.0, TAO*(3.0/8.0),"b");
   cout << "a -= b" << endl;
   a -= b;
   printVelocity(a, "a");
@@ -28,7 +28,7 @@ int main( int argc, char *argv[]) {
   cout << "b - a" << endl;
   printVelocity(b-a, "b-a");
   cout << "a *= 5" << endl;
-  printVelocity(a*=5,"a");
+  printVelocity(a*=5.0,"a");
   cout << "a /= 5" << endl;
-  printVelocity(a/=5,"a");
+  printVelocity(a/=5.0,"a");
 }

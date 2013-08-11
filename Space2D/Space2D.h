@@ -7,19 +7,9 @@
 #include <math.h>
 
 #define M_PI		3.14159265358979323846
-#define TAO 2*M_PI
+typedef double PIXEL_TYPE;
 
-#define ANGLE_RIGHT 0.0
-#define ANGLE_UP TAO/4.0
-#define ANGLE_LEFT TAO/2.0
-#define ANGLE_DOWN 3.0*TAO/4.0
-
-#define DEGREES_TO_RAD(degrees) (((degrees)/360.0)*TAO)
-#define RAD_TO_DEGREES(rad) (((rad)/(TAO))*360.0)
-
-#define PIXEL_TYPE double
-
-namespace Space2D {	
+namespace Space2D {
   /*space containing code related to 2D space algorithm 
   * such as coordinate plane geometry, vector math, 
   * and certain physics calculations 
@@ -166,17 +156,49 @@ namespace Space2D {
   };
   
   struct Degrees: public Scalar {
-    explicit Degrees(const PIXEL_TYPE a=0): Scalar(0) {};
+    explicit Degrees(const PIXEL_TYPE a=0): Scalar(a) {};
     Degrees(const Mag_t &other): Scalar(other) {};
+    Degrees(const Scalar &other): Scalar(other) {};
+    
+    static const Degrees ANGLE_RIGHT;
+    static const Degrees ANGLE_UP;
+    static const Degrees ANGLE_LEFT;
+    static const Degrees ANGLE_DOWN;
   };
   
   struct Radians: public Scalar {
-    operator Degrees() const {return Degrees(RAD_TO_DEGREES(val));};
-    explicit Radians(const PIXEL_TYPE a=0): Scalar(0) {};
+    operator Degrees() const;
+    explicit Radians(const PIXEL_TYPE a=0): Scalar(a) {};
     Radians(const Radians &other): Scalar(other) {};
-    Radians(const Degrees &other): Scalar(DEGREES_TO_RAD(other.val)) {};
+    Radians(const Degrees &other);
+    Radians(const Scalar &other): Scalar(other) {};
+  
+    static const Radians ANGLE_RIGHT;
+    static const Radians ANGLE_UP;
+    static const Radians ANGLE_LEFT;
+    static const Radians ANGLE_DOWN;
   };
   
+  const Radians TAO(2*M_PI);  ///< Constant for TAO.
+  const Degrees ANGLE_360(360.0);  ///< Constant for 360 degrees. Created for type purity purposes. Doubts that it will be used.
+  
+  /// Converts from Degrees to Radians
+  inline const Radians DEGREES_TO_RAD(PIXEL_TYPE d) {
+    return (d/ANGLE_360.val)*TAO;
+  }
+  
+  /// Converts from Radians to Degrees
+  inline const Degrees RAD_TO_DEGREES(PIXEL_TYPE r) {
+    return (r/TAO.val)*ANGLE_360;
+  }
+  
+  /// Radians Degrees function needs to be defined after RAD_TO_DEGREES.
+  inline Radians::operator Degrees() const {
+    return RAD_TO_DEGREES(val);
+  }
+  
+  /// Radians constructor needs to be defined after DEGREES_TO_RAD.
+  inline Radians::Radians(const Degrees &other): Scalar(DEGREES_TO_RAD(other.val)) {}
   
   
   /// Returns the square root of x squared + y squared.
@@ -198,21 +220,18 @@ namespace Space2D {
   inline const Radians getTheta(const X_t& x, const Y_t& y) {
     if(x == 0) {
       if(y > 0)
-        return Radians(ANGLE_UP);
+        return Radians(Radians::ANGLE_UP);
       if(y < 0)
-        return Radians(ANGLE_DOWN);
+        return Radians(Radians::ANGLE_DOWN);
       
       return Radians(9001);
     }
     
     if(x < 0)
-      return Radians(ANGLE_LEFT + atan(y/x));
+      return Radians(Radians::ANGLE_LEFT + atan(y/x));
     
     return Radians(atan(y/x));
   }
-  
-  
-  
 }
 
 
