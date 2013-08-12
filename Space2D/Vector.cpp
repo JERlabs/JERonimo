@@ -11,6 +11,11 @@ Vector& Vector::mag(const Mag_t &m) {
   return *this;
 }
 
+Vector& Vector::setMag(const PIXEL_TYPE &m) {
+  Mag.val = m;
+  return *this;
+}
+
 Vector& Vector::theta(const Radians &t) {
   Theta = t;
   return *this;

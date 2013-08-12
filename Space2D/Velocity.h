@@ -31,7 +31,11 @@ class Velocity: virtual Point, virtual Vector {
     Point &y(const Y_t &y);
     
     /// Set and return magnitude
-    Vector &mag(const Mag_t &mag);
+    Vector &mag(const Mag_t &m);
+    
+    Vector &setMag(const PIXEL_TYPE &m){
+      return mag(Mag_t(m));
+    };
     
     /// Set and return angle
     Vector &theta(const Radians &theta);

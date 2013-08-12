@@ -39,8 +39,7 @@ public:
     center.x(Display->w/2);
     center.y(Display->h/2);
     
-    mouse.theta(0);
-    mouse.mag(1);
+    mouse.setMag(1);
     
     return 0;
   };

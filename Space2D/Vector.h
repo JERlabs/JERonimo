@@ -33,8 +33,11 @@ class Vector {
       return Mag;
     };
     
-    /// Sets the magnitude of the vector to m, returns new magnitude.
+    /// Sets the magnitude of the vector to m
     virtual Vector& mag(const Mag_t &m);
+    
+    /// Sets the value of the magnitude to m
+    virtual Vector& setMag(const PIXEL_TYPE &m);
     
     /// Returns the angle of the vector
     const Radians &theta() const {
