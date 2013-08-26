@@ -27,6 +27,10 @@ class Point {
       return X;
     };
     
+    X_t& x() {
+      return X;
+    }
+    
     /// Set the X coordinate, returns *this
     virtual Point& x(const X_t & x);
     
@@ -34,6 +38,10 @@ class Point {
     const Y_t &y() const {
       return Y;
     };
+    
+    Y_t &y() {
+      return Y;
+    }
     
     /// Set the Y coordinate, returns *this
     virtual Point& y(const Y_t& y);
@@ -68,6 +76,8 @@ class Point {
       return !(*this == p);
     };
 };
+
+typedef Point Dimensions;   ///< Same as point, but different name. oooooohhhhh.
 
 /// Point+Point addition.
 inline const Point operator+ (const Point& lhs, const Point& rhs) {

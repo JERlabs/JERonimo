@@ -11,9 +11,8 @@ private:
   
   
 public:
-  void rasterize();
   
   
-}
+};
 
 #endif
