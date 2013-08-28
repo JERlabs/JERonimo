@@ -25,8 +25,8 @@ public:
 public:
   virtual const int load(char * const file); ///< Loads image passed by file. Returns false on failure. Sets Surf to NULL.
   
-//protected:
-private:
+protected:
+//private:
   virtual SDL_Surface * const getToDraw() const {return Surf;};  ///< Function that is only called by draw. Allows specification of internal memory transfer.
 
 public:
@@ -43,6 +43,8 @@ public:
   
   /// Copy Constructor
   SimpleSurf(const SimpleSurf &other): Surf(other.Surf) {Surf? Surf->refcount++:0;};
+  
+  SimpleSurf &operator= (const SimpleSurf& other) {(Surf = other.Surf)? Surf->refcount++:0;};
   
   //// Loads image from file into a new object
   //SimpleSurf(char * const file); 
