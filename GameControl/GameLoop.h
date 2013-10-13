@@ -9,10 +9,10 @@ namespace GameControl {
 // Events is only needed by run to call handleEvent
 class GameLoop: protected Events {
   protected:
-    /// Pointer to the gameloop to be run next
+    /// Return Status of the gameloop's run function
     int Status;
     
-    /// Pointer to the App that is running us
+    /// Pointer to the DataManager that contains the game data.
     DataManager* DataM;
     
     /// The GameLoop that called run() on this one

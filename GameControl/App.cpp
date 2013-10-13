@@ -12,13 +12,14 @@ App::App(DataManager * const dataM, const Uint32 flags, const int width, const i
 const int App::init() {
   if(DataM->init() < 0) {
     Running = false;
-    return 1;
+    return -1;
   }
   return 0;
 }
 
 const int App::loop() {
-  DataM->firstGameLoop(this)->run();
+  if(DataM->firstGameLoop(this)->run() < 0)
+    return -1;
   Running = false;
   return 0;
 }

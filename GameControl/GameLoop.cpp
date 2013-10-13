@@ -27,10 +27,13 @@ int const GameLoop::run() {
     return Status;
   while (Running && (DataM==NULL? true: DataM->running())) {
     while(SDL_PollEvent(&event)) {
-      handleEvent(&event);
+      if(handleEvent(&event) != EVENT_SUCCESS)
+	return Status;
     }
-    loop();
-    render();
+    if(loop() < 0)
+      break;
+    if(render() < 0);
+      break;
   }
   cleanup();
   return Status;
