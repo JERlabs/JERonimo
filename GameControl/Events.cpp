@@ -117,7 +117,7 @@ namespace GameControl {
           for(Uint8 i = joystickButtons.size(); i < Event->jbutton.button; i++) //makes sure it accounts for the correct number of joystick buttons.
             joystickButtons.push_back(0);
         }
-        if(Event->type = SDL_JOYBUTTONDOWN)
+        if(Event->type == SDL_JOYBUTTONDOWN)
         {
           if(joystickButtons[Event->jbutton.button])
           {
