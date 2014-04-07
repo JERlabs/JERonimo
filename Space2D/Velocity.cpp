@@ -1,6 +1,6 @@
 #include "Velocity.h"
 
-namespace Space2D {
+namespace jer {
 
 Point &Velocity::x(const X_t &x) {
   X = x;

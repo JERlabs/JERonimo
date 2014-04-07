@@ -1,4 +1,4 @@
-CXXFLAGS = -g -I. -std=gnu++0x -fPIC -fPIE
+CXXFLAGS = -g -I. -std=c++11 -fPIC -fPIE
 LDFLAGS =  -lSDL -lSDL_image -lSDL_gfx -lm -rpath /usr/local/lib -g
 LIBTOOL = libtool --tag=CXX
 
@@ -18,12 +18,13 @@ $(LIBRARY): $(LIBOBJECTS)
 
 install:
 	libtool --mode=install install -c libGameFrame.la /usr/local/lib/libGameFrame.la
-	mkdir -p /usr/local/include/Space2D/ /usr/local/include/GameControl/ \
-	/usr/local/include/SurfaceX /usr/local/include/Entity
-	install -c Space2D/*.h /usr/local/include/Space2D/
-	install -c GameControl/*.h /usr/local/include/GameControl/
-	install -c SurfaceX/*.h /usr/local/include/SurfaceX/
-	install -c Entity/*.h /usr/local/include/Entity/
+	mkdir -p /usr/local/include/JERonimo /usr/local/include/JERonimo/Space2D/ /usr/local/include/JERonimo/GameControl/ \
+	/usr/local/include/JERonimo/SurfaceX /usr/local/include/JERonimo/Entity
+	install -c *.h /usr/local/include/JERonimo
+	install -c Space2D/*.h /usr/local/include/JERonimo/Space2D/
+	install -c GameControl/*.h /usr/local/include/JERonimo/GameControl/
+	install -c SurfaceX/*.h /usr/local/include/JERonimo/SurfaceX/
+	install -c Entity/*.h /usr/local/include/JERonimo/Entity/
 
 %.lo: %.cpp
 	$(LIBTOOL) --mode=compile $(CXX) $(CXXFLAGS) -c -o $@ $<

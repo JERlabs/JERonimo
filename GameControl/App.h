@@ -1,11 +1,11 @@
 #ifndef _APPH_
 #define _APP_H_
 
-#include "GameControl.h"
+#include "Declarations.h"
 #include "GameLoop.h"
 #include "DataManager.h"
 
-namespace GameControl {
+namespace jer {
 
 class App: public GameLoop {
   private:

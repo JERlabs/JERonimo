@@ -1,11 +1,11 @@
 #ifndef _GAME_LOOP_H_
 #define _GAME_LOOP_H_
 
-#include "GameControl.h"
+#include "Declarations.h"
 #include "DataManager.h"
 #include "Events.h"
 
-namespace GameControl {
+namespace jer {
 // Events is only needed by run to call handleEvent
 class GameLoop: protected Events {
   protected:

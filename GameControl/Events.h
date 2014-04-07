@@ -1,10 +1,10 @@
 #ifndef _EVENT_H_
 #define _EVENT_H_
 
-#include "GameControl.h"
+#include "Declarations.h"
 
 
-namespace GameControl {
+namespace jer {
 
 
 /// All event functions return success or failure. Up to client to determine more results, or what to do with them.

@@ -1,7 +1,7 @@
 #include "Point.h"
 #include "Vector.h"
 
-namespace Space2D {
+namespace jer {
   
 Vector::Vector(const Point &p2): Mag(pythagoras(p2)), Theta(getTheta(p2)) {
 }

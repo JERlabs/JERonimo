@@ -8,15 +8,13 @@
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_rotozoom.h"
 
-#include "Space2D/Velocity.h"
+#include "Space2D.h"
 
 /** Namespace which has container classes used to manipulate surfaces and handle
  * their spaces in memory. Also contains static functions used without container class
  * to perform same function.
  */
-namespace SurfaceX {
-
-using namespace Space2D;
+namespace jer {
   
 /// Abstract surface interface. (load and draw). No actual memory for surface. 
 class SimpleSurf;

@@ -1,7 +1,7 @@
 #include "Point.h"
 #include "Vector.h"
 
-namespace Space2D {
+namespace jer {
   
 Point::Point(Vector const &v2): X(getX(v2)), Y(getY(v2)) { 
 }

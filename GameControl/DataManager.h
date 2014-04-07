@@ -1,10 +1,10 @@
 #ifndef _DATA_MANAGER_H_
 #define _DATA_MANAGER_H_
 
-#include "GameControl.h"
+#include "Declarations.h"
 #include "GameLoop.h"
 
-namespace GameControl {
+namespace jer {
 
 class DataManager {
   protected:

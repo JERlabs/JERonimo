@@ -1,6 +1,6 @@
 #include "TestEvents.h"
 
-namespace GameControl {
+namespace jer {
 TestEvents::TestEvents(DataManager * const dataM, GameLoop * const parent):
 GameLoop(dataM, parent) {}
 

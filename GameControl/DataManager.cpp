@@ -1,6 +1,6 @@
 #include "DataManager.h"
 
-namespace GameControl {
+namespace jer {
 
 const int DataManager::init() {
   Running = true;

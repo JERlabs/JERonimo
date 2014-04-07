@@ -1,9 +1,9 @@
 #ifndef _SIMPLESURF_H_
 #define _SIMPLESURF_H_
 
-#include "SurfaceX.h"
+#include "Declarations.h"
 
-namespace SurfaceX {
+namespace jer {
 
 /// Uses abstract raw data get functions to get the SDL_Surfaces present child classes.
 class SimpleSurf {
@@ -30,7 +30,7 @@ protected:
   virtual SDL_Surface * const getToDraw() const {return Surf;};  ///< Function that is only called by draw. Allows specification of internal memory transfer.
 
 public:
-  const int draw(SDL_Surface * const dest, const Space2D::Point &p) const; ///< Blits Surf to dest at p.
+  const int draw(SDL_Surface * const dest, const Point &p) const; ///< Blits Surf to dest at p.
   const int draw(SDL_Surface * const dest, SDL_Rect &srcRect, SDL_Rect &destRect) const; ///< Blits Surf to dest bounded by srcRect and destRect.
   
 public:

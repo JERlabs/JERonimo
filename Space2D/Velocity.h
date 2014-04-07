@@ -2,7 +2,7 @@
 #define _VELOCITY_H_
 #include "Vector.h"
 
-namespace Space2D {
+namespace jer {
 
 class Velocity: virtual Point, virtual Vector {
   public:

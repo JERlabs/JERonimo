@@ -1,6 +1,6 @@
 #include "Events.h"
 
-namespace GameControl {
+namespace jer {
   bitset<NUM_KEYS> Events::keys(0);
   bitset<NUM_MOUSE_BUTTON> Events::mouseButtons(0);
   vector<bool> Events::joystickButtons;

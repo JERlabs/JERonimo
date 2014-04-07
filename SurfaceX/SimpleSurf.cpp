@@ -1,6 +1,6 @@
 #include "SimpleSurf.h"
 
-namespace SurfaceX {
+namespace jer {
 /*  
 SimpleSurf::SimpleSurf(char * const file) {
   if(load(file))
@@ -59,7 +59,7 @@ const int SimpleSurf::draw(SDL_Surface * const dest, SDL_Rect &srcRect, SDL_Rect
   return 0;
 }
 
-const int SimpleSurf::draw(SDL_Surface * const dest, const Space2D::Point &p) const {
+const int SimpleSurf::draw(SDL_Surface * const dest, const Point &p) const {
   if(getToDraw() == NULL || dest == NULL)
     return -1;
   

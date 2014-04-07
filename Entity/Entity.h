@@ -1,7 +1,7 @@
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
 
-namespace Entity {
+namespace jer {
 
 class Entity {
 

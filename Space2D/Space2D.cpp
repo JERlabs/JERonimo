@@ -1,6 +1,6 @@
 #include "Space2D.h"
 
-namespace Space2D {
+namespace jer {
   
 /** Constant definitions
  */

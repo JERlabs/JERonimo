@@ -3,7 +3,7 @@
 
 #include "SafeSurf.h"
 
-namespace SurfaceX {
+namespace jer {
 
 class DoubleSurf: public virtual SimpleSurf { 
 private:

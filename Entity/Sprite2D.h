@@ -3,7 +3,7 @@
 
 #include "Entity.h"
 
-namespace Entity {
+namespace jer {
 
 class Sprite2D: public Entity {
 

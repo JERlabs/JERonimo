@@ -3,7 +3,7 @@
 
 #include "Point.h"
 
-namespace Space2D
+namespace jer
 {
 
 class Vector {

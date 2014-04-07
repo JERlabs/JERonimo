@@ -1,7 +1,7 @@
 #include "App.h"
 #include "SDL/SDL.h"
 
-namespace GameControl {
+namespace jer {
 
 App::App(DataManager * const dataM, const Uint32 flags, const int width, const int height, const int bpp, const Uint32 sflags) :GameLoop(dataM, this) {
   SDL_Init(flags);

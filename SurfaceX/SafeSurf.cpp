@@ -1,6 +1,6 @@
 #include "SafeSurf.h"
 
-namespace SurfaceX {
+namespace jer  {
 
 void SafeSurf::set(SDL_Surface * const s) {
   SDL_Surface* handle;

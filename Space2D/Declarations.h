@@ -9,7 +9,7 @@
 #define M_PI		3.14159265358979323846
 typedef double PIXEL_TYPE;
 
-namespace Space2D {
+namespace jer {
   /*space containing code related to 2D space algorithm 
   * such as coordinate plane geometry, vector math, 
   * and certain physics calculations 

@@ -1,9 +1,9 @@
 #ifndef _POINT_H_
 #define _POINT_H_
 
-#include "Space2D.h"
+#include "Declarations.h"
 
-namespace Space2D {
+namespace jer {
 
 class Point {
   protected:

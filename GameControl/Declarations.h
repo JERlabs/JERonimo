@@ -22,7 +22,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
-namespace GameControl {
+namespace jer {
   class Events;     ///< handles events and allows GameLoop to inherit every event as an overloadable function
   class GameLoop;   ///< inherites Events and handles the control flow. Classes which inherit overload the various parts of its standard loop
   class App;        ///< controls which gameloop is being run, initializes SDL

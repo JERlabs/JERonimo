@@ -1,7 +1,7 @@
 #include "DataManager.h"
 #include "GameLoop.h"
 
-namespace GameControl {
+namespace jer {
 
 GameLoop::GameLoop(DataManager * const dataM, GameLoop * const parent) {
   DataM = dataM;

@@ -3,7 +3,7 @@
 
 #include "GameLoop.h"
 
-namespace GameControl {
+namespace jer {
 
 class TestEvents: public GameLoop {
 protected:

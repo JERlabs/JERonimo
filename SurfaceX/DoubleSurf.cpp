@@ -1,6 +1,6 @@
 #include "DoubleSurf.h"
 
-namespace SurfaceX {
+namespace jer  {
 
 void DoubleSurf::set(SDL_Surface * const s) {
   if(original == NULL) {

@@ -1,6 +1,6 @@
 #include "SurfaceX.h"
 
-namespace SurfaceX {
+namespace jer {
 /*
 SDL_Surface * const loadSurf(const char * const file) {
   SDL_Surface *temp =  NULL, *ret = NULL;
