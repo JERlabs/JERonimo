@@ -5,156 +5,229 @@
 
 namespace jer {
 
+template<typename T>
 class Point {
   protected:
-    X_t X; ///< X coordinate
-    Y_t Y; ///< Y coordinate
+    X_t<T> X; ///< X coordinate
+    Y_t<T> Y; ///< Y coordinate
   public:
     /// Construct a point from an X and Y value
-    Point (const X_t& x, const Y_t& y): X(x), Y(y) {};
+    Point (const X_t<T>& x, const Y_t<T>& y): X(x), Y(y) {};
     
     /// Construct a point from another point
-    Point (Point const& p2): X(p2.X), Y(p2.Y) {};
-    
-    /// Construct a point from a vector
-    Point(Vector const &v2); //: X(getX(v2.mag(), v2.theta())), Y(getY(v2.mag(), v2.theta())) {};
+    Point (Point<T> const& p2): X(p2.X), Y(p2.Y) {};
     
     /// Construct a point with value (0,0)
     Point (): X(), Y() {};
     
     /// Return the X coordinate as an X_t
-    const X_t& x() const {
+    const X_t<T>& x() const {
       return X;
     };
     
-    X_t& x() {
+    X_t<T>& x() {
       return X;
     }
     
     /// Set the X coordinate, returns *this
-    virtual Point& x(const X_t & x);
+    Point<T>& x(const X_t<T> & x) {X=x; return *this;};
     
     /// Return the Y coordinate as a long double
-    const Y_t &y() const {
+    const Y_t<T> &y() const {
       return Y;
     };
     
-    Y_t &y() {
+    Y_t<T> &y() {
       return Y;
     }
     
     /// Set the Y coordinate, returns *this
-    virtual Point& y(const Y_t& y);
+    Point<T>& y(const Y_t<T>& y) {Y=y; return *this;};
     
     /// Set x,y of this point to equal x,y of another point
-    Point& operator = (Point const& p2);
+    Point<T>& operator = (Point<T> const& p2);
     
     /// Set x to x+p2.x(), set y to y+p2.y()
-    Point& operator += (Point const& p2);
-    Point& operator += (const X_t& x);
-    Point& operator += (const Y_t& y);
+    Point<T>& operator += (Point<T> const& p2);
+    Point<T>& operator += (const X_t<T>& x);
+    Point<T>& operator += (const Y_t<T>& y);
     
     /// Set x to x-p2.x(), set y to y-p2.y()
-    Point& operator -= (Point const& p2);
-    Point& operator -= (const X_t& x);
-    Point& operator -= (const Y_t& y);
+    Point<T>& operator -= (Point<T> const& p2);
+    Point<T>& operator -= (const X_t<T>& x);
+    Point<T>& operator -= (const Y_t<T>& y);
     
     /// Apply a size transformation of magnitude scale
-    Point& operator *= (const PIXEL_TYPE& scale);
+    Point<T>& operator *= (const T& scale);
     
     
     /// Apply a size transformation of magnitude 1/scale
-    Point& operator /= (const PIXEL_TYPE& scale);
+    Point<T>& operator /= (const T& scale);
     
     /// Checks for equality in both X and Y.
-    const bool operator == (const Point &p) const {
+    const bool operator == (const Point<T> &p) const {
       return X == p.x() && Y == p.y();
     };
     
     /// Returns opposite of ==.
-    const bool operator != (const Point &p) const {
+    const bool operator != (const Point<T> &p) const {
       return !(*this == p);
     };
 };
 
-typedef Point Dimensions;   ///< Same as point, but different name. oooooohhhhh.
+template<typename T>
+inline Point<T>& Point<T>::operator = (Point<T> const &p2) {
+    X = p2.x();
+    Y = p2.y();
+    return *this;
+}
+
+template<typename T>
+inline Point<T>& Point<T>::operator += (Point<T> const &p2) {
+    X += p2.x();
+    Y += p2.y();
+    return *this;
+}
+
+template<typename T>
+inline Point<T>& Point<T>::operator += (X_t<T> const &x) {
+    X += x;
+    return *this;
+}
+
+template<typename T>
+inline Point<T>& Point<T>::operator += (Y_t<T> const &y) {
+    Y += y;
+    return *this;
+}
+
+template<typename T>
+inline Point<T>& Point<T>::operator -= (Point<T> const &p2) {
+    X -= p2.x();
+    Y -= p2.y();
+    return *this;
+}
+
+template<typename T>
+inline Point<T>& Point<T>::operator -= (X_t<T> const &x) {
+    X -= x;
+    return *this;
+}
+
+template<typename T>
+inline Point<T>& Point<T>::operator -= (Y_t<T> const &y) {
+    Y -= y;
+    return *this;
+}
+
+template<typename T>
+inline Point<T>& Point<T>::operator *= (const T& scale) {
+    X *= scale;
+    Y *= scale;
+    return *this;
+}
+
+template<typename T>
+inline Point<T>& Point<T>::operator /= (const T &scale) {
+    X /= scale == 0? 1:scale;
+    Y /= scale == 0? 1:scale;
+    return *this;
+}
+
+template<typename T>
+using Dimensions = Point<T>;   ///< Same as point, but different name. oooooohhhhh.
 
 /// Point+Point addition.
-inline const Point operator+ (const Point& lhs, const Point& rhs) {
-  return Point(lhs) += rhs;
+template<typename T>
+inline const Point<T> operator+ (const Point<T>& lhs, const Point<T>& rhs) {
+  return Point<T>(lhs) += rhs;
 };
 
 /// Point+X addition.
-inline const Point operator+ (const Point& lhs, const X_t& rhs) {
-  return Point(lhs) += rhs;
+template<typename T>
+inline const Point<T> operator+ (const Point<T>& lhs, const X_t<T>& rhs) {
+  return Point<T>(lhs) += rhs;
 };
 
 /// Point+Y addition
-inline const Point operator+ (const Point& lhs, const Y_t& rhs) {
-  return Point(lhs) += rhs;
+template<typename T>
+inline const Point<T> operator+ (const Point<T>& lhs, const Y_t<T>& rhs) {
+  return Point<T>(lhs) += rhs;
 };
 
 /// X+Point addition
-inline const Point operator+ (const X_t& lhs, const Point& rhs) {
+template<typename T>
+inline const Point<T> operator+ (const X_t<T>& lhs, const Point<T>& rhs) {
   return rhs+lhs;
 };
 
 /// Y+Point addition
-inline const Point operator+ (const Y_t& lhs, const Point& rhs) {
+template<typename T>
+inline const Point<T> operator+ (const Y_t<T>& lhs, const Point<T>& rhs) {
   return rhs+lhs;
 };
 
 /// Point-Point subtraction
-inline const Point operator- (const Point& lhs, const Point& rhs) {
-  return Point(lhs) -= rhs;
+template<typename T>
+inline const Point<T> operator- (const Point<T>& lhs, const Point<T>& rhs) {
+  return Point<T>(lhs) -= rhs;
 };
 
 /// Point-X addition.
-inline const Point operator- (const Point& lhs, const X_t& rhs) {
-  return Point(lhs) -= rhs;
+template<typename T>
+inline const Point<T> operator- (const Point<T>& lhs, const X_t<T>& rhs) {
+  return Point<T>(lhs) -= rhs;
 };
 
 /// Point-Y addition
-inline const Point operator- (const Point& lhs, const Y_t& rhs) {
-  return Point(lhs) -= rhs;
+template<typename T>
+inline const Point<T> operator- (const Point<T>& lhs, const Y_t<T>& rhs) {
+  return Point<T>(lhs) -= rhs;
 };
 
 /// X-Point addition
-inline const Point operator- (const X_t& lhs, const Point& rhs) {
+template<typename T>
+inline const Point<T> operator- (const X_t<T>& lhs, const Point<T>& rhs) {
   return rhs+lhs;
 };
 
 /// Y-Point addition
-inline const Point operator- (const Y_t& lhs, const Point& rhs) {
+template<typename T>
+inline const Point<T> operator- (const Y_t<T>& lhs, const Point<T>& rhs) {
   return lhs+rhs;
 };
 
 /// Point*scale multiplication
-inline const Point operator* (const Point &lhs, const PIXEL_TYPE& scale) {
-  return Point(lhs) *= scale;
+template<typename T>
+inline const Point<T> operator* (const Point<T> &lhs, const T& scale) {
+  return Point<T>(lhs) *= scale;
 };
 
 /// scale*Point multiplication
-inline const Point operator* (const PIXEL_TYPE& lhs, const Point &rhs) {
+template<typename T>
+inline const Point<T> operator* (const T& lhs, const Point<T> &rhs) {
   return rhs * lhs;
 };
 
 /// Point/scale division
-inline const Point operator/ (const Point &lhs, const PIXEL_TYPE &scale) {
-  return Point(lhs)/scale;
+template<typename T>
+inline const Point<T> operator/ (const Point<T> &lhs, const T &scale) {
+  return Point<T>(lhs)/scale;
 };
 
-inline const Point operator- (const Point &lhs) {
-  return Point(-lhs.x(), -lhs.y());
+template<typename T>
+inline const Point<T> operator- (const Point<T> &lhs) {
+  return Point<T>(-lhs.x(), -lhs.y());
 }
 
 /// Returns the square root of p.x() squared + p.y() squared.
-inline const PIXEL_TYPE pythagoras(const Point& p) {
+template<typename T>
+inline const T pythagoras(const Point<T>& p) {
   return pythagoras(p.x(), p.y());
 }
 
-
-inline const Radians getTheta(const Point &p) {
+template<typename T>
+inline const Radians<T> getTheta(const Point<T> &p) {
   return getTheta(p.x(), p.y());
 }
   
