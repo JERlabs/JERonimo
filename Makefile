@@ -2,7 +2,7 @@ CXXFLAGS = -g -I. -std=c++11 -fPIC -fPIE
 LDFLAGS =  -lSDL -lSDL_image -lSDL_gfx -lm -rpath /usr/local/lib -g
 LIBTOOL = libtool --tag=CXX
 
-SOURCES = Space2D/Space2D.cpp Space2D/Point.cpp Space2D/Vector.cpp Space2D/Velocity.cpp \
+SOURCES = Space2D/Space2D.cpp \
   GameControl/Events.cpp GameControl/GameLoop.cpp GameControl/App.cpp \
   GameControl/DataManager.cpp SurfaceX/SurfaceX.cpp \
   SurfaceX/SimpleSurf.cpp  SurfaceX/SafeSurf.cpp SurfaceX/DoubleSurf.cpp 
