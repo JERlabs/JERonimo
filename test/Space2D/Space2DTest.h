@@ -3,11 +3,9 @@
 
 #include <iostream>
 
-#include "Space2D/Point.h"
-#include "Space2D/Vector.h"
-#include "Space2D/Velocity.h"
+#include "Space2D.h"
 
-using namespace Space2D;
+using namespace jer;
 using std::cout;
 using std::endl;
 
