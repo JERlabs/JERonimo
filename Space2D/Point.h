@@ -30,7 +30,10 @@ class Point {
     }
     
     /// Set the X coordinate, returns *this
-    Point<T>& x(const X_t<T> & x) {X=x; return *this;};
+    Point<T>& x(const X_t<T> & x) {
+        X=x; 
+        return *this;
+    };
     
     /// Return the Y coordinate as a long double
     const Y_t<T> &y() const {
@@ -42,7 +45,11 @@ class Point {
     }
     
     /// Set the Y coordinate, returns *this
-    Point<T>& y(const Y_t<T>& y) {Y=y; return *this;};
+    Point<T>& y(const Y_t<T>& y) {
+        Y=y; 
+        return *this;
+
+    };
     
     /// Set x,y of this point to equal x,y of another point
     Point<T>& operator = (Point<T> const& p2);
