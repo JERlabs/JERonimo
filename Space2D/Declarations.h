@@ -127,8 +127,8 @@ namespace jer {
   
   /// Returns the square root of x squared + y squared.
   template<typename T>
-  inline const Mag_t<T> pythagoras(const T &x, const T &y) {
-    return sqrt(x*x + y*y);
+  inline const Mag_t<T> pythagoras(const X_t<T> &x, const Y_t<T> &y) {
+    return Mag_t<T>(sqrt(x*x + y*y));
   }
   
   /// Returns m times cos theta.
@@ -145,7 +145,7 @@ namespace jer {
   
   /// Returns arc tangent of y/x.
   template<typename T>
-  inline const Radians<double> getTheta(const T& x, const T& y) {
+  inline const Radians<double> getTheta(const X_t<T>& x, const Y_t<T>& y) {
     if(x == 0.0) {
       if(y > 0.0)
         return Radians<double>::ANGLE_UP;

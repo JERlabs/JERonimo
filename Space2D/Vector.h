@@ -28,6 +28,8 @@ class Vector {
     /// Create a vector with default values
     Vector(): Mag(1), Theta() {};
     
+    operator const Point<T>() const {return Point<T>(getX(mag(), theta()), getY(mag(), theta()));};
+    
   public:
     /// Returns the magnitude of the vector
     const Mag_t<T> &mag() const {
@@ -36,6 +38,7 @@ class Vector {
     
     /// Sets the magnitude of the vector to m
     Vector<T>& mag(const Mag_t<T> &m);
+    virtual Vector<double>& mag(const double &m) {Mag = Mag_t<double>(m); return *this;};
     
     /// Returns the angle of the vector
     const Radians<T> &theta() const {
@@ -44,6 +47,8 @@ class Vector {
     
     /// Sets the angle of the vector to t, returns new angle
     Vector<T> &theta(const Radians<T> &t);
+    virtual Vector<double>& theta(const double &t) {Theta = Radians<double>(t); return *this;}; ///< IMPORTANT: t must be in radians!
+    Vector<double>& theta(const Degrees<double> &d) {return theta(double(d));};  ///< Okay if you call this in Degrees I've saved your ass
     
   public:
     /// Sets the magnitude and angle of the vector to that of another
@@ -77,7 +82,7 @@ class Vector {
       Mag = m;
       return *this;
   }
-  
+    
   template<typename T>
   inline Vector<T>& Vector<T>::theta(const Radians<T> &t) {
       Theta = t;

@@ -31,7 +31,13 @@ class Point {
     
     /// Set the X coordinate, returns *this
     Point<T>& x(const X_t<T> & x) {
-        X=x; 
+        X=x;
+        return *this;
+    };
+    
+    // Damn overloads
+    virtual Point<double>& x(const double & x) {
+        X=x;
         return *this;
     };
     
@@ -48,7 +54,11 @@ class Point {
     Point<T>& y(const Y_t<T>& y) {
         Y=y; 
         return *this;
-
+    };
+    
+    virtual Point<double>& y(const double& y) {
+        Y=y;
+        return *this;
     };
     
     /// Set x,y of this point to equal x,y of another point
@@ -84,60 +94,55 @@ class Point {
 
 template<typename T>
 inline Point<T>& Point<T>::operator = (Point<T> const &p2) {
-    X = p2.x();
-    Y = p2.y();
+    x(p2.x());
+    y(p2.y());
     return *this;
 }
 
 template<typename T>
 inline Point<T>& Point<T>::operator += (Point<T> const &p2) {
-    X += p2.x();
-    Y += p2.y();
-    return *this;
+    return *this += p2.x() += p2.y();
 }
 
 template<typename T>
 inline Point<T>& Point<T>::operator += (X_t<T> const &x) {
-    X += x;
+    x(x() + x.x());
     return *this;
 }
 
 template<typename T>
 inline Point<T>& Point<T>::operator += (Y_t<T> const &y) {
-    Y += y;
+    y(y() + y.y());
     return *this;
 }
 
 template<typename T>
 inline Point<T>& Point<T>::operator -= (Point<T> const &p2) {
-    X -= p2.x();
-    Y -= p2.y();
-    return *this;
+    return *this -= p2.x() -= p2.y();
 }
 
 template<typename T>
 inline Point<T>& Point<T>::operator -= (X_t<T> const &x) {
-    X -= x;
+    x(x() - x.x());
     return *this;
 }
 
 template<typename T>
 inline Point<T>& Point<T>::operator -= (Y_t<T> const &y) {
-    Y -= y;
+    y(y() - y.y());
     return *this;
 }
 
 template<typename T>
 inline Point<T>& Point<T>::operator *= (const T& scale) {
-    X *= scale;
-    Y *= scale;
+    x(x()*scale);
     return *this;
 }
 
 template<typename T>
 inline Point<T>& Point<T>::operator /= (const T &scale) {
-    X /= scale == 0? 1:scale;
-    Y /= scale == 0? 1:scale;
+    x(x()/(scale == 0? 1:scale));
+    y(y()/(scale == 0? 1:scale));
     return *this;
 }
 

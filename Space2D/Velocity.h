@@ -4,41 +4,40 @@
 
 namespace jer {
 
-template<typename T>
-class Velocity: public Point<T>, public Vector<T> {
+class Velocity: public Point<double>, public Vector<double> {
   public:
-    using Point<T>::x;
-    using Point<T>::y;
-    using Vector<T>::mag;
-    using Vector<T>::theta;
+    using Point<double>::x;
+    using Point<double>::y;
+    using Vector<double>::mag;
+    using Vector<double>::theta;
     /// Create a velocity from an angle and magnitude
-    Velocity(const Mag_t<T> &M, const Radians<T> &t): Vector<T>(M, t), Point<T>(Vector<T>(M, t)) {};
+    Velocity(const Mag_t<double> &M, const Radians<double> &t): Vector<double>(M, t), Point<double>(Vector<double>(M, t)) {};
     
     /// Create a velocity from an X and Y
-    Velocity(const X_t<T> &x, const Y_t<T> &y): Point<T>(x, y), Vector<T>(Point<T>(x, y)) {};
+    Velocity(const X_t<double> &x, const Y_t<double> &y): Point<double>(x, y), Vector<double>(Point<double>(x, y)) {};
     
     /// Create a velocity from a point
-    Velocity (Point<T> const &p2): Vector<T>(p2), Point<T>(p2) {
+    Velocity (Point<double> const &p2): Vector<double>(p2), Point<double>(p2) {
           /*Just point constructor function call ^ */   /*  ^ Parent class constructor call   */
     };
     
     /// Create a velocity from a vector
-    Velocity (Vector<T> const &v2): Vector<T>(v2), Point<T>(v2) {};
+    Velocity (Vector<double> const &v2): Vector<double>(v2), Point<double>(v2) {};
     
     /// Set and return the x-coordinate
-    Point<T> &x(const X_t<T> &x);
+    Point<double> &x(const double &x) override;
         
     /// Set and return the y coordinate
-    Point<T> &y(const Y_t<T> &y);
+    Point<double> &y(const double &y) override;
     
     /// Set and return magnitude
-    Vector<T> &mag(const Mag_t<T> &m);
+    Vector<double> &mag(const double &m) override;
     
-    /// Set and return angle
-    Vector<T> &theta(const Radians<T> &theta);
+    /// Set and return angle. IMPORTANT: theta must be in Radians!
+    Vector<double> &theta(const double &theta) override;
 
     /// Adds vv2 to the velocity and returns a reference to it
-    Velocity<T> const& operator+= (Velocity<T> const& vv2) {
+    Velocity const& operator+= (Velocity const& vv2) {
       this->X += vv2.x();
       this->Y += vv2.y();
       this->Mag = pythagoras(this->X, this->Y);
@@ -47,7 +46,7 @@ class Velocity: public Point<T>, public Vector<T> {
     };
 
     /// Subtracts vv2 from the velocity
-    Velocity<T> const& operator-= (Velocity<T> const& vv2) {
+    Velocity const& operator-= (Velocity const& vv2) {
       this->X -= vv2.x();
       this->Y -= vv2.y();
       this->Mag = pythagoras(this->X, this->Y);
@@ -56,7 +55,7 @@ class Velocity: public Point<T>, public Vector<T> {
     };
 
     /// Multiplies the magnitude and x-y of the velocity by scale
-    Velocity<T> const& operator*= (const T& scale) {
+    Velocity const& operator*= (const double& scale) {
       this->X *= scale;
       this->Y *= scale;
       this->Mag *= scale;
@@ -64,7 +63,7 @@ class Velocity: public Point<T>, public Vector<T> {
     };
 
     /// Divides the magnitude and x-y of the velocity by scale
-    Velocity<T> const& operator/= (const T &scale) {
+    Velocity const& operator/= (const double &scale) {
       this->X /= scale;
       this->Y /= scale;
       this->Mag /= scale;
@@ -72,78 +71,69 @@ class Velocity: public Point<T>, public Vector<T> {
     };
 
     // returns true if comp conatins the same x and y component as the velocity
-    const bool operator== (const Velocity<T>& comp) const {
+    const bool operator== (const Velocity& comp) const {
       return (this->X == comp.x())&&(this->Y == comp.y());
     };
 
     /// returns true if comp doesn't contain the same x and y component as the velocity
-    const bool operator!= (const Velocity<T>& comp) const {
+    const bool operator!= (const Velocity& comp) const {
       return !(*this == comp);
     };
 };
 
-    template<typename T>
-    Point<T> &Velocity<T>::x(const X_t<T> &x) {
+    Point<double> &Velocity::x(const double &x) {
         this->X = x;
         this->Mag = pythagoras(this->X, this->Y);
         this->Theta = getTheta(this->X, this->Y);
         return *this;
     }
     
-    template<typename T>
-    Point<T> &Velocity<T>::y(const Y_t<T> &y) {
+    Point<double> &Velocity::y(const double &y) {
         this->Y = y;
         this->Mag = pythagoras(this->X, this->Y);
         this->Theta = getTheta(this->X, this->Y);
         return *this;
     }
     
-    template<typename T>
-    Vector<T> &Velocity<T>::mag(const Mag_t<T> &m) {
+    Vector<double> &Velocity::mag(const double &m) {
         this->X /= this->Mag;
-        this->X *= this->m;
+        this->X *= m;
         this->Y /= this->Mag;
-        this->Y *= this->m;
-        this->Mag = this->m;
+        this->Y *= m;
+        this->Mag = Mag_t<double>(m);
         return *this;
     }
 
-    template<typename T>
-    Vector<T> &Velocity<T>::theta(const Radians<T> &t) {
-        this->X = getX(this->Mag, t);
-        this->Y = getY(this->Mag, t);
-        this->Theta = t;
+    Vector<double> &Velocity::theta(const double &t) {
+        this->X = getX(this->Mag, Radians<double>(t));
+        this->Y = getY(this->Mag, Radians<double>(t));
+        this->Theta = Radians<double>(t);
         return *this;
     }
 
     /// Construct and return sum of of this velocity and vv2
-    template<typename T>
-    inline Velocity<T> const operator+ (Velocity<T> const& vv1, Velocity<T> const& vv2) {
-      return Velocity<T>(vv1) += vv2;
+    inline Velocity const operator+ (Velocity const& vv1, Velocity const& vv2) {
+      return Velocity(vv1) += vv2;
     }
 
     /// Construct and return difference between this velocity and vv2
-    template<typename T>
-    inline Velocity<T> const operator- (Velocity<T> const& vv1, Velocity<T> const& vv2) {
-      return Velocity<T>(vv1) += vv2;
+    inline Velocity const operator- (Velocity const& vv1, Velocity const& vv2) {
+      return Velocity(vv1) += vv2;
     }
 
     /// Construct and return the velocity with the magnitude and coordinates multiplied by scale
     
-    template<typename T>
-    inline Velocity<T> const operator* (Velocity<T> const &vv1, const T& scale) {
-      return Velocity<T>(vv1) *= scale;
+    inline Velocity const operator* (Velocity const &vv1, const double& scale) {
+      return Velocity(vv1) *= scale;
     }
     
-    template<typename T>
-    inline Velocity<T> const operator* (const T& scale, Velocity<T> const &vv1) {
+    inline Velocity const operator* (const double& scale, Velocity const &vv1) {
       return vv1*scale;
     }
     
     /// Construct and return the velocity with the magnitude and coordinates divided by scale
-    template<typename T>
-    inline Velocity<T> const operator/ (Velocity<T> const& vv1, const T& scale) {
-      return Velocity<T>(vv1) /= scale;
+    inline Velocity const operator/ (Velocity const& vv1, const double& scale) {
+      return Velocity(vv1) /= scale;
     }
 
 }
