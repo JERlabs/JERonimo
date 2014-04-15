@@ -25,16 +25,16 @@ class Velocity: public Point<double>, public Vector<double> {
     Velocity (Vector<double> const &v2): Vector<double>(v2), Point<double>(v2) {};
     
     /// Set and return the x-coordinate
-    Point<double> &x(const double &x) override;
+    void x(const double &x) override;
         
     /// Set and return the y coordinate
-    Point<double> &y(const double &y) override;
+    void y(const double &y) override;
     
     /// Set and return magnitude
-    Vector<double> &mag(const double &m) override;
+    void mag(const double &m) override;
     
     /// Set and return angle. IMPORTANT: theta must be in Radians!
-    Vector<double> &theta(const double &theta) override;
+    void theta(const double &theta) override;
 
     /// Adds vv2 to the velocity and returns a reference to it
     Velocity const& operator+= (Velocity const& vv2) {
@@ -81,34 +81,30 @@ class Velocity: public Point<double>, public Vector<double> {
     };
 };
 
-    Point<double> &Velocity::x(const double &x) {
+    inline void Velocity::x(const double &x) {
         this->X = x;
         this->Mag = pythagoras(this->X, this->Y);
         this->Theta = getTheta(this->X, this->Y);
-        return *this;
     }
     
-    Point<double> &Velocity::y(const double &y) {
+    inline void Velocity::y(const double &y) {
         this->Y = y;
         this->Mag = pythagoras(this->X, this->Y);
         this->Theta = getTheta(this->X, this->Y);
-        return *this;
     }
     
-    Vector<double> &Velocity::mag(const double &m) {
+    inline void Velocity::mag(const double &m) {
         this->X /= this->Mag;
         this->X *= m;
         this->Y /= this->Mag;
         this->Y *= m;
         this->Mag = Mag_t<double>(m);
-        return *this;
     }
 
-    Vector<double> &Velocity::theta(const double &t) {
+    inline void Velocity::theta(const double &t) {
         this->X = getX(this->Mag, Radians<double>(t));
         this->Y = getY(this->Mag, Radians<double>(t));
         this->Theta = Radians<double>(t);
-        return *this;
     }
 
     /// Construct and return sum of of this velocity and vv2

@@ -1,7 +1,7 @@
 #ifndef _CANVASSURF_H_
 #define _CANVASSURF_H_
 
-#include "SimpleSurf.h"
+/*#include "SimpleSurf.h"
 
 namespace jer {
 
@@ -25,5 +25,5 @@ namespace jer {
   };
 
 }
-
+*/
 #endif

@@ -59,7 +59,7 @@ const int SimpleSurf::draw(SDL_Surface * const dest, SDL_Rect &srcRect, SDL_Rect
   return 0;
 }
 
-const int SimpleSurf::draw(SDL_Surface * const dest, const Point &p) const {
+const int SimpleSurf::draw(SDL_Surface * const dest, const Point<int> &p) const {
   if(getToDraw() == NULL || dest == NULL)
     return -1;
   

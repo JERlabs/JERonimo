@@ -30,7 +30,7 @@ protected:
   virtual SDL_Surface * const getToDraw() const {return Surf;};  ///< Function that is only called by draw. Allows specification of internal memory transfer.
 
 public:
-  const int draw(SDL_Surface * const dest, const Point &p) const; ///< Blits Surf to dest at p.
+  const int draw(SDL_Surface * const dest, const Point<int> &p) const; ///< Blits Surf to dest at p.
   const int draw(SDL_Surface * const dest, SDL_Rect &srcRect, SDL_Rect &destRect) const; ///< Blits Surf to dest bounded by srcRect and destRect.
   
 public:
