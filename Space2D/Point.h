@@ -17,6 +17,9 @@ class Point {
     /// Construct a point from another point
     Point (Point<T> const& p2): X(p2.X), Y(p2.Y) {};
     
+    /// Construct a point from a Vector
+    Point (Vector<T> const& v);
+    
     /// Construct a point with value (0,0)
     Point (): X(), Y() {};
     
@@ -36,9 +39,8 @@ class Point {
     };
     
     // Damn overloads
-    virtual Point<double>& x(const double & x) {
+    virtual void x(const double & x) {
         X=x;
-        return *this;
     };
     
     /// Return the Y coordinate as a long double
@@ -56,9 +58,8 @@ class Point {
         return *this;
     };
     
-    virtual Point<double>& y(const double& y) {
+    virtual void y(const double& y) {
         Y=y;
-        return *this;
     };
     
     /// Set x,y of this point to equal x,y of another point
@@ -101,41 +102,42 @@ inline Point<T>& Point<T>::operator = (Point<T> const &p2) {
 
 template<typename T>
 inline Point<T>& Point<T>::operator += (Point<T> const &p2) {
-    return *this += p2.x() += p2.y();
+    return (*this += p2.x()) += p2.y();
 }
 
 template<typename T>
-inline Point<T>& Point<T>::operator += (X_t<T> const &x) {
-    x(x() + x.x());
+inline Point<T>& Point<T>::operator += (X_t<T> const &rhs) {
+    x(x() + rhs);
     return *this;
 }
 
 template<typename T>
-inline Point<T>& Point<T>::operator += (Y_t<T> const &y) {
-    y(y() + y.y());
+inline Point<T>& Point<T>::operator += (Y_t<T> const &rhs) {
+    y(y() + rhs);
     return *this;
 }
 
 template<typename T>
 inline Point<T>& Point<T>::operator -= (Point<T> const &p2) {
-    return *this -= p2.x() -= p2.y();
+    return (*this -= p2.x()) -= p2.y();
 }
 
 template<typename T>
-inline Point<T>& Point<T>::operator -= (X_t<T> const &x) {
-    x(x() - x.x());
+inline Point<T>& Point<T>::operator -= (X_t<T> const &rhs) {
+    x(x() - rhs);
     return *this;
 }
 
 template<typename T>
-inline Point<T>& Point<T>::operator -= (Y_t<T> const &y) {
-    y(y() - y.y());
+inline Point<T>& Point<T>::operator -= (Y_t<T> const &rhs) {
+    y(y() - rhs);
     return *this;
 }
 
 template<typename T>
 inline Point<T>& Point<T>::operator *= (const T& scale) {
     x(x()*scale);
+    y(y()*scale);
     return *this;
 }
 

@@ -62,6 +62,31 @@ namespace jer {
   };
   
   template<typename T>
+  inline const Mag_t<T> operator+ (const Mag_t<T>& lhs, const Mag_t<T>& rhs) {
+      return Mag_t<T>(T(lhs)+T(rhs));
+  }
+  
+  template<typename T>
+  inline const Mag_t<T> operator- (const Mag_t<T>& lhs, const Mag_t<T>& rhs) {
+      return Mag_t<T>(T(lhs)-T(rhs));
+  }
+  
+  template<typename T>
+  inline const Mag_t<T> operator* (const Mag_t<T>& lhs, const T& rhs) {
+      return Mag_t<T>(T(lhs)*T(rhs));
+  }
+  
+  template<typename T>
+  inline const Mag_t<T> operator/ (const Mag_t<T>& lhs, const T& rhs) {
+      return Mag_t<T>(T(lhs)/T(rhs));
+  }
+  
+  template<typename T>
+  inline const T operator/ (const Mag_t<T> & lhs, const Mag_t<T> & rhs) {
+      return T(T(lhs)/T(rhs));
+  }  
+  
+  template<typename T>
   class Degrees: public Scalar<T> {
   public:
     Degrees(): Scalar<T>() {};
@@ -75,6 +100,31 @@ namespace jer {
     static const Degrees<double> ANGLE_LEFT;
     static const Degrees<double> ANGLE_DOWN;
   };
+  
+  template<typename T>
+  inline const Degrees<T> operator+ (const Degrees<T>& lhs, const Degrees<T>& rhs) {
+      return Degrees<T>(T(lhs)+T(rhs));
+  }
+  
+  template<typename T>
+  inline const Degrees<T> operator- (const Degrees<T>& lhs, const Degrees<T>& rhs) {
+      return Degrees<T>(T(lhs)-T(rhs));
+  }
+  
+  template<typename T>
+  inline const Degrees<T> operator* (const Degrees<T>& lhs, const T& rhs) {
+      return Degrees<T>(T(lhs)*T(rhs));
+  }
+  
+  template<typename T>
+  inline const Degrees<T> operator/ (const Degrees<T>& lhs, const T& rhs) {
+      return Degrees<T>(T(lhs)/T(rhs));
+  }
+  
+  template<typename T>
+  inline const T operator/ (const Degrees<T> & lhs, const Degrees<T> & rhs) {
+      return T(T(lhs)/T(rhs));
+  }
   
   template<typename T>
   class Radians: public Scalar<T> {
@@ -91,6 +141,31 @@ namespace jer {
     static const Radians<double> ANGLE_LEFT;
     static const Radians<double> ANGLE_DOWN;
   };
+  
+  template<typename T>
+  inline const Radians<T> operator+ (const Radians<T>& lhs, const Radians<T>& rhs) {
+      return Radians<T>(T(lhs)+T(rhs));
+  }
+  
+  template<typename T>
+  inline const Radians<T> operator- (const Radians<T>& lhs, const Radians<T>& rhs) {
+      return Radians<T>(T(lhs)-T(rhs));
+  }
+  
+  template<typename T>
+  inline const Radians<T> operator* (const Radians<T>& lhs, const T& rhs) {
+      return Radians<T>(T(lhs)*T(rhs));
+  }
+  
+  template<typename T>
+  inline const Radians<T> operator/ (const Radians<T>& lhs, const T& rhs) {
+      return Radians<T>(T(lhs)/T(rhs));
+  }
+  
+  template<typename T>
+  inline const T operator/ (const Radians<T> & lhs, const Radians<T> & rhs) {
+      return T(T(lhs)/T(rhs));
+  }
   
   const Radians<double> TAO(2*M_PI);  ///< Constant for TAO.
 
@@ -148,15 +223,15 @@ namespace jer {
   inline const Radians<double> getTheta(const X_t<T>& x, const Y_t<T>& y) {
     if(x == 0.0) {
       if(y > 0.0)
-        return Radians<double>::ANGLE_UP;
+        return Radians<double>(TAO/4.0);
       if(y < 0.0)
-        return Radians<double>::ANGLE_DOWN;
+        return Radians<double>(3.0*TAO/4.0);
       
       return Radians<double>(9001.0);
     }
     
     if(x < 0.0)
-      return Radians<double>(Radians<double>::ANGLE_LEFT + atan(y/x));
+      return Radians<double>(TAO/2.0 + atan(y/x));
     
     return Radians<double>(atan(y/x));
   }

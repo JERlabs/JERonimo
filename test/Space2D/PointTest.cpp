@@ -1,11 +1,13 @@
 #include "Space2DTest.h"
 
+typedef float PLANE_TYPE;
+
 int main(int argc, char *argv[]) {
-  Point a = makePoint(4,4, "a");
+  Point<PLANE_TYPE> a = makePoint<PLANE_TYPE>(4.4,4.4, "a");
   std::cout << "Multiplying a by 5 \n";
   a *= 5;
   printPoint("a", a);
-  Point b = makePoint(5,7, "b");
+  Point<PLANE_TYPE> b = makePoint<PLANE_TYPE>(5.5,7.7, "b");
   std::cout << "Subtracting point b from point a\n";
   a -= b;
   printPoint("a", a);

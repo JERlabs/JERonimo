@@ -28,7 +28,9 @@ class Vector {
     /// Create a vector with default values
     Vector(): Mag(1), Theta() {};
     
-    operator const Point<T>() const {return Point<T>(getX(mag(), theta()), getY(mag(), theta()));};
+/*    operator const Point<T>() const {return Point<T>(getX(mag(), theta()), getY(mag(), theta()));};
+    operator const Point<T>() {return Point<T>(getX(mag(), theta()), getY(mag(), theta()));};
+ */
     
   public:
     /// Returns the magnitude of the vector
@@ -38,7 +40,7 @@ class Vector {
     
     /// Sets the magnitude of the vector to m
     Vector<T>& mag(const Mag_t<T> &m);
-    virtual Vector<double>& mag(const double &m) {Mag = Mag_t<double>(m); return *this;};
+    virtual void mag(const double &m) {Mag = Mag_t<double>(m);};
     
     /// Returns the angle of the vector
     const Radians<T> &theta() const {
@@ -47,8 +49,8 @@ class Vector {
     
     /// Sets the angle of the vector to t, returns new angle
     Vector<T> &theta(const Radians<T> &t);
-    virtual Vector<double>& theta(const double &t) {Theta = Radians<double>(t); return *this;}; ///< IMPORTANT: t must be in radians!
-    Vector<double>& theta(const Degrees<double> &d) {return theta(double(d));};  ///< Okay if you call this in Degrees I've saved your ass
+    virtual void theta(const double &t) {Theta = Radians<double>(t);}; ///< IMPORTANT: t must be in radians!
+    void theta(const Degrees<double> &d) {theta(double(d));};  ///< Okay if you call this in Degrees I've saved your ass
     
   public:
     /// Sets the magnitude and angle of the vector to that of another
@@ -98,15 +100,17 @@ class Vector {
   
   template<typename T>
   inline Vector<T>& Vector<T>::operator+= (Point<T> const &p2) {
-      Mag = pythagoras(p2.x() + getX(*this), p2.y() + getY(*this));
-      Theta = getTheta(p2.x() + getX(*this), p2.y() + getY(*this));
+      const Point<T> tmp(*this);
+      Mag = pythagoras(p2.x() + tmp.x(), p2.y() + tmp.y());
+      Theta = getTheta(p2.x() + tmp.x(), p2.y() + tmp.y());
       return *this;
   }
   
   template<typename T>
   inline Vector<T>& Vector<T>::operator-= (Point<T> const &p2) {
-      Mag = pythagoras(getX(*this) - p2.x(), getY(*this) - p2.y());
-      Theta = getTheta(getX(*this) - p2.x(), getY(*this) - p2.y());
+      const Point<T> tmp(*this);
+      Mag = pythagoras(tmp.x() - p2.x(), tmp.y() - p2.y());
+      Theta = getTheta(tmp.x() - p2.x(), tmp.y() - p2.y());
       return *this;
   }
   
@@ -148,6 +152,11 @@ class Vector {
     return v.mag() * sin(v.theta());
   }
 
+  
+  template<typename T>
+  inline Point<T>::Point(Vector<T> const &v): X(getX(v)), Y(getY(v)) {
+  }
+  
 }
 
 #endif
