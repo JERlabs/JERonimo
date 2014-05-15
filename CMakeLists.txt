@@ -9,10 +9,12 @@ add_subdirectory (GameControl)
 add_subdirectory (Entity)
 add_subdirectory (SurfaceX)
 
+set (SDL_BUILDING_LIBRARY true)
 find_package (SDL REQUIRED)
 find_package (SDL_image REQUIRED)
 
 
 set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} --std=c++11)
 
-add_library (JERonimo ${SOURCES})
+add_library (JERonimo SHARED ${SOURCES})
+target_link_libraries(JERonimo SDL SDL_image SDL_gfx)
