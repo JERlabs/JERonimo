@@ -11,6 +11,7 @@ Debug/*
 *.lo
 *.la
 *.gch
+*.a
 .libs/*
 ipch/*
 nbproject/*
@@ -26,4 +27,11 @@ DoubleSurfTest
 EDIT_SURFACEX
 EDIT_SPACE2D
 *~
-
+.ninja_deps
+.ninja_log
+CMakeCache.txt
+cmake_install.cmake
+CMakeFiles/
+build.ninja
+rules.ninja
+Makefile
