@@ -39,7 +39,6 @@ class SuperSurf;
 const bool transparentSurf(SDL_Surface * const surf, const Uint8 R, const Uint8 G, const Uint8 B);
 
 /*
-<<<<<<< HEAD
 /** Allows for quick incrementing of refcount for surfaces.*
 SDL_Surface &operator++ (SDL_Surface &surf) {return ++surf.refcount;};
 SDL_Surface &operator++ (SDL_Surface &surf, int a) {return surf.refcount++;};
@@ -48,9 +47,6 @@ SDL_Surface &operator-- (SDL_Surface &surf, inta ) {return surf.refcount--;};
 */
 
 /*
-SDL_Surface * const loadSurf(char * const file);
-=======
->>>>>>> 5fc6491f0d46edcc8b198cadb4f16f90f09c4f58
 /// Loads file and returns surface. returns NULL on failure
 SDL_Surface * const loadSurf(char * const file);
 
@@ -81,9 +77,5 @@ SDL_Surface * const rotateSurf(SDL_Surface * const surf, const Space2D::Vector &
 */
 
 }
-
-
-
-
 
 #endif /*_SURFACEX_H_*/
