@@ -1,10 +1,10 @@
 #include "Space2D/Velocity.h"
 #include <iostream>
-using namespace Space2D;
+using namespace jer;
 using std::cout;
 using std::endl;
 
-Velocity makeVelocity(const Mag_t &mag, const Radians &theta, char const *name) {
+Velocity makeVelocity(const Mag_t<double> &mag, const Radians &theta, char const *name) {
   Velocity lol(mag,theta);
   cout << "Created Velocity " << name << ": (" << lol.x()<< ", " <<
   lol.y() << ") [" << lol.mag() << ", " << lol.theta() << "]" << endl;
@@ -15,8 +15,8 @@ void printVelocity(Velocity v, char const *name) {
   ") [" << v.mag() << ", " << v.theta() << "]" << endl;
 }
 int main( int argc, char *argv[]) {
-  Velocity a = makeVelocity((Mag_t)1.0, TAO/8.0, "a");
-  Velocity b = makeVelocity((Mag_t)1.0, TAO*(3.0/8.0),"b");
+  Velocity a = makeVelocity(Mag_t<double>(1.0), TAO/8.0, "a");
+  Velocity b = makeVelocity(Mag_t<double>(1.0), TAO*(3.0/8.0), "b");
   cout << "a -= b" << endl;
   a -= b;
   printVelocity(a, "a");
