@@ -18,7 +18,7 @@ class Point {
     Point (Point<T> const& p2): X(p2.X), Y(p2.Y) {};
     
     /// Construct a point from a Vector
-    Point (Vector<T> const& v);
+    Point (const Vector &v);
     
     /// Construct a point with value (0,0)
     Point (): X(), Y() {};
@@ -241,7 +241,7 @@ inline const T pythagoras(const Point<T>& p) {
 }
 
 template<typename T>
-inline const Radians<T> getTheta(const Point<T> &p) {
+inline const Radians getTheta(const Point<T> &p) {
   return getTheta(p.x(), p.y());
 }
   

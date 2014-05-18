@@ -4,25 +4,25 @@
 
 namespace jer {
 
-class Velocity: public Point<double>, public Vector<double> {
+class Velocity: public Point<double>, public Vector {
   public:
     using Point<double>::x;
     using Point<double>::y;
-    using Vector<double>::mag;
-    using Vector<double>::theta;
+    using Vector::mag;
+    using Vector::theta;
     /// Create a velocity from an angle and magnitude
-    Velocity(const Mag_t<double> &M, const Radians<double> &t): Vector<double>(M, t), Point<double>(Vector<double>(M, t)) {};
+    Velocity(const Mag_t<double> &M, const Radians &t): Vector(M, t), Point<double>(Vector(M, t)) {};
     
     /// Create a velocity from an X and Y
-    Velocity(const X_t<double> &x, const Y_t<double> &y): Point<double>(x, y), Vector<double>(Point<double>(x, y)) {};
+    Velocity(const X_t<double> &x, const Y_t<double> &y): Point<double>(x, y), Vector(Point<double>(x, y)) {};
     
     /// Create a velocity from a point
-    Velocity (Point<double> const &p2): Vector<double>(p2), Point<double>(p2) {
+    Velocity (Point<double> const &p2): Vector(p2), Point<double>(p2) {
           /*Just point constructor function call ^ */   /*  ^ Parent class constructor call   */
     };
     
     /// Create a velocity from a vector
-    Velocity (Vector<double> const &v2): Vector<double>(v2), Point<double>(v2) {};
+    Velocity (Vector const &v2): Vector(v2), Point<double>(v2) {};
     
     /// Set and return the x-coordinate
     void x(const double &x) override;
@@ -102,9 +102,9 @@ class Velocity: public Point<double>, public Vector<double> {
     }
 
     inline void Velocity::theta(const double &t) {
-        this->X = getX(this->Mag, Radians<double>(t));
-        this->Y = getY(this->Mag, Radians<double>(t));
-        this->Theta = Radians<double>(t);
+        this->X = getX(this->Mag, Radians(t));
+        this->Y = getY(this->Mag, Radians(t));
+        this->Theta = Radians(t);
     }
 
     /// Construct and return sum of of this velocity and vv2
