@@ -9,17 +9,15 @@ using namespace jer;
 using std::cout;
 using std::endl;
 
-#define PRINT_POINT(p) printPoint(#p, (p))
+#define PRINT_POINT(p, T) printPoint<T>(#p, (p))
 #define PRINT_VECTOR(v) printVector(#v, (v))
 
-template<typename T>
-const Vector<T> makeVector(const Mag_t<T> &m, const Radians<T> &t, const char * const name) {
+const Vector makeVector(const Mag_t<double> &m, const Radians &t, const char * const name) {
   cout<<"Created vector "<<name<<", "<<m<<"<"<<t<<" rad"<<endl;
-  return Vector<T>(m, t);
+  return Vector(m, t);
 }
 
-template<typename T>
-void printVector(const char * const name, const Vector<T> &V) {
+void printVector(const char * const name, const Vector &V) {
   cout<<"Vector "<<name<<" has a magnitude of "<<V.mag()<<" at "<<V.theta()<<" rad"<<endl;
 }
 
