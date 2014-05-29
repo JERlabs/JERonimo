@@ -10,19 +10,20 @@
 typedef double PIXEL_TYPE;
 
 namespace jer {
-  /*space containing code related to 2D space algorithm 
+/** namespace containing code related to 2D space algorithm 
   * such as coordinate plane geometry, vector math, 
   * and certain physics calculations 
   * The template types should be a numerical type with at least support for 
   * binary operator+, binary operator-, binary operator*, operator/, operator=, and operator==
   */
   
-  class Vector;
-  template<typename T> class Point;
+  class Vector;   // forward declaration of vector
+  template<typename T> class Point;  // forward declaration of Point, a template class (depending on the chosen units)
   
   
   template<typename T>
   class Scalar {
+  /// Base class for Scalars (like X_t), which covers autoboxing of the value it holds of type T (hopefully some sort of numerical value)
   protected:
     T val;
     
@@ -36,6 +37,7 @@ namespace jer {
   
   template<typename T>
   class Scalar<Scalar<T> > {
+  /// Specialization of Scalar for squared Scalar values, also autoboxes to T, such that things like x*x + y*y are legal.
 	protected:
 	  Scalar<T> val;
 	
@@ -49,11 +51,13 @@ namespace jer {
   
   template<typename T>
   const Scalar<Scalar<T> > operator* (const Scalar<T>& lhs, const Scalar<T>& rhs) {
+  /// Overload of the multiplication of two Scalar values resulting in a squared Scalar value (Scalar of Scalars)
 	return lhs*T(rhs);
   }
   
   template<typename T>
   class X_t: public Scalar<T> {
+  /// Scalar class representing X coordinate values
   public:
     X_t(): Scalar<T>() {};
     X_t(const T& x): Scalar<T>(x) {};
@@ -62,6 +66,7 @@ namespace jer {
   
   template<typename T>
   class Y_t: public Scalar<T> {
+  /// Scalar class representing Y coordinate values
   public:
       Y_t(): Scalar<T>() {};
       Y_t(const T& y): Scalar<T>(y) {};
@@ -70,10 +75,11 @@ namespace jer {
   
   template<typename T>
   class Mag_t: public Scalar<T> {
+  /// Scalar class representing magnitudes or hypotenuses
   public:
     Mag_t(): Scalar<T>() {};
-    explicit Mag_t(const T& m): Scalar<T>(m) {};
-    Mag_t(const Scalar<T> &other): Scalar<T>(other) {};
+    explicit Mag_t(const T& m): Scalar<T>(m) {};  ///< Constructor requires that magnitudes be declared explicitly, so Vector parameters aren't swapped
+    Mag_t(const Mag_t<T> &other): Scalar<T>(other) {};  ///< Copy Constructor
   };
   
   template<typename T>
@@ -87,7 +93,7 @@ namespace jer {
   }
   
   template<typename T>
-  inline const Mag_t<T> operator* (const Mag_t<T>& lhs, const T& rhs) {
+  inline const Mag_t<T> operator* (const Mag_t<T>& lhs, const T& rhs)
       return Mag_t<T>(T(lhs)*T(rhs));
   }
   
@@ -102,17 +108,20 @@ namespace jer {
   }  
   
   class Degrees: public Scalar<double> {
+  /// Class representing degree measures of angles stored, as doubles.
   public:
-    Degrees(): Scalar<double>() {};
-    explicit Degrees(const double& a=0): Scalar<double>(a) {};
+    Degrees(): Scalar<double>() {}; ///< Default Constructor
+    explicit Degrees(const double& a=0.0): Scalar<double>(a) {};
+	/// Explicit conversion from double so that code using angles doesn't have ambiguity as to whether it's a magnitude, angle in degrees, or angle in radians
     // not sure exactly why this is here, I'm removing it for now
     //Degrees(const Mag_t &other): Scalar(other) {};  
     explicit Degrees(const Scalar<double> &other): Scalar<double>(other) {};
+	/// Conversion from Scalar is explicit so that scalar arithmetic doesn't get implicit-casted to Degrees
     
-    static const Degrees ANGLE_RIGHT;
-    static const Degrees ANGLE_UP;
-    static const Degrees ANGLE_LEFT;
-    static const Degrees ANGLE_DOWN;
+    static const Degrees ANGLE_RIGHT;  ///< Corresponds to an angle 0 quarter around the unit circle (0 degrees)
+    static const Degrees ANGLE_UP;     ///< Corresponds to an angle 1 quarter around the unit circle (90 degrees)
+    static const Degrees ANGLE_LEFT;   ///< Corresponds to an angle 2 quarters around the unit circle (180 degrees)
+    static const Degrees ANGLE_DOWN;   ///< Corresponds to an angle 3 quarters around the unit circle (270 degrees)
   };
   
   inline const Degrees operator+ (const Degrees& lhs, const Degrees& rhs) {
@@ -140,18 +149,21 @@ namespace jer {
   }
   
   class Radians: public Scalar<double> {
+  /// Class representing radian measures of angles stored, as doubles.
   public:
-    operator Degrees();
-    operator const Degrees() const;
-    Radians(): Scalar<double>() {};
+    operator Degrees();  ///< Cast operator to Degrees. This allows implicit casts between Radians and Degrees, converting their values as well.
+    operator const Degrees() const;   ///< Constant cast operator to Degrees. see <code>operator Degrees()</code>
+    Radians(): Scalar<double>() {};	///< Default constructor
     explicit Radians(const double &a): Scalar<double>(a) {};
-    Radians(const Degrees &other);
+	/// Explicit conversion from double so that code using angles doesn't have ambiguity as to whether it's a magnitude, angle in degrees, or angle in radians
+    Radians(const Degrees &other);  ///< Implicit conversion from Degrees. See <code>operator Degrees()</code>
     explicit Radians(const Scalar<double> &other): Scalar<double>(other) {};
+	/// Conversion from Scalar is explicit so that scalar arithmetic doesn't get implicit-casted to Degrees
   
-    static const Radians ANGLE_RIGHT;
-    static const Radians ANGLE_UP;
-    static const Radians ANGLE_LEFT;
-    static const Radians ANGLE_DOWN;
+    static const Radians ANGLE_RIGHT;	///< Corresponds to an angle 0 quarter around the unit circle (0 radians)
+    static const Radians ANGLE_UP;		///< Corresponds to an angle 1 quarter around the unit circle (pi/2 radians)
+    static const Radians ANGLE_LEFT;	///< Corresponds to an angle 2 quarter around the unit circle (pi radians)
+    static const Radians ANGLE_DOWN;    ///< Corresponds to an angle 3 quarter around the unit circle (3pi/2 radians)
   };
   
   inline const Radians operator+ (const Radians& lhs, const Radians& rhs) {
