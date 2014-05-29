@@ -23,7 +23,8 @@ namespace jer
      */
     {
 	private:
-		typedef BASE_TYPE T;
+		typedef T BASE_TYPE;
+		enum {N_DERIVATIVE=1};
     private:
         T value;
         T *delta;
@@ -34,28 +35,32 @@ namespace jer
         Delta(): T(), value(), delta(this) {};
         
     public:
-        const BASE_TYPE *get(int i=0) const {return &value;};
-        const T current() const {return value;};
-        void increment(const double iterations) {value += iterations*(*delta);};
-        void increment() {increment(1.0);};
+        const BASE_TYPE &get(int i=1) const {return value;};
+        void increment(const double iterations=1.0) {value += iterations*(*delta);};
+        //void increment() {increment(1.0);};
     };
     
-    template<>
-    class Delta<Delta<T> >: public Delta<T>
+    template<class T>
+    class Delta<Delta<T> >: public Delta<T>::BASE_TYPE
     {
 	private:
-		typedef BASE_TYPE Delta<T>::BASE_TYPE;
+		typedef typename Delta<T>::BASE_TYPE BASE_TYPE;
+		
+	public:
+		enum {N_DERIVATIVE=Delta<T>::N_DERIVATIVE+1};
+	
     private:
         Delta<T> value;
         Delta<T> *delta;
         
     public:
         Delta(const Delta<T> &increment, const Delta<T> &init): Delta<T>(increment), value(init), delta(this) {};
-        Delta(const Delta<T> &increment): Delta<T>(increment), value(), delta(this) {};
+        explicit Delta(const Delta<T> &increment): Delta<T>(increment), value(), delta(this) {};
         Delta(): Delta<T>(), value(), delta(this) {};
         
     public:
-        const BASE_TYPE *get(int i=0) const {if(i == 1) return &value; else return value.get(i-1);};        
+        const BASE_TYPE &get(int i=1) const {if(i == N_DERIVATIVE) return &value; else return value.get(i);};        
+		void increment(const double iterations=1.0) {value += iterations*(*delta); value.increment();};
     };
     
 }
