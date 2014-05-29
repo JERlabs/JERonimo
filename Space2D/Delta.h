@@ -22,9 +22,10 @@ namespace jer
      * current() will be specialized to recursively call current for Delta\<Delta\<T\> \>
      */
     {
-	private:
+	public:
 		typedef T BASE_TYPE;
 		enum {N_DERIVATIVE=1};
+		
     private:
         T value;
         T *delta;
@@ -43,23 +44,21 @@ namespace jer
     template<class T>
     class Delta<Delta<T> >: public Delta<T>::BASE_TYPE
     {
-	private:
-		typedef typename Delta<T>::BASE_TYPE BASE_TYPE;
-		
 	public:
+		typedef typename Delta<T>::BASE_TYPE BASE_TYPE;
 		enum {N_DERIVATIVE=Delta<T>::N_DERIVATIVE+1};
 	
     private:
         Delta<T> value;
-        Delta<T> *delta;
+        BASE_TYPE *delta;
         
     public:
-        Delta(const Delta<T> &increment, const Delta<T> &init): Delta<T>(increment), value(init), delta(this) {};
-        explicit Delta(const Delta<T> &increment): Delta<T>(increment), value(), delta(this) {};
-        Delta(): Delta<T>(), value(), delta(this) {};
+        Delta(const Delta<T> &increment, const Delta<T> &init): BASE_TYPE(increment), value(init), delta(this) {};
+        explicit Delta(const Delta<T> &increment): BASE_TYPE(increment), value(), delta(this) {};
+        Delta(): BASE_TYPE(), value(), delta(this) {};
         
     public:
-        const BASE_TYPE &get(int i=1) const {if(i == N_DERIVATIVE) return &value; else return value.get(i);};        
+        const BASE_TYPE &get(int i=1) const {if(i == N_DERIVATIVE) return value; else return value.get(i);};        
 		void increment(const double iterations=1.0) {value += iterations*(*delta); value.increment();};
     };
     
