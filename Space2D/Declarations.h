@@ -93,7 +93,7 @@ namespace jer {
   }
   
   template<typename T>
-  inline const Mag_t<T> operator* (const Mag_t<T>& lhs, const T& rhs)
+  inline const Mag_t<T> operator* (const Mag_t<T>& lhs, const T& rhs) {
       return Mag_t<T>(T(lhs)*T(rhs));
   }
   
