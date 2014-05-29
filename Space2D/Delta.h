@@ -22,6 +22,8 @@ namespace jer
      * current() will be specialized to recursively call current for Delta\<Delta\<T\> \>
      */
     {
+	private:
+		typedef BASE_TYPE T;
     private:
         T value;
         T *delta;
@@ -32,7 +34,7 @@ namespace jer
         Delta(): T(), value(), delta(this) {};
         
     public:
-        const T *get() const {return &value;};
+        const BASE_TYPE *get(int i=0) const {return &value;};
         const T current() const {return value;};
         void increment(const double iterations) {value += iterations*(*delta);};
         void increment() {increment(1.0);};
@@ -41,6 +43,8 @@ namespace jer
     template<>
     class Delta<Delta<T> >: public Delta<T>
     {
+	private:
+		typedef BASE_TYPE Delta<T>::BASE_TYPE;
     private:
         Delta<T> value;
         Delta<T> *delta;
@@ -51,8 +55,7 @@ namespace jer
         Delta(): Delta<T>(), value(), delta(this) {};
         
     public:
-        //TODO: These
-        
+        const BASE_TYPE *get(int i=0) const {if(i == 1) return &value; else return value.get(i-1);};        
     };
     
 }
