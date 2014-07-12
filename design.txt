@@ -1,0 +1,60 @@
+Space2D
+    Stuff for points and physics and shit <complete>
+
+GameControl
+    Loadable - interface for resources
+        Constructor - prepares for loading
+        load - loads the resources managed by the object
+        unload - unloads the resources managed by the object
+        Destructor - ensures unloaded and deletes
+    
+    Loopable - interface for loopable objects (physics objects which operate over time)
+        loop - nothing special
+    
+    Renderable - interface for renderable objects
+        Constructor - prepares for rendering
+        depth - has a depth
+        render - renders the thing to a thing passed to it or something
+        Destructor - unprepare or something
+        
+    Entity (inherits Loopable and Renderable) - interface for entities which have loop action and can be rendered to the screen
+        Constructor - prepares parents
+        image - pointer to the image to be rendered
+        render - render image
+        loop - nothing for a base entity but overloads to do various entity stuff
+        Destructor - unprepares parents
+    
+    DataManager (inherits loadable) - container for mutliple resources in the form of a vector of Loadable pointers
+        Constructor - prepares vector
+        load - loads all Loadables in vector
+        unload - unloads all Loadables in vector
+        Destructor - removes vector
+    
+    LoopEngine (inherits loopable) - container for multiple loopable objects in the form of a vector of Loopable pointers
+        Constructor - prepares vector
+        loop - calls loop on all Loopable's in vector
+        Destructor - unprepares vector
+    
+    RenderList (inherits renderable) - container for multiple renderable obects in the form of a vector of Renderable pointers
+        Constructor - prepares vector
+        render - renders objects in vector in order of depth
+        Destructor - unprepares vector
+    
+    EntityGroup (inherits Entity) - container for multiple entities in the form of a vector of Entitie pointers and Loadable pointers and Renderable pointers
+        Constructor - prepares vectors
+        LoopEngine loopParts - passed same references the main vector is passed
+        Renderer renderedParts - passed same references the main vector is passed
+        loop - calls loopParts loop
+        render - calls renderedParts render
+        Destructor - unprepares vectors
+    
+    GameLoop
+        Constructor - prepares for initialization
+        init - initializes resources
+        reset - should reset the loop to a single state from ANY point in the looping process
+        loop - bulk of processing of game. (movement, collisions, scores, all non-rendering continuous processes)
+        render - renders
+        cleanup - cleans resources, should always return it to the state the constructor leaves it in
+        [events] - SDL events which can be overloaded, defaults to do nothing.
+        Destructor - ensures cleaned up and prepares object for deletion
+    
