@@ -1,7 +1,7 @@
 #ifndef _LOADABLE_H_
 #define _LOADABLE_H_
 
-#include "GameElements.h"
+#include "Declarations.h"
 
 namespace jer
 {

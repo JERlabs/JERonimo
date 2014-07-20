@@ -1,7 +1,7 @@
 #ifndef _LOOPABLE_H_
 #define _LOOPABLE_H_
 
-#include "GameElements.h"
+#include "Declarations.h"
 
 namespace jer
 {

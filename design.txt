@@ -48,9 +48,8 @@ GameControl
         render - calls renderedParts render
         Destructor - unprepares vectors
     
-    GameLoop
+    GameLoop (inherits Loadable, Loopable, and Renderable)
         Constructor - prepares for initialization
-        init - initializes resources
         reset - should reset the loop to a single state from ANY point in the looping process
         loop - bulk of processing of game. (movement, collisions, scores, all non-rendering continuous processes)
         render - renders
