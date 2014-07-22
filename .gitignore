@@ -31,6 +31,7 @@ EDIT_SPACE2D
 .ninja_log
 CMakeCache.txt
 cmake_install.cmake
+install_manifest.txt
 CMakeFiles/
 build.ninja
 rules.ninja
