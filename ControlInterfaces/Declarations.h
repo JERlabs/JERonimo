@@ -1,5 +1,5 @@
-#ifndef _GAME_ELEMENTS_H_
-#define _GAME_ELEMENTS_H_
+#ifndef _CONTROL_INTERFACES_H_
+#define _CONTROL_INTERFACES_H_
 
 #include <stdlib.h>
 

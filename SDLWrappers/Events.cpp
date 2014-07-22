@@ -12,7 +12,7 @@ namespace jer {
   Events::~Events() {
   }
 
-  const EVENT_RESULT Events::handleEvent(SDL_Event * const Event)
+  const SUCCESS Events::handleEvent(SDL_Event * const Event)
   {
     switch(Event->type)
     {  //newline brackets implemented since this is a lot of nesting
