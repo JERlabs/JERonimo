@@ -5,6 +5,7 @@
 #include "ControlInterfaces/Loopable.h"
 #include "ControlInterfaces/LoopEngine.h"
 #include "ControlInterfaces/Loadable.h"
+#include "ControlInterfaces/GameLoop.h"
 #include "ControlInterfaces/Declarations.h"
 
 #endif /*_CONTROL_INTERFACES_H_*/
