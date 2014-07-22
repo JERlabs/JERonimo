@@ -9,6 +9,7 @@ add_subdirectory (Space2D)
 add_subdirectory (GameControl)
 add_subdirectory (Entity)
 add_subdirectory (SurfaceX)
+add_subdirectory (ControlInterfaces)
 
 set (SDL_BUILDING_LIBRARY true)
 find_package (SDL REQUIRED)
