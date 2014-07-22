@@ -10,7 +10,12 @@ class DoCrap: public Loopable
 private:
     string name;
 public:
-    DoCrap(const string &n, LoopEngine<Loopable *> * const engine = NULL): Loopable(engine), name(n)
+    DoCrap(const string &n, LoopEngine<Loopable *> * const engine): Loopable(engine), name(n)
+    {
+        cout<<"Making crap "<<name<<endl;
+    };
+    
+    DoCrap(const string &n): name(n)
     {
         cout<<"Making crap "<<name<<endl;
     };
@@ -34,10 +39,15 @@ private:
     string name;
     
 public:
-    DoShit(const string &n, LoopEngine<Loopable *> * const engine = NULL): Loopable(engine), name(n)
+    DoShit(const string &n, LoopEngine<Loopable *> * const engine): Loopable(engine), name(n)
     {
         cout<<"Making shit "<<name<<endl;
     };
+    
+    DoShit(const string &n): name(n)
+    {
+        cout<<"Making shit "<<name<<endl;
+    }
     
     ~DoShit()
     {
@@ -71,6 +81,9 @@ int main(int argc, char **argv)
     
     cout<<"combinedList: "<<endl;
     combinedList.loop();
+    
+    combinedList.add(new DoShit("d", NULL));
+    new DoCrap("e", &combinedList);
     
     cout<<"combinedList: "<<endl;
     combinedList.loop();

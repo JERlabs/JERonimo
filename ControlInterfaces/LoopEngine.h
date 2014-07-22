@@ -69,6 +69,15 @@ namespace jer
             
             return ret;
         };
+        
+        void add(Loopable * const elem)
+        {
+            if(!elem)
+                return;
+            
+            elem->assignEngine(this);
+            push_back(elem);
+        }
     };
     
     /*

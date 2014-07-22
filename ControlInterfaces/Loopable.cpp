@@ -5,14 +5,11 @@ namespace jer
 {
     void Loopable::addSelfToEngine(LoopEngine<Loopable *> * const engine)
     {
-        if(engine == this)
-            return;
+        assignEngine(engine);
         
-        list = engine;
         if(list)
         {
             list->push_back(this);
-            references++;
         }
     }
     
@@ -27,6 +24,16 @@ namespace jer
             }
             list = NULL;
         }
+    }
+    
+    void Loopable::assignEngine(LoopEngine<Loopable *> * const engine)
+    {
+        if(engine == this)
+            return;
+        
+        list = engine;
+        if(list)
+            references++;
     }
     
     void Loopable::forgetEngine()
