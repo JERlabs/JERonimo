@@ -1,31 +1,29 @@
 #ifndef _LOOP_ENGINE_H_
 #define _LOOP_ENGINE_H_
 
+#include "GameList.h"
 #include "Loopable.h"
-#include <vector>
 
 namespace jer
-{
-    using std::vector;
-    
-    template<class T>
-    class LoopEngine: public virtual Loopable, public vector<T>
+{    
+    template<class T, bool PRIORITY>
+    class LoopEngine: public GameList<T, PRIORITY>
     {
     /// LoopEngine, manages a list of Loopable's
-    private:
-        vector<T> *list;
+    protected:
+        GameList<T> *loopList;
         
     public:
-        LoopEngine(): list(this) {};
+        LoopEngine(): loopList(this) {};
         virtual ~LoopEngine() {};
         
     public:
         virtual const SUCCESS loop() // the generic form of the function attempts to use data locality
         {
             SUCCESS ret = 0;
-            T *data = list->data();
-            int n = list->size();
-            for(int i = 0; i < n && ret >= 0; i++)
+            T *data = loopList->data();
+            int n = loopList->size();
+            for(int i = this->getFirst(); i < this->getLast() && ret >= 0; i++)
             {
                 ret |= data[i].loop();
             }
@@ -34,76 +32,33 @@ namespace jer
         };
     };
     
-    template<>
-    class LoopEngine<Loopable *>: public virtual Loopable, public vector<Loopable *>
+    template<class T, bool PRIORITY>
+    class LoopEngine<T *, PRIORITY>: public GameList<T *, PRIORITY>
     {
     private:
-        vector<Loopable *> *list;
+        GameList<T *, PRIORITY> *loopList;
         
     public:
-        LoopEngine(): list(this) {};
-        virtual ~LoopEngine()
-        {
-            for(auto i = list->begin(); i != list->end(); i++)
-            {
-                if((*i)->toDie())
-                {
-                    delete (*i);
-                    *i = NULL;
-                }
-                else
-                {
-                    (*i)->forgetEngine();
-                }
-            }
-        };
+        LoopEngine(): loopList(this) {};
+        virtual ~LoopEngine() {};
         
     public:
         virtual const SUCCESS loop()  // specific form of the function which has more cache misses but easy polymorphism
         {
             SUCCESS ret = 0;
-            for(auto i = list->begin(); i != list->end() && ret >= 0; i++)
+            for(int i = this->getFirst(); i < this->getLast() && ret >= 0; i++)
             {
-                ret |= (*i)->loop();
+                if(loopList->at(i) == NULL)
+                    ret = -1;
+                else
+                    ret |= loopList->at(i)->loop();
             }
             
             return ret;
         };
         
-        void add(Loopable * const elem)
-        {
-            if(!elem)
-                return;
-            
-            elem->assignEngine(this);
-            push_back(elem);
-        }
     };
     
-    /*
-    template<>
-    class LoopEngine<Displayable *>: public virtual Loopable, public vector<Displayable *>
-    {
-    private:
-        vector<Displayable *> *list;
-        
-    public:
-        LoopEngine(): list(this) {};
-        virtual ~LoopEngine() {};
-        
-    public:
-        virtual const SUCCESS loop() const // specific form of the function which has more cache misses but easy polymorphism
-        {
-            SUCCESS ret = 0;
-            for(auto i = list->begin(); i != list->end() && ret >= 0; i++)
-            {
-                ret |= (*i)->display();
-            }
-            
-            return ret;
-        };
-    };
-    */
 }
 
 #endif /*_LOOP_ENGINE_H_*/

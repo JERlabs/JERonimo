@@ -7,21 +7,16 @@ namespace jer
 {
     class Loadable
     {
+    private:
+        bool loaded;
+        
     public:
-        virtual ~Loadable()
-        {
-/*
-#ifndef DEBUG
-            unload();
-#else
-            if(unload() < 0)
-                std::cerr<<"Loadable::unload("<<this<<") returned failure"<<std::endl;
-#endif
-*/
-        };
+        Lodable(): loaded(false) {};
+        virtual ~Loadable() {};
 
-        virtual const SUCCESS load()=0;  /// Overload to load object
-        virtual const SUCCESS unload()=0;  /// Overload to clean up object
+        virtual const SUCCESS load()=0 {loaded=true; return SUCCEEDED;};  /// Overload to load object
+        virtual const SUCCESS unload()=0 {loaded=false; return SUCCEEDED;};  /// Overload to clean up object
+        const bool isLoaded() {return loaded;};  /// Used to check the state of the loadable object
     };
 
 }

@@ -5,19 +5,21 @@
 using namespace std;
 using namespace jer;
 
-class DoCrap: public Loopable
+class DoCrap: public ListElement<PriorityElement<Loopable> >
 {
 private:
-    string name;
+    char name;
 public:
-    DoCrap(const string &n, LoopEngine<Loopable *> * const engine): Loopable(engine), name(n)
+    DoCrap(const char n, LoopEngine<Loopable *, true> * const engine): ListElement<PriorityElement<Loopable> >(engine), name(n)
     {
         cout<<"Making crap "<<name<<endl;
+        setPriority(name - 'b');
     };
     
-    DoCrap(const string &n): name(n)
+    DoCrap(const char n): name(n)
     {
         cout<<"Making crap "<<name<<endl;
+        setPriority(name - 'b');
     };
     
     ~DoCrap()
@@ -33,20 +35,22 @@ public:
     };
 };
 
-class DoShit: public Loopable
+class DoShit: public ListElement<PriorityElement<Loopable> >
 {
 private:
-    string name;
+    char name;
     
 public:
-    DoShit(const string &n, LoopEngine<Loopable *> * const engine): Loopable(engine), name(n)
+    DoShit(const char n, LoopEngine<Loopable *, true> * const engine): ListElement<PriorityElement<Loopable> >(engine), name(n)
     {
         cout<<"Making shit "<<name<<endl;
+        setPriority(name - 'b');
     };
     
-    DoShit(const string &n): name(n)
+    DoShit(const char n): name(n)
     {
         cout<<"Making shit "<<name<<endl;
+        setPriority(name - 'b');
     }
     
     ~DoShit()
@@ -64,16 +68,16 @@ public:
 
 int main(int argc, char **argv)
 {
-    DoCrap myCrap("a");
-    DoShit myShit("b");
-    DoCrap *myDynamicCrap = new DoCrap("c");
+    DoCrap myCrap('c');
+    DoShit myShit('b');
+    DoCrap *myDynamicCrap = new DoCrap('a');
     
-    LoopEngine<Loopable *> combinedList;
+    LoopEngine<Loopable *, true> combinedList;
     
-    myCrap.addSelfToEngine(&combinedList);
-    myShit.addSelfToEngine(&combinedList);
-    myDynamicCrap->addSelfToEngine(&combinedList);
-    
+    myCrap.addSelfToList(&combinedList);
+    myShit.addSelfToList(&combinedList);
+    myDynamicCrap->addSelfToList(&combinedList);
+        
     cout<<"combinedList: "<<endl;
     combinedList.loop();
     
@@ -82,8 +86,8 @@ int main(int argc, char **argv)
     cout<<"combinedList: "<<endl;
     combinedList.loop();
     
-    combinedList.add(new DoShit("d", NULL));
-    new DoCrap("e", &combinedList);
+    combinedList.add(new DoShit('d', NULL));
+    new DoCrap('e', &combinedList);
     
     cout<<"combinedList: "<<endl;
     combinedList.loop();
