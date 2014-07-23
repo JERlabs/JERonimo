@@ -46,7 +46,7 @@ GameList: ListElement<T>, vector<T>
         +sort(): void - virtual - sorts elemets in ascending order by priority
     
 
-DataManager: ListElement<T>, GameList<T>
+DataManager: GameList<T>
     T: class - any type with Loadable as a base (please)
     +load(): SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling load()
     +unload(): SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling unload()
@@ -54,13 +54,13 @@ DataManager: ListElement<T>, GameList<T>
         +load(): SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling load()
         +unload(): SUCCESS - virtual - iterates though vector from getFirst() to (excluding)getLast() calling unload()
 
-LoopEngine: ListElement<T>, GameList<T>
+LoopEngine: GameList<T>
     T: class - any type with Loopable as a base (please)
     +loop(): SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling loop()
     [T = T *] LoopEngine: ListElement<T>, GameList<T *>
         +loop(): SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling loop()
 
-DisplayQueue: ListElement<T>, GameList<T>
+DisplayQueue: GameList<T>
     T: class - any type with Displayable as a base (please)
     +loop() const: SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling display()
     [T = T *] DisplayQueue: ListElement<T>, GameList<T *>
