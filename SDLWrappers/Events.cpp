@@ -6,7 +6,7 @@ namespace jer {
   vector<bool> Events::joystickButtons;
 
   Events::Events() {
-     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+     //SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
   }
 
   Events::~Events() {
