@@ -1,0 +1,67 @@
+Loadable
+    +load(): SUCCESS - pure virtual - default implementation sets loaded to true
+    +unload(): SUCCESS - pure virtual - default implementation sets loaded to false
+    -loaded: bool
+    +isLoaded(): bool - leaf
+
+Loopable
+    +loop(): SUCCESS - pure virtual
+
+Displayable
+    +display() const: SUCCESS - pure virtual
+
+PriorityElement: T
+    T: one of the above types
+    -priority: int - used by containers to sort element (getter and setter)
+
+ListElement: T
+    T: one of the above types
+    -list: GameList*
+    -references: unsigned short
+    +toDie(): unsigned short - virtual
+    +addSelfToList(GameList*)
+    +assignList(GameList*)
+    -removeSelfFromList()
+    -forgetList()
+    ~destructor - removes self from list
+ 
+
+GameList: ListElement<T>, vector<T>
+    T: one of the above types
+    +getFirst(): unsigned int - virtual - returns index of first item to iterate through
+    +getLast(): unsigned int - virtual - returns index of last item to iterate through
+    [T = T *] GameList: ListElement<T>, vector<ListElement<T> *>
+        +getFirst(): unsigned int - virtual - returns index of first item to iterate through
+        +getLast(): unsigned int - virtual - returns index of last item to iterate through
+        ~destructor - deletes all elements who return true on call of toDie()
+    [T = PriorityElement<T>] GameList: GameList<PriorityElement<T> >
+        -partition: unsigned int - partition between positive and negative values
+        +getFirst(): unsigned int - virtual - returns index of first item to iterate through
+        +getLast(): unsigned int - virtual - returns index of last item to iterate through (partition)
+        +sort(): void - virtual - sorts elements in ascending order by priority
+    [T = PriorityElement<T> *] GameList: GameList<PriorityElement<T> *>
+        -partition: unsigned int - partition between positive and negative values
+        +getFirst(): unsigned int - virtual - returns index of the first item to iterate through
+        +getLast(): unsigned int - virtual - retursn index of the last item to iterate through (partition)
+        +sort(): void - virtual - sorts elemets in ascending order by priority
+    
+
+DataManager: ListElement<T>, GameList<T>
+    T: class - any type with Loadable as a base (please)
+    +load(): SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling load()
+    +unload(): SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling unload()
+    [T = T *] DataManager: ListElement<T>, GameList<T *>
+        +load(): SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling load()
+        +unload(): SUCCESS - virtual - iterates though vector from getFirst() to (excluding)getLast() calling unload()
+
+LoopEngine: ListElement<T>, GameList<T>
+    T: class - any type with Loopable as a base (please)
+    +loop(): SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling loop()
+    [T = T *] LoopEngine: ListElement<T>, GameList<T *>
+        +loop(): SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling loop()
+
+DisplayQueue: ListElement<T>, GameList<T>
+    T: class - any type with Displayable as a base (please)
+    +loop() const: SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling display()
+    [T = T *] DisplayQueue: ListElement<T>, GameList<T *>
+        +loop() const: SUCCESS - virtual - iterates through vector from getFirst() to (excluding)getLast() calling display()
