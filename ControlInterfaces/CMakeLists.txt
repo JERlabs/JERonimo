@@ -1,4 +1,3 @@
 set (SOURCES ${SOURCES}
-  ControlInterfaces/Loopable.cpp
-  ControlInterfaces/GameLoop.cpp
+  ControlInterfaces/ControlInterfaces.cpp
   PARENT_SCOPE)
