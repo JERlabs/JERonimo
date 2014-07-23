@@ -12,6 +12,7 @@ Debug/*
 *.la
 *.gch
 *.a
+*.autosave
 .libs/*
 ipch/*
 nbproject/*
