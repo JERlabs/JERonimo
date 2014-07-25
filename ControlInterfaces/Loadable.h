@@ -11,13 +11,25 @@ namespace jer
         bool loaded;
         
     public:
-        Lodable(): loaded(false) {};
+        Loadable(): loaded(false) {};
         virtual ~Loadable() {};
 
-        virtual const SUCCESS load()=0 {loaded=true; return SUCCEEDED;};  /// Overload to load object
-        virtual const SUCCESS unload()=0 {loaded=false; return SUCCEEDED;};  /// Overload to clean up object
-        const bool isLoaded() {return loaded;};  /// Used to check the state of the loadable object
+        virtual const SUCCESS load()=0;  /// Overload to load object
+        virtual const SUCCESS unload()=0;  /// Overload to clean up object
+        const bool isLoaded() const {return loaded;};  /// Used to check the state of the loadable object
     };
+    
+    const SUCCESS Loadable::load()
+    {
+        loaded = true;
+        return SUCCEEDED;
+    }
+    
+    const SUCCESS Loadable::unload()
+    {
+        loaded = false;
+        return SUCCEEDED;
+    }
 
 }
 #endif
