@@ -1,45 +1,15 @@
 #ifndef _LIST_ELEMENTS_H_
 #define _LIST_ELEMENTS_H_
 
+#include <vector>
+#include <algorithm>
+
 #include "Declarations.h"
+#include "PriorityElements.h"
 
 namespace jer
 {
     using std::vector;
-    
-    template<class T>
-    class PriorityElement: public T
-    {
-    private:
-        int priority;
-        
-    public:
-        //PriorityElement(const T& init, const int initP=0): T(init), priority(initP) {};
-        PriorityElement(const int initP=0): priority(initP) {};
-        PriorityElement(const PriorityElement &other): priority(other.priority) {};
-        virtual ~PriorityElement() {};
-        
-    public:
-        const int getPriority() const {return priority;};
-        virtual void setPriority(const int p) {priority = p;};
-    };
-    
-    template<class T>
-    const bool comparePriorityElements(const PriorityElement<T> &a, const PriorityElement<T> &b)
-    {
-        return a.getPriority() < b.getPriority();
-    }
-    
-    template<class T>
-    const bool comparePriorityElementPointers(PriorityElement<T> *const a, PriorityElement<T> * const b)
-    {
-        if(a == NULL)
-            return true;
-        else if(b == NULL)
-            return false;
-        else
-            return a->getPriority() < b->getPriority();
-    }
     
     template<class T>
     class ListElement: public T

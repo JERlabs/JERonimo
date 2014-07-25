@@ -1,9 +1,6 @@
 #ifndef _GAME_LIST_H_
 #define _GAME_LIST_H_
 
-#include <vector>
-#include <algorithm>
-
 #include "ListElements.h"
 
 
@@ -125,7 +122,7 @@ namespace jer
        };
        virtual void sort()
        {
-           std::sort(ourList->begin(), ourList->end(), comparePriorityElementPointers<T>);
+           std::sort(ourList->begin(), ourList->end(), comparePriorityElementPointers);
            for(int i = 0; i < ourList->size(); i++)
            {
                partition = i;
