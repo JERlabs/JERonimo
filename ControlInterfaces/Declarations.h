@@ -10,15 +10,15 @@
 namespace jer
 {
     typedef char SUCCESS;
-    enum {FAILURE=-1, SUCCEEDED=0, LOGGED=1};
+    enum {FAILED=-1, SUCCEEDED=0, LOGGED=1};
     class Loadable;
     class Loopable;
     class Displayable;
-    class DataManager;
     template<class T> class PriorityElement;
     template<class T> class ListElement;
     template<class T, bool PRIORITY = false> class GameList;
     template<class T, bool PRIORITY = false> class LoopEngine;
+    template<class T> class DataManager;
     // if the error was logged at a narrower scope then the function returns 1
 }
 
