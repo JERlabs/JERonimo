@@ -9,7 +9,7 @@
 #include "ControlInterfaces/Displayable.h"
 #include "ControlInterfaces/GameList.h"
 #include "ControlInterfaces/DataManager.h"
-#include "ControlInterfaces/DisplayManager.h"
+#include "ControlInterfaces/DisplayQueue.h"
 #include "ControlInterfaces/LoopEngine.h"
 
 #endif /*_CONTROL_INTERFACES_H_*/
