@@ -24,10 +24,7 @@ namespace jer
         virtual unsigned int getFirst() const {return 0;};
         virtual unsigned int getLast() const {return ourList->size();};
         virtual void assignList(vector<ListElement<T> *> * const l)
-        {
-            if(l == this)
-                return;
-            
+        {            
             ListElement<T>::assignList(l);
         };
     };
@@ -46,6 +43,7 @@ namespace jer
             {
                 if((*i)->toDie())
                 {
+                    (*i)->references--;
                     delete (*i);
                     *i = NULL;
                 }
@@ -74,6 +72,8 @@ namespace jer
    {
    private:
        unsigned int partition;
+       
+   protected:
        vector<PriorityElement<T> > *ourList;
        
    public:
@@ -103,6 +103,8 @@ namespace jer
    {
    private:
        unsigned int partition;
+       
+   protected:
        vector<ListElement<PriorityElement<T> > *> *ourList;
        
    public:
@@ -157,6 +159,8 @@ namespace jer
        
    public:
        virtual const bool toDie() {return references == 1;};
+       CONTAINING_LIST_TYPE * const getList() const {return containingList;};
+       SORT_CONTAINER * const getSortList() const {return sortList;};
        virtual void setPriority(const int p)
        {
            if(PriorityElement<T>::getPriority() != p)
@@ -206,7 +210,7 @@ namespace jer
        {
            if(sortList)
            {
-               if(!toDie())
+               if(references > 0)
                {
                    references--;
                    sortList->erase(std::remove(sortList->begin(), sortList->end(), this), sortList->end());
@@ -216,7 +220,7 @@ namespace jer
            }
            else if(containingList)
            {
-               if(!toDie())
+               if(references > 0)
                {
                    references--;
                    containingList->erase(std::remove(containingList->begin(), containingList->end(), this), containingList->end());
@@ -231,6 +235,8 @@ namespace jer
            if(containingList) containingList = NULL;
            references--;
        };
+       
+       friend class GameList<PriorityElement<T> *, false>;
    };
    
 //#include "ListElements.impl"

@@ -59,6 +59,7 @@ namespace jer
         
     public:
         virtual const bool toDie() {return references == 1;};
+        CONTAINING_LIST_TYPE * const getList() const {return list;};
         void addSelfToList(CONTAINING_LIST_TYPE * const l)
         {
             assignList(l);
@@ -75,7 +76,7 @@ namespace jer
         {
             if(list)
             {
-                if(!toDie())
+                if(references > 0)
                 {
                     references--;
                     list->erase(std::remove(list->begin(), list->end(), this), list->end());
@@ -88,6 +89,8 @@ namespace jer
             if(list) list = NULL;
             references--;
         };
+        
+        friend class GameList<T *>;
     };
     
     

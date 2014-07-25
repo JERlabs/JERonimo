@@ -35,7 +35,7 @@ namespace jer
     template<class T, bool PRIORITY>
     class LoopEngine<T *, PRIORITY>: public GameList<T *, PRIORITY>
     {
-    private:
+    protected:
         GameList<T *, PRIORITY> *loopList;
         
     public:
