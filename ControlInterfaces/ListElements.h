@@ -16,6 +16,7 @@ namespace jer
     public:
         //PriorityElement(const T& init, const int initP=0): T(init), priority(initP) {};
         PriorityElement(const int initP=0): priority(initP) {};
+        PriorityElement(const PriorityElement &other): priority(other.priority) {};
         virtual ~PriorityElement() {};
         
     public:
@@ -53,7 +54,8 @@ namespace jer
     public:
         ListElement(CONTAINING_LIST_TYPE * const l, const T& init): T(init), references(0) {addSelfToList(l);};
         ListElement(CONTAINING_LIST_TYPE * const l): references(0) {addSelfToList(l);};
-        ListElement(const T& init): list(NULL), T(init), references(1) {};
+        ListElement(const T& init): T(init), list(NULL), references(1) {};
+        ListElement(const ListElement& other): T(other), references(other.references) {addSelfToList(other.list);};
         ListElement(): list(NULL), references(1) {};
         virtual ~ListElement() {removeSelfFromList();};
         
