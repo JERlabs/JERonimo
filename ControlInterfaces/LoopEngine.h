@@ -59,6 +59,9 @@ namespace jer
         
     };
     
+    using EasyLoop = LoopEngine<Loopable *, false>;
+    using EasyPriorityLoop = LoopEngine<Loopable *, true>;
+    
 }
 
 #endif /*_LOOP_ENGINE_H_*/

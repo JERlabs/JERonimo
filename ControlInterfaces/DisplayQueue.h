@@ -56,6 +56,9 @@ namespace jer
             return ret;
         };
     };
+    
+    using EasyDisplay = DisplayQueue<Displayable *, false>;
+    using EasyPriorityDisplay = DisplayQueue<Displayable *, true>;
 }
 
 #endif /*_DISPLAY_MANAGER_H_*/

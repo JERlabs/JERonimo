@@ -95,6 +95,8 @@ namespace jer
         };
     };
     
+    using EasyData = DataManager<Loadable *>;
+    
 }
 
 
