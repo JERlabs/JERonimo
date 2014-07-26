@@ -21,12 +21,7 @@ SDL/*
 config.log
 doc/*
 *-swp
-GAMEFRAME
-GameLoopTest
-TestEventsTest
-DoubleSurfTest
-EDIT_SURFACEX
-EDIT_SPACE2D
+*Test
 *~
 .ninja_deps
 .ninja_log
