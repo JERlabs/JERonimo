@@ -17,7 +17,7 @@ namespace jer
         virtual ~DisplayQueue() {};
         
     public:
-        virtual const SUCCESS display() const 
+        virtual const SUCCESS display() const override
         {
             SUCCESS ret = 0;
             T *data = displayList->data();
@@ -42,7 +42,7 @@ namespace jer
         virtual ~DisplayQueue() {};
         
     public:
-        virtual const SUCCESS display() const
+        virtual const SUCCESS display() const override
         {
             SUCCESS ret = 0;
             for(int i = this->getFirst(); i < this->getLast() && ret >= 0; i++)

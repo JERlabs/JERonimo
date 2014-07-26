@@ -62,7 +62,7 @@ namespace jer
         virtual ~DataManager() {};
         
     public:
-        virtual const SUCCESS load()
+        virtual const SUCCESS load() override
         {
             SUCCESS ret = 0;
             for(int i = this->getFirst(); i < this->getLast() && ret >= 0; i++)
@@ -79,7 +79,7 @@ namespace jer
             return ret;
         };
         
-        virtual const SUCCESS unload()
+        virtual const SUCCESS unload() override
         {
             SUCCESS ret = 0;
             for(int i = this->getFirst(); i < this->getLast() && ret >= 0; i++)

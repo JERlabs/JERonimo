@@ -18,7 +18,7 @@ namespace jer
         virtual ~LoopEngine() {};
         
     public:
-        virtual const SUCCESS loop() // the generic form of the function attempts to use data locality
+        virtual const SUCCESS loop() override // the generic form of the function attempts to use data locality
         {
             SUCCESS ret = 0;
             T *data = loopList->data();
@@ -43,7 +43,7 @@ namespace jer
         virtual ~LoopEngine() {};
         
     public:
-        virtual const SUCCESS loop()  // specific form of the function which has more cache misses but easy polymorphism
+        virtual const SUCCESS loop()  override // specific form of the function which has more cache misses but easy polymorphism
         {
             SUCCESS ret = 0;
             for(int i = this->getFirst(); i < this->getLast() && ret >= 0; i++)
