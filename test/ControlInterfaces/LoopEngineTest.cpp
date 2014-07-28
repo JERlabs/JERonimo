@@ -1,26 +1,25 @@
 #include "ControlInterfaces.h"
 #include <string>
 #include <iostream>
+#include <algorithm>
 
-using namespace std;
+using std::cout;
+using std::endl;
+using std::remove;
 using namespace jer;
 
-class DoCrap: public ListElement<PriorityElement<Loopable> >
+class DoCrap: public Loopable
 {
 private:
     char name;
 public:
-    DoCrap(const char n, LoopEngine<Loopable *, true> * const engine): ListElement<PriorityElement<Loopable> >(engine), name(n)
-    {
-        cout<<"Making crap "<<name<<endl;
-        setPriority(name - 'b');
-    };
-    
     DoCrap(const char n): name(n)
     {
         cout<<"Making crap "<<name<<endl;
-        setPriority(name - 'b');
+        //setPriority(name - 'b');
     };
+    
+    DoCrap(const DoCrap& other): name(other.name) {cout<<"Copying crap "<<name<<endl;};
     
     ~DoCrap()
     {
@@ -35,23 +34,19 @@ public:
     };
 };
 
-class DoShit: public ListElement<PriorityElement<Loopable> >
+class DoShit: public Loopable
 {
 private:
     char name;
     
 public:
-    DoShit(const char n, LoopEngine<Loopable *, true> * const engine): ListElement<PriorityElement<Loopable> >(engine), name(n)
-    {
-        cout<<"Making shit "<<name<<endl;
-        setPriority(name - 'b');
-    };
-    
     DoShit(const char n): name(n)
     {
         cout<<"Making shit "<<name<<endl;
-        setPriority(name - 'b');
+        //setPriority(name - 'b');
     }
+    
+    DoShit(const DoShit& other): name(other.name) {cout<<"Copying shit "<<name<<endl;};
     
     ~DoShit()
     {
@@ -68,26 +63,22 @@ public:
 
 int main(int argc, char **argv)
 {
-    DoCrap myCrap('c');
-    DoShit myShit('b');
-    DoCrap *myDynamicCrap = new DoCrap('a');
+    EasyLoop combinedList;
     
-    LoopEngine<Loopable *, true> combinedList;
-    
-    myCrap.addSelfToList(&combinedList);
-    myShit.addSelfToList(&combinedList);
-    myDynamicCrap->addSelfToList(&combinedList);
-        
-    cout<<"combinedList: "<<endl;
-    combinedList.loop();
-    
-    delete myDynamicCrap;
+    auto myCrap = combinedList.copyIn(DoCrap('a'));
+    auto myShit = combinedList.copyIn(DoShit('b'));
+    auto myDynamicCrap = combinedList.add(new DoCrap('c'));
     
     cout<<"combinedList: "<<endl;
     combinedList.loop();
     
-    combinedList.add(new DoShit('d', NULL));
-    new DoCrap('e', &combinedList);
+    combinedList.erase(remove(combinedList.begin(), combinedList.end(), *myDynamicCrap), combinedList.end());
+    
+    cout<<"combinedList: "<<endl;
+    combinedList.loop();
+    
+    combinedList.add(new DoShit('d'));
+    combinedList.add(new DoCrap('e'));
     
     cout<<"combinedList: "<<endl;
     combinedList.loop();

@@ -14,11 +14,13 @@ namespace jer
     class Loadable;
     class Loopable;
     class Displayable;
-    template<class T> class PriorityElement;
-    template<class T> class ListElement;
-    template<class T, bool PRIORITY = false> class GameList;
-    template<class T, bool PRIORITY = false> class LoopEngine;
+    class PriorityInterface;
+    class PriorityElement;
+    template<class T> class GameList;
+    template<class T> class SortList;
+    template<class T> class LoopEngine;
     template<class T> class DataManager;
+    template<class T> class DisplayQueue;
     // if the error was logged at a narrower scope then the function returns 1
 }
 

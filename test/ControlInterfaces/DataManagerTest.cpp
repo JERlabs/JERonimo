@@ -5,7 +5,7 @@
 using namespace jer;
 using namespace std;
 
-class FilePrinter: public ListElement<Loadable>, public Loopable
+class FilePrinter: public Loadable, public Loopable
 {
 private:
     string name;
@@ -13,14 +13,11 @@ private:
     
 public:
     FilePrinter(): fp(NULL) {};
-    FilePrinter(const string &n, ListElement<Loadable>::CONTAINING_LIST_TYPE * const engine): ListElement<Loadable>(engine), name(n), fp(NULL) 
-    {
-        cout<<"File: "<<name<<endl;
-    };
-    FilePrinter(const FilePrinter &other): name(other.name), fp(other.fp), ListElement<Loadable>(other.getList())
+    FilePrinter(const FilePrinter &other): name(other.name), fp(other.fp)
     {
         cout<<"Copying file handler: "<<name<<endl;
     };
+    
     FilePrinter(const string &n): name(n), fp(NULL)
     {
         cout<<"File: "<<name<<endl;
@@ -76,12 +73,11 @@ public:
 
 int main(int argc, char **argv)
 {
-    DataManager<Loadable *> myFiles;
-    LoopEngine<FilePrinter> myFileReads;
+    EasyData myFiles;
+    LoopEngine<FilePrinter *> myFileReads;
     for(int i = 1; i < argc; i++)
     {
-        myFileReads.push_back(FilePrinter(argv[i]));
-        myFiles.add(&(myFileReads.back()));
+        myFiles.push_back(*myFileReads.copyIn(FilePrinter(argv[i])));
     }
     if(myFiles.load() < 0)
     {
