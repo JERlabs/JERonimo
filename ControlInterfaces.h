@@ -11,5 +11,6 @@
 #include "ControlInterfaces/DisplayQueue.h"
 #include "ControlInterfaces/LoopEngine.h"
 #include "ControlInterfaces/BaseRunnable.h"
+#include "ControlInterfaces/CompositeRunnable.h"
 
 #endif /*_CONTROL_INTERFACES_H_*/
