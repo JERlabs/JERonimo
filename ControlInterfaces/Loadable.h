@@ -1,10 +1,15 @@
 #ifndef _LOADABLE_H_
 #define _LOADABLE_H_
 
+#include <memory>
+
 #include "Declarations.h"
 
 namespace jer
 {
+    using std::shared_ptr;
+    
+    
     class Loadable
     {
     private:
@@ -19,17 +24,29 @@ namespace jer
         const bool isLoaded() const {return loaded;};  /// Used to check the state of the loadable object
     };
     
-    const SUCCESS Loadable::load()
+    inline const SUCCESS Loadable::load()
     {
         loaded = true;
         return SUCCEEDED;
     }
     
-    const SUCCESS Loadable::unload()
+    inline const SUCCESS Loadable::unload()
     {
         loaded = false;
         return SUCCEEDED;
     }
+    
+    class LoadWrapper: public shared_ptr<Loadable>, public Loadable
+    {
+    public:
+        virtual ~LoadWrapper() {if(get()->isLoaded()) get()->unload();};
+        LoadWrapper(Loadable * const comp=nullptr): shared_ptr<Loadable>(comp) {};
+        LoadWrapper(const shared_ptr<Loadable>& other): shared_ptr<Loadable>(other) {};
+        
+    public:
+        const SUCCESS load() override {return get()? get()->load():-1;};
+        const SUCCESS unload() override {return get()? get()->unload():-1;};
+    };
 
 }
 #endif
