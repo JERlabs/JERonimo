@@ -21,6 +21,8 @@ namespace jer
     template<class T, template<class U> class SORT_LIST> class LoopEngine;
     template<class T, template<class U> class SORT_LIST> class DataManager;
     template<class T, template<class U> class sSORT_LIST> class DisplayQueue;
+    class BaseRunnable;
+    class CompositeRunnable;
     // if the error was logged at a narrower scope then the function returns 1
 }
 
