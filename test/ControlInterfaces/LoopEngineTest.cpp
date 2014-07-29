@@ -8,7 +8,7 @@ using std::endl;
 using std::remove;
 using namespace jer;
 
-class DoCrap: public Loopable
+class DoCrap: public PriorityLoopable
 {
 private:
     char name;
@@ -32,9 +32,11 @@ public:
         cout<<name<<" Crap!"<<endl;
         return 0;
     };
+    
+    const int getPriority() const override {return name-'a';}; 
 };
 
-class DoShit: public Loopable
+class DoShit: public PriorityLoopable
 {
 private:
     char name;
@@ -59,15 +61,19 @@ public:
         cout<<name<<" Shit!"<<endl;
         return 0;
     };
+    
+    const int getPriority() const override {return name-'a';};
 };
 
 int main(int argc, char **argv)
 {
-    EasyLoop combinedList;
+    EasyPriorityLoop combinedList;
     
-    auto myCrap = combinedList.copyIn(DoCrap('a'));
-    auto myShit = combinedList.copyIn(DoShit('b'));
-    auto myDynamicCrap = combinedList.add(new DoCrap('c'));
+    auto myCrap = combinedList.copyIn(DoCrap('c'));
+    auto myShit = combinedList.copyIn(DoShit('a'));
+    auto myDynamicCrap = combinedList.add(new DoCrap('b'));
+    
+    combinedList.sort();
     
     cout<<"combinedList: "<<endl;
     combinedList.loop();
@@ -77,10 +83,11 @@ int main(int argc, char **argv)
     cout<<"combinedList: "<<endl;
     combinedList.loop();
     
-    combinedList.add(new DoShit('d'));
-    combinedList.add(new DoCrap('e'));
+    combinedList.add(new DoShit('e'));
+    combinedList.add(new DoCrap('d'));
     
     cout<<"combinedList: "<<endl;
+    combinedList.sort();
     combinedList.loop();
     
     return 0;

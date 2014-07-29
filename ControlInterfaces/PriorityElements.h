@@ -1,10 +1,12 @@
 #ifndef _PRIORITY_ELEMENT_H_
 #define _PRIORITY_ELEMENT_H_
 
+#include <memory>
 #include "Declarations.h"
 
 namespace jer
 {
+    using std::shared_ptr;
     class PriorityInterface
     {
     public:
@@ -14,19 +16,14 @@ namespace jer
         virtual const int getPriority() const {return 0;}; // not abstract cuz you dont always have to implement it y'know
     };
     
-    template<class T>
-    class GeneralPriorityElement: public PriorityInterface, public T {};
-    
-    template<class T>
-    class PriorityElement: public T, public PriorityInterface
+    class PriorityElement: public PriorityInterface
     {
     private:
         int priority;
         
     public:
-        PriorityElement(const T& init, const int initP=0): T(init), priority(initP) {};
         PriorityElement(const int initP=0): priority(initP) {};
-        PriorityElement(const PriorityElement &other): T(other), priority(other.priority) {};
+        PriorityElement(const PriorityElement &other): priority(other.priority) {};
         virtual ~PriorityElement() {};
         
     public:
@@ -39,15 +36,17 @@ namespace jer
         return a.getPriority() < b.getPriority();
     }
     
-    const bool comparePriorityElementPointers(PriorityInterface *const a, PriorityInterface * const b)
+    const bool comparePriorityElementPointers(const shared_ptr<PriorityInterface> &a, const shared_ptr<PriorityInterface> &b)
     {
-        if(a == NULL)
-            return true;
-        else if(b == NULL)
-            return false;
-        else
-            return a->getPriority() < b->getPriority();
+        return a->getPriority() < b->getPriority();
     }
+    
+    template<class T>
+    class PriorityControlInterface: public T, public PriorityInterface {};
+    
+    using PriorityLoadable      = PriorityControlInterface<Loadable>;
+    using PriorityLoopable      = PriorityControlInterface<Loopable>;
+    using PriorityDisplayable   = PriorityControlInterface<Displayable>;
 }
 
 #endif /*_PRIORITY_ELEMENT_H_*/

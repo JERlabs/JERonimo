@@ -2,15 +2,16 @@
 #define _DISPLAY_MANAGER_H_
 
 #include "GameList.h"
+#include "SortList.h"
 #include "Displayable.h"
 
 namespace jer
 {
-    template<class T>
-    class DisplayQueue: public GameList<T>
+    template<class T, template<class U> class SORT_TYPE = GameList>
+    class DisplayQueue: public SORT_TYPE<T>
     {
     protected:
-        GameList<T> *displayList;
+        SORT_TYPE<T> *displayList;
         
     public:
         DisplayQueue(): displayList(this) {};
@@ -24,6 +25,7 @@ namespace jer
     };
     
     using EasyDisplay = DisplayQueue<Displayable *>;
+    using EasyPriorityDisplay = DisplayQueue<Displayable *, SortList>;
 }
 
 #endif /*_DISPLAY_MANAGER_H_*/

@@ -18,9 +18,9 @@ namespace jer
     class PriorityElement;
     template<class T> class GameList;
     template<class T> class SortList;
-    template<class T> class LoopEngine;
-    template<class T> class DataManager;
-    template<class T> class DisplayQueue;
+    template<class T, template<class U> class SORT_LIST> class LoopEngine;
+    template<class T, template<class U> class SORT_LIST> class DataManager;
+    template<class T, template<class U> class sSORT_LIST> class DisplayQueue;
     // if the error was logged at a narrower scope then the function returns 1
 }
 

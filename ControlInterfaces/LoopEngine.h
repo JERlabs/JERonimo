@@ -2,16 +2,17 @@
 #define _LOOP_ENGINE_H_
 
 #include "GameList.h"
+#include "SortList.h"
 #include "Loopable.h"
 
 namespace jer
 {    
-    template<class T>
-    class LoopEngine: public GameList<T>
+    template<class T, template<class U> class SORT_TYPE = GameList>
+    class LoopEngine: public SORT_TYPE<T>
     {
     /// LoopEngine, manages a list of Loopable's
     protected:
-        GameList<T> *loopList;
+        SORT_TYPE<T> *loopList;
         
     public:
         LoopEngine(): loopList(this) {};
@@ -25,6 +26,7 @@ namespace jer
     };
     
     using EasyLoop = LoopEngine<Loopable *>;
+    using EasyPriorityLoop = LoopEngine<Loopable *, SortList>;
 }
 
 #endif /*_LOOP_ENGINE_H_*/

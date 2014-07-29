@@ -2,14 +2,16 @@
 #define _DATA_MANAGER_H_
 
 #include "GameList.h"
+#include "Loadable.h"
+#include "SortList.h"
 
 namespace jer
 {
-    template<class T>
-    class DataManager: public GameList<T>
+    template<class T, template<class U> class LIST_TYPE = GameList>
+    class DataManager: public LIST_TYPE<T>
     {
     protected:
-        GameList<T> *loadList;
+        LIST_TYPE<T> *loadList;
         
     public:
         DataManager(): loadList(NULL) {};
@@ -36,7 +38,7 @@ namespace jer
     };
     
     using EasyData = DataManager<Loadable *>;
-    
+    using EasySortData = DataManager<Loadable *, SortList>;
 }
 
 
