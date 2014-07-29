@@ -38,5 +38,7 @@ public:
     virtual const SUCCESS run()=0;
 };
 
+class SimpleRunnable: public BaseRunnable {virtual const SUCCESS run() {return BaseRunnable::run();}; };
+
 }
 #endif /*_BASE_RUNNABLE_H_*/

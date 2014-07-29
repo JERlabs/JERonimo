@@ -133,6 +133,10 @@ protected:
         return 0;
     }
     
+    const SUCCESS run() 
+    {
+        return BaseRunnable::run();
+    }
 public:
     FibGeneratorLoop(const int n): fibs(NULL), stop(n) {};
     virtual ~FibGeneratorLoop() {};
