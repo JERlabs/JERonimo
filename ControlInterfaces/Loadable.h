@@ -44,8 +44,24 @@ namespace jer
         LoadWrapper(const shared_ptr<Loadable>& other): shared_ptr<Loadable>(other) {};
         
     public:
-        const SUCCESS load() override {return get()? get()->load():-1;};
-        const SUCCESS unload() override {return get()? get()->unload():-1;};
+        const SUCCESS load() override 
+        {
+            if(get())
+            {
+                Loadable::load();
+                return get()->load();
+            }
+            return FAILED;
+        };
+        const SUCCESS unload() override 
+        {
+            Loadable::unload();
+            if(get())
+            {
+                return get()->unload();
+            }
+            return FAILED;            
+        };
     };
 
 }

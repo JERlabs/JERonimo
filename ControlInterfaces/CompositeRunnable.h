@@ -27,7 +27,8 @@ namespace jer
                           Displayable * const displayPart): 
                           LoadWrapper(loadPart), 
                           LoopWrapper(loopPart), 
-                          DisplayWrapper(displayPart) {};
+                          DisplayWrapper(displayPart),
+                          looper(this), loader(this), displayer(this) {};
                           
     public:
         void setLoader(Loadable * const loadPart) {loader->reset(loadPart);};
@@ -38,7 +39,7 @@ namespace jer
         Displayable * const getDisplayer() const {return displayer->get();};
         
     public:
-        virtual const SUCCESS run()=0;
+        virtual const SUCCESS run();
     };
 }
 
