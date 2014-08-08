@@ -7,10 +7,14 @@
 #include "ControlInterfaces/Loopable.h"
 #include "ControlInterfaces/Displayable.h"
 #include "ControlInterfaces/GameList.h"
+#include "ControlInterfaces/SortList.h"
+#include "ControlInterfaces/MapList.h"
 #include "ControlInterfaces/DataManager.h"
 #include "ControlInterfaces/DisplayQueue.h"
 #include "ControlInterfaces/LoopEngine.h"
 #include "ControlInterfaces/BaseRunnable.h"
 #include "ControlInterfaces/CompositeRunnable.h"
+#include "ControlInterfaces/FileLoadable.h"
+#include "ControlInterfaces/FileManager.h"
 
 #endif /*_CONTROL_INTERFACES_H_*/

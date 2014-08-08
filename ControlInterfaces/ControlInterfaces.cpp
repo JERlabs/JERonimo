@@ -4,6 +4,7 @@
 #include "PriorityElements.h"
 #include "GameList.h"
 #include "SortList.h"
+#include "MapList.h"
 #include "DataManager.h"
 #include "DisplayQueue.h"
 #include "LoopEngine.h"
