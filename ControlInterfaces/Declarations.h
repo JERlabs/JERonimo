@@ -22,7 +22,8 @@ namespace jer
     template<class T, class LIST_TYPE> class LoopEngine;
     template<class T, class LIST_TYPE> class DataManager;
     template<class T, class LIST_TYPE> class DisplayQueue;
-    class BaseRunnable;
+	class Runnable;
+    class SimpleRunnable;
     class CompositeRunnable;
     // if the error was logged at a narrower scope then the function returns 1
 }

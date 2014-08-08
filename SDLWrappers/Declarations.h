@@ -4,4 +4,9 @@
 #include "SDL2/SDL.h"
 #include "ControlInterfaces/Declarations.h"
 
+namespace jer
+{
+	class App;   // Inherits BaseRunnable and holds a pointer to a BaseRunnable object
+}
+
 #endif

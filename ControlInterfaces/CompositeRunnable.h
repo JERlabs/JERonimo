@@ -5,19 +5,16 @@
 #include "Loadable.h"
 #include "Loopable.h"
 #include "Displayable.h"
+#include "Runnable.h"
 
 namespace jer
 {
-    class CompositeRunnable: public LoadWrapper, public LoopWrapper, public DisplayWrapper
+    class CompositeRunnable: public LoadWrapper, public LoopWrapper, public DisplayWrapper, public Runnable
     {
     protected:
         LoopWrapper *looper;
         LoadWrapper *loader;
         DisplayWrapper *displayer;
-        
-    protected:
-        int status;
-        bool running;        
         
     public:
         virtual ~CompositeRunnable() {if(loader->isLoaded()) loader->unload();};

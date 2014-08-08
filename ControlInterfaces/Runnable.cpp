@@ -1,8 +1,8 @@
-#include "BaseRunnable.h"
+#include "Runnable.h"
 
 namespace jer {
 
-const SUCCESS BaseRunnable::run() {
+const SUCCESS SimpleRunnable::run() {
   if((status = load()) < SUCCEEDED)
     return status;
   
