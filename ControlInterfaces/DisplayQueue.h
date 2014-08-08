@@ -7,11 +7,11 @@
 
 namespace jer
 {
-    template<class T, template<class U> class SORT_TYPE = GameList>
-    class DisplayQueue: public SORT_TYPE<T>
+    template<class T, class SORT_TYPE = GameList<T> >
+    class DisplayQueue: public SORT_TYPE
     {
     protected:
-        SORT_TYPE<T> *displayList;
+        SORT_TYPE *displayList;
         
     public:
         DisplayQueue(): displayList(this) {};
@@ -25,7 +25,7 @@ namespace jer
     };
     
     using EasyDisplay = DisplayQueue<Displayable *>;
-    using EasyPriorityDisplay = DisplayQueue<Displayable *, SortList>;
+    using EasyPriorityDisplay = DisplayQueue<Displayable *, SortList<Displayable *> >;
 }
 
 #endif /*_DISPLAY_MANAGER_H_*/

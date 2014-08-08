@@ -7,14 +7,14 @@
 
 namespace jer
 {
-    template<class T, template<class U> class LIST_TYPE = GameList>
-    class DataManager: public LIST_TYPE<T>
+    template<class T, class LIST_TYPE = GameList<T> >
+    class DataManager: public LIST_TYPE
     {
     protected:
-        LIST_TYPE<T> *loadList;
+        LIST_TYPE *loadList;
         
     public:
-        DataManager(): loadList(NULL) {};
+        DataManager(): loadList(this) {};
         virtual ~DataManager() {
             if(Loadable::isLoaded())
                 this->unload();
@@ -38,7 +38,7 @@ namespace jer
     };
     
     using EasyData = DataManager<Loadable *>;
-    using EasySortData = DataManager<Loadable *, SortList>;
+    using EasySortData = DataManager<Loadable *, SortList<Loadable *> >;
 }
 
 

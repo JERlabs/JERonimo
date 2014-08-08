@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     cout<<"combinedList: "<<endl;
     combinedList.loop();
     
-    combinedList.erase(remove(combinedList.begin(), combinedList.end(), *myDynamicCrap), combinedList.end());
+    combinedList.erase(remove(combinedList.begin(), combinedList.end(), myDynamicCrap), combinedList.end());
     
     cout<<"combinedList: "<<endl;
     combinedList.loop();

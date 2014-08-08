@@ -18,9 +18,11 @@ namespace jer
         SortList(): partition(0) {};
         virtual ~SortList() {};
         
-    public:
+    protected:
         virtual unsigned int getFirst() const {return partition;};
         virtual unsigned int getLast() const {return this->size();};
+        
+    public:
         virtual void sort()
         {
             std::sort(this->begin(), this->end(), comparePriorityElements);

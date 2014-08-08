@@ -5,39 +5,38 @@
 using namespace jer;
 using namespace std;
 
-class FilePrinter: public Loadable, public Loopable
+class FilePrinter: public FileLoadable, public Loopable
 {
 private:
-    string name;
     FILE *fp;
     
 public:
     FilePrinter(): fp(NULL) {};
-    FilePrinter(const FilePrinter &other): name(other.name), fp(other.fp)
+    FilePrinter(const FilePrinter &other): FileLoadable(other), fp(other.fp)
     {
-        cout<<"Copying file handler: "<<name<<endl;
+        cout<<"Copying file handler: "<<getFile()<<endl;
     };
     
-    FilePrinter(const string &n): name(n), fp(NULL)
+    FilePrinter(const string &n): FileLoadable(n), fp(NULL)
     {
-        cout<<"File: "<<name<<endl;
+        cout<<"File: "<<getFile()<<endl;
     };
     
     ~FilePrinter()
     {
         if(isLoaded())
             unload();
-        cout<<"File "<<name<<" has been removed"<<endl;
+        cout<<"File "<<getFile()<<" has been removed"<<endl;
     };
     
 public:
     const SUCCESS load()
     {
-        cout<<"Opening "<<name<<endl;
-        if((fp = fopen(name.c_str(), "r")) == NULL)
+        cout<<"Opening "<<getFile()<<endl;
+        if((fp = fopen(getFile().c_str(), "r")) == NULL)
             return FAILED;
         
-        cout<<"Opened "<<name<< " successfully!"<<endl;
+        cout<<"Opened "<<getFile()<< " successfully!"<<endl;
         Loadable::load();
         return SUCCEEDED;
     };
@@ -46,7 +45,7 @@ public:
     {
         if(!isLoaded())
             return FAILED;
-        cout<<"Closing "<<name<<endl;
+        cout<<"Closing "<<getFile()<<endl;
         if(fp != NULL)
             fclose(fp);
         fp = NULL;
@@ -57,7 +56,7 @@ public:
     const SUCCESS loop()
     {
         static char buffer[256];
-        cout<<"showing "<<name<<endl;
+        cout<<"showing "<<getFile()<<endl;
         if(!isLoaded())
             return FAILED;
         while(fgets(buffer, 256, fp) != NULL)
@@ -73,11 +72,11 @@ public:
 
 int main(int argc, char **argv)
 {
-    EasyData myFiles;
+    DataManager<FileLoadable *> myFiles;
     LoopEngine<FilePrinter *> myFileReads;
     for(int i = 1; i < argc; i++)
     {
-        myFiles.push_back(*myFileReads.copyIn(FilePrinter(argv[i])));
+        myFiles.push_back(myFileReads.copyIn(FilePrinter(argv[i])));
     }
     if(myFiles.load() < 0)
     {

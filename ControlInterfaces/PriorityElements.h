@@ -31,12 +31,12 @@ namespace jer
         virtual void setPriority(const int p) {priority = p;};
     };
     
-    const bool comparePriorityElements(const PriorityInterface &a, const PriorityInterface &b)
+    inline const bool comparePriorityElements(const PriorityInterface &a, const PriorityInterface &b)
     {
         return a.getPriority() < b.getPriority();
     }
     
-    const bool comparePriorityElementPointers(const shared_ptr<PriorityInterface> &a, const shared_ptr<PriorityInterface> &b)
+    inline const bool comparePriorityElementPointers(const shared_ptr<PriorityInterface> &a, const shared_ptr<PriorityInterface> &b)
     {
         return a->getPriority() < b->getPriority();
     }

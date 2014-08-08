@@ -23,9 +23,11 @@ namespace jer
         GameList(): ourList(this) {};
         virtual ~GameList() {};
         
-    public:
+    protected:
         virtual unsigned int getFirst() const {return 0;};
         virtual unsigned int getLast() const {return ourList->size();};
+        
+    public:
         const SUCCESS foreach(FOR_CALLBACK callBack)
         {
             SUCCESS ret = 0;
@@ -95,17 +97,17 @@ namespace jer
             return ret;
         };
         
-        shared_ptr<T> * const add(T * const elem) // takes the pointer
+        const shared_ptr<T> add(T * const elem) // takes the pointer
         {
             ourList->push_back(shared_ptr<T>(elem));
-            return &(ourList->back());
+            return ourList->back();
         };
         
         template<class U>
-        shared_ptr<T> * const copyIn(const U& elem) // copies the object
+        const shared_ptr<T> copyIn(const U& elem) // copies the object
         {
             ourList->push_back(std::make_shared<U>(elem));
-            return &(ourList->back());
+            return ourList->back();
         };
     };
    

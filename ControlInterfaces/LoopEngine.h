@@ -7,12 +7,12 @@
 
 namespace jer
 {    
-    template<class T, template<class U> class SORT_TYPE = GameList>
-    class LoopEngine: public SORT_TYPE<T>
+    template<class T, class SORT_TYPE = GameList<T> >
+    class LoopEngine: public SORT_TYPE
     {
     /// LoopEngine, manages a list of Loopable's
     protected:
-        SORT_TYPE<T> *loopList;
+        SORT_TYPE *loopList;
         
     public:
         LoopEngine(): loopList(this) {};
@@ -26,7 +26,7 @@ namespace jer
     };
     
     using EasyLoop = LoopEngine<Loopable *>;
-    using EasyPriorityLoop = LoopEngine<Loopable *, SortList>;
+    using EasyPriorityLoop = LoopEngine<Loopable *, SortList<Loopable *> >;
 }
 
 #endif /*_LOOP_ENGINE_H_*/
