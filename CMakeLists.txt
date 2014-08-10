@@ -4,22 +4,22 @@ project (JERonimo)
 
 include_directories (.)
 
-set (SUBDIRS Space2D SurfaceX ControlInterfaces)
+set (SUBDIRS Space2D SurfaceX ControlInterfaces SDLWrappers)
 
 set (SOURCES)
 foreach(subdir ${SUBDIRS})
     add_subdirectory(${subdir})
 endforeach(subdir)
 
-set (SDL_BUILDING_LIBRARY true)
-find_package (SDL REQUIRED)
+set (SDL2_BUILDING_LIBRARY true)
+find_package (SDL2 REQUIRED)
 find_package (SDL_image REQUIRED)
 
 
 set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} --std=c++11)
 
 add_library (JERonimo SHARED ${SOURCES})
-target_link_libraries (JERonimo SDL SDL_image)
+target_link_libraries (JERonimo SDL2 SDL_image)
 
 install (TARGETS JERonimo DESTINATION usr/local/lib)
 install (DIRECTORY DESTINATION /usr/local/include/${PROJECT_NAME})
