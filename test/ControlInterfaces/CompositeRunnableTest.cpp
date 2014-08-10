@@ -7,19 +7,19 @@
 using namespace jer;
 using namespace std;
 
-class FileWriter: public CompositeRunnable
+class FileWriter: public CompositeProcess
 {
 public:
     virtual ~FileWriter() {};
     FileWriter(): count(0) {};
     FileWriter(Loadable * const loadPart, Loopable * const loopPart, Displayable * const displayPart):
-        CompositeRunnable(loadPart, loopPart, displayPart) {};
+        CompositeProcess(loadPart, loopPart, displayPart) {};
     
 private:
     int count;
 public:
-    const SUCCESS load() override {count = 0; return CompositeRunnable::load();};
-    const SUCCESS loop() override {if(count++ >= 20) running = false; return CompositeRunnable::loop();};
+    const SUCCESS load() override {count = 0; return CompositeProcess::load();};
+    const SUCCESS loop() override {if(count++ >= 20) running = false; return CompositeProcess::loop();};
 };
 
 class FileEntity: public FileLoadable, public Loopable, public Displayable
@@ -124,5 +124,4 @@ int main(int argc, char **argv)
     
     return fw.run();
 }
-
 

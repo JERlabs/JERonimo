@@ -7,7 +7,7 @@
 #include "Loadable.h"
 
 namespace jer {
-// Events is only needed by run to call handleEvent
+
 class Runnable//: public Loadable, public Loopable, public Displayable
 {
 protected:
@@ -28,11 +28,38 @@ public:
 	void stop() {running = false;};
 };
 
-class SimpleRunnable: public Runnable, public Loadable, public Loopable, public  Displayable 
+class SimpleImplementation: public Loadable, public Loopable, public Displayable {};
+
+template<class IMPLEMENTATION>   /// Should be a type supporting Loadable, Loopable, and Displayable
+class Process: public Runnable, public IMPLEMENTATION
 {
 public:
-	virtual const SUCCESS run();
+    virtual ~Process() {};
+    Process() {};
+    Process(Loadable * const loadPart, Loopable * const loopPart, Displayable * const displayPart): 
+        IMPLEMENTATION(loadPart, loopPart, displayPart) {};
+    
+public:
+	virtual const SUCCESS run()
+    {
+        if((status = this->load()) < SUCCEEDED)
+            return status;
+        
+        running = true;
+        while (running) {
+            if((status = this->loop()) < SUCCEEDED)
+                break;
+            if((status = this->display()) < SUCCEEDED)
+                break;
+        }
+        
+        status = this->unload();
+        return status;
+    };
+    
 };
+
+using SimpleProcess = Process<SimpleImplementation>;
 
 }
 #endif /*_RUNNABLE_H_*/

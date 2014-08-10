@@ -4,7 +4,7 @@
 
 using namespace jer;
 
-class PrimeGeneratorLoop: public SimpleRunnable
+class PrimeGeneratorLoop: public SimpleProcess
 {
     int *primes;
     int current;
@@ -78,7 +78,7 @@ public:
     virtual ~PrimeGeneratorLoop() {};
 };
 
-class FibGeneratorLoop: public SimpleRunnable
+class FibGeneratorLoop: public SimpleProcess
 {
     int *fibs;
     int current;

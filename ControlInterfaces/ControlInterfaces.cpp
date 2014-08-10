@@ -8,5 +8,7 @@
 #include "DataManager.h"
 #include "DisplayQueue.h"
 #include "LoopEngine.h"
+#include "Runnable.h"
+#include "CompositeImplementation.h"
 
 // Translation unit and static definition holder for ControlInterfaces

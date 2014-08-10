@@ -13,7 +13,7 @@
 #include "ControlInterfaces/DisplayQueue.h"
 #include "ControlInterfaces/LoopEngine.h"
 #include "ControlInterfaces/Runnable.h"
-#include "ControlInterfaces/CompositeRunnable.h"
+#include "ControlInterfaces/CompositeImplementation.h"
 #include "ControlInterfaces/FileLoadable.h"
 #include "ControlInterfaces/FileManager.h"
 
