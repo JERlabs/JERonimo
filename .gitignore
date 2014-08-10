@@ -16,13 +16,11 @@ Debug/*
 .libs/*
 ipch/*
 nbproject/*
-SDL/*
 .lineno
 config.log
 doc/*
 *-swp
-*Test
-*~
+./*Test
 .ninja_deps
 .ninja_log
 CMakeCache.txt
