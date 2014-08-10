@@ -1,7 +1,7 @@
 #ifndef _SDL_WRAPPER_DECLARATIONS_H_
 #define _SDL_WRAPPER_DECLARATIONS_H_
 
-#include "SDL2/SDL.h"
+#include "SDL.h"
 #include "ControlInterfaces/Declarations.h"
 
 namespace jer

@@ -4,6 +4,7 @@ project (JERonimo)
 
 include_directories (.)
 
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
 set (SUBDIRS Space2D SurfaceX ControlInterfaces SDLWrappers)
 
 set (SOURCES)
@@ -15,6 +16,7 @@ set (SDL2_BUILDING_LIBRARY true)
 find_package (SDL2 REQUIRED)
 find_package (SDL_image REQUIRED)
 
+include_directories(${SDL2_INCLUDE_DIR})
 
 set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} --std=c++11)
 
