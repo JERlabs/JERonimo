@@ -23,6 +23,9 @@ public:
     
 public:
     virtual const SUCCESS run()=0;
+	const int getStatus() const {return status;};
+	const bool isRunning() const {return running;};
+	void stop() {running = false;};
 };
 
 class SimpleRunnable: public Runnable, public Loadable, public Loopable, public  Displayable 
