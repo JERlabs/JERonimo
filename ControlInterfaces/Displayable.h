@@ -25,7 +25,7 @@ namespace jer
         DisplayWrapper(const shared_ptr<Displayable>& other): shared_ptr<Displayable>(other) {};
         
     public:
-        const SUCCESS display() const override {return get()? get()->display():-1;};
+        virtual const SUCCESS display() const override {return get()? get()->display():-1;};
     };
 
 }

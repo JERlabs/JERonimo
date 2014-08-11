@@ -44,7 +44,7 @@ namespace jer
         LoadWrapper(const shared_ptr<Loadable>& other): shared_ptr<Loadable>(other) {};
         
     public:
-        const SUCCESS load() override 
+        virtual const SUCCESS load() override 
         {
             if(get())
             {
@@ -53,7 +53,7 @@ namespace jer
             }
             return FAILED;
         };
-        const SUCCESS unload() override 
+        virtual const SUCCESS unload() override 
         {
             Loadable::unload();
             if(get())
