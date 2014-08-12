@@ -29,12 +29,20 @@ namespace jer
                           looper(this), loader(this), displayer(this)*/ {};
                           
     public:
+        /*
         void setLoader(Loadable * const loadPart) {LoadWrapper::reset(loadPart);};
         void setLooper(Loopable * const loopPart) {LoopWrapper::reset(loopPart);};
         void setDisplayer(Displayable * const displayPart) {DisplayWrapper::reset(displayPart);};
         Loadable * const getLoader() const {return LoadWrapper::get();};
         Loopable * const getLooper() const {return LoopWrapper::get();};
         Displayable * const getDisplayer() const {return DisplayWrapper::get();};
+        */
+        const LoadWrapper &getLoader() const {return *this;};
+        const LoopWrapper &getLooper() const {return *this;};
+        const DisplayWrapper &getDisplayer() const {return *this;};
+        void setLoader(const LoadWrapper &loadPart) {this->LoadWrapper::operator=(loadPart);};
+        void setLooper(const LoopWrapper &loopPart) {this->LoopWrapper::operator=(loopPart);};
+        void setDisplayer(const DisplayWrapper &displayPart) {this->DisplayWrapper::operator=(displayPart);};
     };
     
     typedef CompositeImplementation CompImpl;
