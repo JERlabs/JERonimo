@@ -1,6 +1,8 @@
 #ifndef _POINT_H_
 #define _POINT_H_
 
+#include <ostream>
+
 #include "Declarations.h"
 
 namespace jer {
@@ -29,8 +31,8 @@ class Point {
     };
     
     X_t<T>& x() {
-      return X;
-    }
+        return X;
+    };
     
     /// Set the X coordinate, returns *this
     Point<T>& x(const X_t<T> & x) {
@@ -49,8 +51,8 @@ class Point {
     };
     
     Y_t<T> &y() {
-      return Y;
-    }
+        return Y;
+    };
     
     /// Set the Y coordinate, returns *this
     Point<T>& y(const Y_t<T>& y) {
@@ -243,6 +245,11 @@ inline const T pythagoras(const Point<T>& p) {
 template<typename T>
 inline const Radians getTheta(const Point<T> &p) {
   return getTheta(p.x(), p.y());
+}
+
+template<typename T>
+inline std::ostream &operator<< (std::ostream &os, Point<T> p) {
+    return os<<"("<<p.x()<<", "<<p.y()<<")";
 }
   
 }

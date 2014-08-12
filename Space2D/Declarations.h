@@ -28,6 +28,8 @@ namespace jer {
     T val;
     
   public:
+    T * const getPtr() {return &val;};
+    const T * const getPtr() const {return &val;};
     operator T&() {return val;};
     operator const T&() const {return val;};
     Scalar(): val(T(0.0)) {};
