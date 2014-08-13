@@ -1,0 +1,47 @@
+Design for SDL Video front end
+
+Renderer: public Loadable
+  data
+   held
+    pointer to SDL_Renderer - protected
+  methods
+    load() - pure virtual, how the renderer is loaded is up to the derived class (software, target, etc)
+    unload() - virtual, destroys renderer
+    clear() - invokes SDL_RenderClear - protected
+    present() const - invokes SDL_RenderPresent - protected 
+    ...various applicable get and set functions not requiring encapsulated/initialized information...
+    
+HardRenderer: public Renderer
+  data
+   init
+    shared pointer to window
+    index
+    bool preventVSync:1
+    bool allowHardwareAccel:1
+  methods
+    Constructor initializes the inits
+    load - loads the window and uses CreateRenderer initializing it with index, preventVSync bit and allowHardwareAccel bit
+    
+SoftRenderer: public Renderer
+  data
+   init
+    shared pointer to surface
+   methods
+    Constructor initializes the inits
+    load - loads the surface and uses CreateSoftwareRenderer initializing it with the pointer to the surface
+
+DrawOverRenderer<RENDERER>: public RENDERER, public virtual Displayable - must support clear and present
+  methods
+    display - calls present (every frame is displayed over the previous frame)
+
+RedrawRenderer<RENDERER>: public RENDERER, public virtual Displayable - must support clear and present
+  methods
+    display - calls present and clear (every frame is refreshed)
+    
+Drawable - interface with drawing/mutating functions
+  methods
+    ...various drawing functions such as adding points, rotating, flipping, scaling...
+    
+Drawer<RENDERER>: public RENDERER, public Drawable
+  methods
+    ...Various Renderer functions y'feel?...
