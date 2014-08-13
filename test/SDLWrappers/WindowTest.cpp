@@ -64,7 +64,7 @@ public:
 int main(int argc, char **argv)
 {
     CompositeProcess winProc;
-    int delay = 0;
+    int delay = 500;
     if(argc >= 2)
         delay = atoi(argv[1]);
     shared_ptr<Window> win(new Window("WindowTest", 

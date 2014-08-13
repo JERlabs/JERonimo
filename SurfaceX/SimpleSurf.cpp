@@ -32,7 +32,7 @@ const int SimpleSurf::load(char * const file) {
   if((temp = IMG_Load(file)) == NULL)
     return -1;
 
-  rslt = SDL_DisplayFormatAlpha(temp);
+  //rslt = SDL_DisplayFormatAlpha(temp);
   if(rslt == NULL) {
     SDL_FreeSurface(temp);
     return -1;
