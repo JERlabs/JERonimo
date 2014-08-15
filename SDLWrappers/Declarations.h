@@ -11,6 +11,13 @@ namespace jer
 	
     template<class IMPLEMENTATION> class Logger;
     /// Templatized subclass of ControlInterface Loadable/Loopable/Displayable Implementations which logs errors from SDL.
+    
+    class Window;
+    /// Wrapper class for SDL_Window, supports all get and set functions on the window. Sub class of Loadable
+    
+    class Renderer;
+    /// Wrapper class for SDL_Renderer, supports all get and set functions on renderer. Sub class of Loadable and Displayable. Displayable runs RenderPresent
+    
 }
 
 #endif /*_SDL_WRAPPER_DECLARATIONS_H_*/

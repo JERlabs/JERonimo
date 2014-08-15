@@ -4,5 +4,7 @@
 #include "SDLWrappers/App.h"
 #include "SDLWrappers/Logger.h"
 #include "SDLWrappers/Window.h"
+#include "SDLWrappers/Renderer.h"
+#include "SDLWrappers/HardRenderer.h"
 
 #endif /*_SDL_WRAPPER_H_*/

@@ -68,8 +68,8 @@ int main(int argc, char **argv)
     if(argc >= 2)
         delay = atoi(argv[1]);
     shared_ptr<Window> win(new Window("WindowTest", 
-                                      Point<int>(100, 100), Dimensions<int>(640, 480), 
-                                      Window::RESIZABLE | Window::SHOWN));
+                                      Point<int>(0, 0), Dimensions<int>(640, 480), 
+                                      Window::FULLSCREEN | Window::SHOWN ));
     shared_ptr<WindowSizeReporter> winReporter(new WindowSizeReporter(win, &winProc, delay));
     winProc.setLoader(LoadWrapper(win));
     winProc.setLooper(LoopWrapper(winReporter));

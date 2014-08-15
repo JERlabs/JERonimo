@@ -1,12 +1,16 @@
 #ifndef _APP_H_
 #define _APP_H_
 
+#include <string>
+
 #include "Declarations.h"
 #include "ControlInterfaces/Loadable.h"
 #include "ControlInterfaces/Runnable.h"
 
 namespace jer
 {
+    using std::string;
+    
 	class App: public Loadable, public Runnable
 	{
 	private:
@@ -18,6 +22,7 @@ namespace jer
 	private:
 		Runnable *mainApp;
 		Uint32 initFlags;
+        string winTitle;
 	
 	public:
 		virtual ~App() {if(isLoaded()) unload();};
@@ -28,6 +33,8 @@ namespace jer
 		Runnable * const getApp() const {return mainApp;};
 		void initAll() {initFlags = SDL_INIT_EVERYTHING;};
 		void initNone() {initFlags = 0;};
+        void setWindowTitle(const string &t) {winTitle = t;};
+        const string &getTitle() const {return winTitle;};
 		
 	public:
 		const SUCCESS load() override;

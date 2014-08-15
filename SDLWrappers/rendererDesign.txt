@@ -16,7 +16,7 @@ HardRenderer: public Renderer
    init
     shared pointer to window
     index
-    bool preventVSync:1
+    bool presentVSync:1
     bool allowHardwareAccel:1
   methods
     Constructor initializes the inits

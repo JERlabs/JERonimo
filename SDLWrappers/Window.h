@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Declarations.h"
+#include "App.h"
 #include "ControlInterfaces/Loadable.h"
 #include "Space2D.h"
 
@@ -44,9 +45,9 @@ namespace jer
         
     public:
         virtual ~Window() {if(isLoaded()) unload();};
-        Window(): win(NULL), screenPosition(-1, -1), flags(0), id(0) {};
+        Window(): win(NULL), screenPosition(-1, -1), flags(0), id(0) {App::GetApp().loadVideo();};
         Window(const string &title, const Point<int> &position, const Dimensions<int> &size, const Uint32 initFlags=0):
-            win(NULL), name(title), screenPosition(position), windowSize(size), flags(initFlags) {};
+            win(NULL), name(title), screenPosition(position), windowSize(size), flags(initFlags) {App::GetApp().loadVideo();};
             
     public:
         virtual const SUCCESS load() override;
