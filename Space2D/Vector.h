@@ -49,7 +49,7 @@ class Vector {
     /// Sets the angle of the vector to t, returns new angle
     Vector &theta(const Radians &t);
     virtual void theta(const double &t) {Theta = Radians(t);}; ///< IMPORTANT: t must be in radians!
-    void theta(const Degrees &d) {theta(double(d));};  ///< Okay if you call this in Degrees I've saved your ass
+    void theta(const Degrees &d) {theta(Radians(d));};  ///< Okay if you call this in Degrees I've saved your ass
     
   public:
     /// Sets the magnitude and angle of the vector to that of another
