@@ -29,8 +29,8 @@ namespace jer
         const SUCCESS setRenderer(SDL_Renderer * const r);
         
     protected:
-        const SUCCESS clear();
-        const SUCCESS present();
+        const SUCCESS clear() const;
+        const SUCCESS present() const;
         const SDL_RendererInfo * const getInfo() const;
         SDL_RendererInfo * const initInfo();
         

@@ -69,7 +69,7 @@ int main(int argc, char **argv)
         delay = atoi(argv[1]);
     shared_ptr<Window> win(new Window("WindowTest", 
                                       Point<int>(0, 0), Dimensions<int>(640, 480), 
-                                      Window::FULLSCREEN | Window::SHOWN ));
+                                      Window::FULLSCREEN_DESKTOP | Window::SHOWN ));
     shared_ptr<WindowSizeReporter> winReporter(new WindowSizeReporter(win, &winProc, delay));
     winProc.setLoader(LoadWrapper(win));
     winProc.setLooper(LoopWrapper(winReporter));

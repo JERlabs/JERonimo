@@ -6,5 +6,6 @@
 #include "SDLWrappers/Window.h"
 #include "SDLWrappers/Renderer.h"
 #include "SDLWrappers/HardRenderer.h"
+#include "SDLWrappers/RenderDisplays.h"
 
 #endif /*_SDL_WRAPPER_H_*/

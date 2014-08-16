@@ -21,14 +21,14 @@ namespace jer
         return FAILED;
     }
     
-    const SUCCESS Renderer::clear()
+    const SUCCESS Renderer::clear() const
     {
         if(isLoaded())
             return SDL_RenderClear(ren);
         return FAILED;
     }
     
-    const SUCCESS Renderer::present()
+    const SUCCESS Renderer::present() const
     {
         if(isLoaded())
         {

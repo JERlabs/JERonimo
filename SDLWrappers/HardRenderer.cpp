@@ -34,6 +34,8 @@ namespace jer
         
         SDL_SetRenderDrawColor(getRenderer(), 0, 0, 0, 0);
         
+        clear();
+        
         Loadable::load();
         getInfo();
     }
