@@ -28,7 +28,7 @@ public:
             current++;
             return SUCCEEDED;
         }
-        SDL_Delay(500);
+        SDL_Delay(1000/points.size());
         if(current == points.end())
         {
             ender->stop();
@@ -54,12 +54,12 @@ int main(int argc, char **argv)
     shared_ptr<DrawOverRenderer<HardRenderer> > ren(new DrawOverRenderer<HardRenderer>(win, true, true));
     renProc.setLoader(LoadWrapper(ren));
     vector<Point<int> > points;
-    Point<int> next;
+    Vector next;
     for(int i = 1; i < argc; i += 2)
     {
-        next.x(atoi(argv[i]));
-        next.y(atoi(argv[i+1]));
-        points.push_back(next);
+        next.mag(double(atoi(argv[i])));
+        next.theta(Degrees(double(atoi(argv[i+1]))));
+        points.push_back(Point<int>(200, 200)+Point<int>(next));
     }
     shared_ptr<Looper> myLooper(new Looper(ren, points, &renProc));
     renProc.setLooper(LoopWrapper(myLooper));
