@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     CompositeProcess renProc;
     shared_ptr<Window> win(new Window("RendererTest", 
                                       Point<int>(100, 100), Dimensions<int>(640, 480),
-                                      Window::SHOWN | Window::FULLSCREEN_DESKTOP));
+                                      Window::SHOWN));
     shared_ptr<RedrawRenderer<HardRenderer> > ren(new RedrawRenderer<HardRenderer>(win, true, true));
     renProc.setLoader(LoadWrapper(ren));
     vector<Point<int> > points;

@@ -47,7 +47,7 @@ public:
 
 int main(int argc, char **argv)
 {
-    CompositeProcess renProc;
+    Logger<CompositeProcess> renProc;
     shared_ptr<Window> win(new Window("RendererTest", 
                                       Point<int>(100, 100), Dimensions<int>(640, 480),
                                       Window::SHOWN));

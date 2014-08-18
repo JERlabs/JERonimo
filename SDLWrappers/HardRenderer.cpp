@@ -34,10 +34,12 @@ namespace jer
         
         SDL_SetRenderDrawColor(getRenderer(), 0, 0, 0, 0);
         
+		Loadable::load();
         clear();
-        
-        Loadable::load();
+       
         getInfo();
+		
+		return SUCCEEDED;
     }
     
     shared_ptr<Window> HardRenderer::getWin()
