@@ -2,6 +2,7 @@
 #define _EVENT_H_
 
 #include "Declarations.h"
+#include "App.h"
 
 #define NUM_KEYS 133
 
@@ -28,7 +29,7 @@ public:
   virtual ~Events();
 
   /// Classifies the SDL_Event based on type and other properties and calls the respective function.
-  virtual const SUCCESS handleEvent(SDL_Event * const Event);
+  virtual const SUCCESS handleEvent(const SDL_Event * const Event);
 
   /// Called when the window gains input focus (when keyboard or other input is sent to the SDL Window)
   virtual const SUCCESS inputFocus() {};
@@ -49,10 +50,9 @@ public:
   virtual const SUCCESS restored() {};
   
   /// Called when the SDL window is resized. W is new width. H is new height
-  virtual const SUCCESS resized(const int W, const int H) {};
+  virtual const SUCCESS resized(const Dimensions<int> &size) {};
 
-  /// TODO: figure out what expose is.
-  /// Called when the SDL window is modified outside of the application, usually by the windows manager and needs to be redrawn.
+    /// Called when the SDL window is modified outside of the application, usually by the windows manager and needs to be redrawn.
   virtual const SUCCESS exposed() {};
   
   /// Called when the SDL window is X-ed (won't automatically close). Pure virtaul, Must be overloaded.
@@ -79,22 +79,21 @@ public:
   /** Called when the mouse moves. Current Mouse position (mX pixels, mY pixels). Relative change in position (relX pixels, relY pixels).
     * Left button is down -> lDown = true. Right button is down -> rDown = true. Middle button is down -> mDown = true.
     */
-  virtual const SUCCESS mouseMove(const int mX, const int mY, const int relX, const int relY, 
-                                      const bool lDown, const bool rDown, const bool mDown) {};
+  virtual const SUCCESS mouseMove(const Delta<Point<int> > &movement, const bool lDown, const bool rDown, const bool mDown) {};
 
   /** Called when a mouse button is currently down. Mouse position at (mX, mY).
     * button represents which button is down, either SDL_BUTTON_LEFT, SDL_BUTTON_RIGHT, or SDL_BUTTON_MIDDLE.
     */
-  virtual const SUCCESS mouseButtonDown(const Uint8 button, const int mX, const int mY) {};
+  virtual const SUCCESS mouseButtonDown(const Uint8 button, const Point<int> &mPos) {};
 
   /// Called when a mouse button goes from up to down. Mouse position at (mX, mY). See GameControl::Events::mouseButtonDown.
-  virtual const SUCCESS mouseButtonPressed(const Uint8 button, const int mX, const int mY) {};
+  virtual const SUCCESS mouseButtonPressed(const Uint8 button, const Point<int> &mPos) {};
 
   /// Called when a mouse button goes is currently up. Mouse position at (mX, mY). See GameControl::Events::mouseButtonDown.
-  virtual const SUCCESS mouseButtonUp(const Uint8 button, const int mX, const int mY) {};
+  virtual const SUCCESS mouseButtonUp(const Uint8 button, const Point<int> &mPos) {};
 
   /// Called when a mouse button goes from down to up. Mouse position at (mX, mY). See GameControl::Events::mouseButtonUp.
-  virtual const SUCCESS mouseButtonReleased(const Uint8 button, const int mX, const int mY) {};
+  virtual const SUCCESS mouseButtonReleased(const Uint8 button, const Point<int> &mPos) {};
 
   /** Called when the joystick reports a value on one of the axes. 
     * which = "which joystick"
@@ -122,7 +121,7 @@ public:
   virtual const SUCCESS joyHatChange(const Uint8 which, const Uint8 hat, const Uint8 value) {};
 
   /// Called when the joystick ball moves. (joystick-ception). ball = "ball id". Relative change (xRel, yRel).
-  virtual const SUCCESS joyBallMove(const Uint8 which, const Uint8 ball, const Sint16 xRel, const Sint16 yRel) {};
+  virtual const SUCCESS joyBallMove(const Uint8 which, const Uint8 ball, const Point<Sint16> &rel) {};
 
   /// Called when an unhandled event by the systme's windows manager is sent.
   virtual const SUCCESS unhandledSystemEvent(SDL_SysWMmsg * const msg) {};

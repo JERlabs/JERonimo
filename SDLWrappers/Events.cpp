@@ -12,7 +12,7 @@ namespace jer {
   Events::~Events() {
   }
 
-  const SUCCESS Events::handleEvent(SDL_Event * const Event)
+  const SUCCESS Events::handleEvent(const SDL_Event * const Event)
   {
     switch(Event->type)
     {  //newline brackets implemented since this is a lot of nesting
@@ -30,13 +30,13 @@ namespace jer {
           return Event->active.gain? restored():minimized();
 
         default:   ///For some reason there is an unknown ACTIVITY gain or loss state
-          return EVENT_FAILURE;
+          return FAILED;
         }
         break;
       }
     case SDL_VIDEORESIZE:
       {
-        return resized(Event->resize.w, Event->resize.h);
+        return resized(Dimensions<int>(Event->resize.w, Event->resize.h));
         break;
       }
     case SDL_VIDEOEXPOSE:
@@ -76,20 +76,22 @@ namespace jer {
         break;
       }
     case SDL_MOUSEMOTION:
-      return mouseMove(Event->motion.x, Event->motion.y, Event->motion.xrel, Event->motion.yrel,
-        Event->motion.state & SDL_BUTTON(SDL_BUTTON_LEFT), Event->motion.state & SDL_BUTTON(SDL_BUTTON_RIGHT),
-        Event->motion.state & SDL_BUTTON(SDL_BUTTON_MIDDLE)); 
+      return mouseMove(Delta<Point<int> >(Point<int>(Event->motion.x, Event->motion.y), 
+                                          Point<int>(Event->motion.xrel, Event->motion.yrel),
+                       Event->motion.state & SDL_BUTTON(SDL_BUTTON_LEFT), 
+                       Event->motion.state & SDL_BUTTON(SDL_BUTTON_RIGHT),
+                       Event->motion.state & SDL_BUTTON(SDL_BUTTON_MIDDLE)); 
       break;
     case SDL_MOUSEBUTTONDOWN:
       {
         if(mouseButtons[Event->button.button])
         {
-          return mouseButtonDown(Event->button.button, Event->button.x, Event->button.y);
+          return mouseButtonDown(Event->button.button, Point<int>(Event->button.x, Event->button.y));
         }
         else
         {
           mouseButtons[Event->button.button] = 1;
-          return mouseButtonPressed(Event->button.button, Event->button.x, Event->button.y);
+          return mouseButtonPressed(Event->button.button, Poimt<int>(Event->button.x, Event->button.y));
         }
         break;
       }
@@ -98,11 +100,11 @@ namespace jer {
         if(mouseButtons[Event->button.button])
         {
           mouseButtons[Event->button.button] = 0;
-          return mouseButtonReleased(Event->button.button, Event->button.x, Event->button.y);
+          return mouseButtonReleased(Event->button.button, Point<int>(Event->button.x, Event->button.y));
         }
         else
         {
-          return mouseButtonUp(Event->button.button, Event->button.x, Event->button.y);
+          return mouseButtonUp(Event->button.button, Point<int>(Event->button.x, Event->button.y));
         }
         break;
       }
@@ -150,7 +152,7 @@ namespace jer {
       }
     case SDL_JOYBALLMOTION:
       {
-        return joyBallMove(Event->jball.which, Event->jball.ball, Event->jball.xrel, Event->jball.yrel);
+        return joyBallMove(Event->jball.which, Event->jball.ball, Point<int>(Event->jball.xrel, Event->jball.yrel));
         break;
       }
     case SDL_SYSWMEVENT:
