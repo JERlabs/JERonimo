@@ -3,15 +3,11 @@
 
 #include "Declarations.h"
 #include "App.h"
-
-#define NUM_KEYS 133
+#include "Window.h"
+#include "Mouese.h"
 
 namespace jer {
-
-
-/// All event functions return success or failure. Up to client to determine more results, or what to do with them.
-enum {MOUSE_LEFT, MOUSE_RIGHT, MOUSE_MIDDLE, NUM_MOUSE_BUTTON};
-
+    
 class Events {
 /** Organizes Events by their type and other properties.
   * There is a function for every type and some properties of each type.
@@ -22,8 +18,6 @@ class Events {
   * in some child class of GameLoop.
   */
 public:
-  static bitset<NUM_KEYS> keys; ///< keeps track of every current key state (1 pressed, 0 not pressed)
-  static bitset<NUM_MOUSE_BUTTON> mouseButtons; ///< keeps track of every current mouse button state (1 pressed, 0 not pressed)
   static vector<bool> joystickButtons; ///< keeps track of every joy button
   Events();
   virtual ~Events();

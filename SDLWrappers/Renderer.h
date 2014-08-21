@@ -1,6 +1,7 @@
 #ifndef _RENDERER_H_
 #define _RENDERER_H_
 
+#include "App.h"
 #include "Declarations.h"
 #include "Window.h"
 #include "ControlInterfaces/Loadable.h"
@@ -15,7 +16,7 @@ namespace jer
         
     public:
         virtual ~Renderer() {if(isLoaded()) this->unload();};
-        Renderer(): ren(NULL) {};
+        Renderer(): ren(NULL) {App::GetApp().loadVideo();};
         
     public:
         virtual const SUCCESS load()=0;

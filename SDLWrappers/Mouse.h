@@ -1,6 +1,5 @@
 #include <bitset>
 #include <unordered_map>
-#include <memory>
 
 #include "Declarations.h"
 #include "App.h"
@@ -20,7 +19,7 @@ namespace jer
             
             
     private:
-        static unordered_map<Uint32, shared_ptr<Mouse> > mouses;
+        static unordered_map<Uint32, Mouse *> mouses;
         static Mouse& MutateMouse(const Uint32 id);
         
     public:
@@ -37,11 +36,10 @@ namespace jer
         Window *mouseFocus;
         //Uint32 id;
         
-    public:
-        ~Mouse() {};
-        
     private:
+        ~Mouse() {};
         Mouse(): position(0, 0), mouseFocus(NULL) {};
+        Mouse(const Mouse& other): buttonStates(other.buttonStates), position(other.position), mouseFocus(other.mouseFocus) {};
         //explicit Mouse(const Uint32 ID): buttonStates(0), position(0, 0), mouseFocus(NULL), id(ID) {};
         //Mouse(const Mouse& other): Mouse(other.id) {};
         

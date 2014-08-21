@@ -2,6 +2,8 @@
 
 namespace jer
 {
+    unordered_map<Uint32, Window *> Window::windows;
+    
     const SUCCESS Window::load()
     {
         if(isLoaded())
@@ -16,6 +18,8 @@ namespace jer
         
         id = SDL_GetWindowID(win);
         
+        windows[id] = this;
+        
         Loadable::load();
         return SUCCEEDED;
     }
@@ -26,6 +30,7 @@ namespace jer
         {
             SDL_DestroyWindow(win);
             win = NULL;
+            windows.erase(id);
             id = 0;
         }
     }

@@ -1,6 +1,7 @@
 #ifndef _WINDOW_H_
 #define _WINDOW_H_
 
+#include <unordered_map>
 #include <memory>
 #include <string>
 
@@ -13,6 +14,7 @@ namespace jer
 {
     using std::shared_ptr;
     using std::string;
+    using std::unordered_map;
     
     class Window: public Loadable
     {
@@ -35,13 +37,20 @@ namespace jer
         };
         
     private:
+        static unordered_map<Uint32, Window *> windows;
+        
+    public:
+        static Window * const GetWindow(const Uint32 id) {return windows[id];};
+        static Window * const GetWindow() {return windows.begin()->second;};
+        
+    private:
         SDL_Window *win;
         // Initialization values
         mutable string name;                //< Window title
         mutable Point<int> screenPosition;  //< Window position in pixels
         mutable Dimensions<int> windowSize; //< Window size in pixels
         mutable Uint32 flags;               //< Flags with which to initialize the window
-        Uint32 id;                          //< ID of the window
+        Uint32 id;
         
     public:
         virtual ~Window() {if(isLoaded()) unload();};
