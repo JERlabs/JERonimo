@@ -40,6 +40,7 @@ namespace jer
 		const SUCCESS load() override;
 		const SUCCESS unload() override;
 		const SUCCESS run() override;
+        void stop() override {if(mainApp) mainApp->stop();};
 		
 	private:
 		const SUCCESS loadSubSystem(const Uint32 flags);

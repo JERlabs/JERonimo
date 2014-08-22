@@ -25,7 +25,7 @@ public:
     virtual const SUCCESS run()=0;
 	const int getStatus() const {return status;};
 	const bool isRunning() const {return running;};
-	void stop() {running = false;};
+	virtual void stop() {running = false;};
 };
 
 class SimpleImplementation: public Loadable, public Loopable, public Displayable {};
