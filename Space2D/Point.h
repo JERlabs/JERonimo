@@ -17,7 +17,8 @@ class Point {
     Point (const X_t<T>& x, const Y_t<T>& y): X(x), Y(y) {};
     
     /// Construct a point from another point
-    Point (Point<T> const& p2): X(p2.X), Y(p2.Y) {};
+    template<typename U>
+    Point (Point<U> const& p2): X(T(U(p2.x()))), Y(T(U(p2.y()))) {};
     
     /// Construct a point from a Vector
     Point (const Vector &v);
