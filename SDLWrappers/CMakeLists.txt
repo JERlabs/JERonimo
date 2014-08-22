@@ -5,6 +5,4 @@ set (SOURCES ${SOURCES}
   SDLWrappers/Renderer.cpp
   SDLWrappers/HardRenderer.cpp
   SDLWrappers/SDLWrappers.cpp
-  SDLWrappers/Mouse.cpp
-  SDLWrappers/Keyboard.cpp
   PARENT_SCOPE)

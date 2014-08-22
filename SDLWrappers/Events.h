@@ -1,12 +1,16 @@
 #ifndef _EVENT_H_
 #define _EVENT_H_
 
+#include <bitset>
+
 #include "Declarations.h"
 #include "App.h"
 #include "Window.h"
-#include "Mouese.h"
 
 namespace jer {
+    using std::bitset;
+    
+    enum {N_MOUSE_BUTTONS=5};
     
 class Events {
 /** Organizes Events by their type and other properties.
@@ -17,76 +21,81 @@ class Events {
   * As far as a client is concerned, they only need the function prototypes to overload
   * in some child class of GameLoop.
   */
+private:
+    static Events *eventListener;
+    static Uint32 timestamp;
+    
 public:
-  static vector<bool> joystickButtons; ///< keeps track of every joy button
+    static void SetListener(Events * const el) {eventListener = el;};
+    static const Events * const GetListener() {return eventListener;};
+    static const SUCCESS PollEvents();
+    static const Uint32 GetPreviousEventTimestamp() {return timestamp;};
+
+public:
   Events();
   virtual ~Events();
 
   /// Classifies the SDL_Event based on type and other properties and calls the respective function.
   virtual const SUCCESS handleEvent(const SDL_Event * const Event);
 
-  /// Called when the window gains input focus (when keyboard or other input is sent to the SDL Window)
-  virtual const SUCCESS inputFocus() {};
-
-  /// Called when the window loses input focus (when keyboard or other is no longer sent to the SDL Window)
-  virtual const SUCCESS inputBlur() {};
-
   /// Called when the window gains mouse focus (when mouse clicks on window)
-  virtual const SUCCESS mouseFocus() {};
+  virtual const SUCCESS mouseEnter(const Uint32 window) {};
 
   /// Called when the window loses mouse focus (when mouse clicks outside of window)
-  virtual const SUCCESS mouseBlur() {};
+  virtual const SUCCESS mouseLeave(const Uint32 window) {};
   
   /// Called when the SDL window is minimized
-  virtual const SUCCESS minimized() {};
+  virtual const SUCCESS minimized(const Uint32 window) {};
 
   /// Called when the SDL window is restored
-  virtual const SUCCESS restored() {};
+  virtual const SUCCESS restored(const Uint32 window) {};
   
-  /// Called when the SDL window is resized. W is new width. H is new height
-  virtual const SUCCESS resized(const Dimensions<int> &size) {};
+  /// Called when the SDL window is resized.
+  virtual const SUCCESS resized(const Uint32 window, const Dimensions<int> &size) {};
+  
+  /// Called when the SDL window is moved. 
+  virtual const SUCCESS moved(const Uint32 window, const Point<int> &pos) {};
 
     /// Called when the SDL window is modified outside of the application, usually by the windows manager and needs to be redrawn.
-  virtual const SUCCESS exposed() {};
+  virtual const SUCCESS exposed(const Uint32 window) {};
   
   /// Called when the SDL window is X-ed (won't automatically close). Pure virtaul, Must be overloaded.
-  virtual const SUCCESS exited()=0;
-
-  /** Called when a key on the keyboard is reported to be in the down state, 
-    * which if held down happens as often as is specified in SDL_EnableKeyRepeat(int delay, int interval) by interval
-    *
-    * sym is the SDL Key identifier such as SDL_KEYDOWN. mod is the current key mods, such as CTRL, ALT, etc.
-    * unicode is the translated character input of the key press. If SDL_EnableUnicode() was called, unicode should correspond
-    * to a unicode character. (if the upper 9 bits are 0, unicode is an ASCII character).
-    */
-  virtual const SUCCESS keyDown(const SDLKey sym, const SDLMod mod, const Uint16 unicode) {};
-
-  /// Called when a key on the keyboard goes from up to down. See GameControl::Events::keyDown for parameter synopsis.
-  virtual const SUCCESS keyPressed(const SDLKey sym, const SDLMod mod, const Uint16 unicode) {};
-
-  /// Called when a key on the keyboard is reported to be in the up state, see GameControl::Events::keyDown for more info.
-  virtual const SUCCESS keyUp(const SDLKey sym, const SDLMod mod, const Uint16 unicode) {};
+  virtual const SUCCESS windowExited(const Uint32 window)=0;
   
-  /// Called when a key on the keyboard goes from down to up. See GameControl::Event::keyDown for parameter synopsis.
-  virtual const SUCCESS keyReleased(const SDLKey sym, const SDLMod mod, const Uint16 unicode) {};
+  /// Called when the last SDL Window is exited.
+  virtual const SUCCESS appExited();
 
-  /** Called when the mouse moves. Current Mouse position (mX pixels, mY pixels). Relative change in position (relX pixels, relY pixels).
-    * Left button is down -> lDown = true. Right button is down -> rDown = true. Middle button is down -> mDown = true.
+  /** Called if a key has remained held down. (SDL Key Repeat must be enabled)
+    * @window: the id of the window with keyboard focus
+    * @key: a struct containing the keycode, scancode, and modifiers of the key event.
     */
-  virtual const SUCCESS mouseMove(const Delta<Point<int> > &movement, const bool lDown, const bool rDown, const bool mDown) {};
+  virtual const SUCCESS keyHeld(const Uint32 window, const SDL_Keysym key) {};
+
+  /// Called when a key on the keyboard goes from up to down. See Events::keyHeld for parameter synopsis.
+  virtual const SUCCESS keyPressed(const Uint32 window, const SDL_Keysym key) {};
+  
+  /// Called when a key on the keyboard goes from down to up. See Events::keyHeld for parameter synopsis.
+  virtual const SUCCESS keyReleased(const Uint32 window, const SDL_Keysym key) {};
+
+  /** Called when the mouse moves.
+   * @movement: a Delta containing the current position and relative movement of the mouse
+   * @*down: if true, that
+   */
+  virtual const SUCCESS mouseMove(const Uint32 window, const Uint32 mouse, const Delta<Point<int> > &movement, 
+                                  const bitset<N_MOUSE_BUTTONS> &buttons) {};
 
   /** Called when a mouse button is currently down. Mouse position at (mX, mY).
     * button represents which button is down, either SDL_BUTTON_LEFT, SDL_BUTTON_RIGHT, or SDL_BUTTON_MIDDLE.
     */
   virtual const SUCCESS mouseButtonDown(const Uint8 button, const Point<int> &mPos) {};
 
-  /// Called when a mouse button goes from up to down. Mouse position at (mX, mY). See GameControl::Events::mouseButtonDown.
+  /// Called when a mouse button goes from up to down. Mouse position at (mX, mY). See Events::mouseButtonDown.
   virtual const SUCCESS mouseButtonPressed(const Uint8 button, const Point<int> &mPos) {};
 
-  /// Called when a mouse button goes is currently up. Mouse position at (mX, mY). See GameControl::Events::mouseButtonDown.
+  /// Called when a mouse button goes is currently up. Mouse position at (mX, mY). See Events::mouseButtonDown.
   virtual const SUCCESS mouseButtonUp(const Uint8 button, const Point<int> &mPos) {};
 
-  /// Called when a mouse button goes from down to up. Mouse position at (mX, mY). See GameControl::Events::mouseButtonUp.
+  /// Called when a mouse button goes from down to up. Mouse position at (mX, mY). See Events::mouseButtonUp.
   virtual const SUCCESS mouseButtonReleased(const Uint8 button, const Point<int> &mPos) {};
 
   /** Called when the joystick reports a value on one of the axes. 

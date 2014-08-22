@@ -12,7 +12,7 @@ Events
 {
   static
     Events *eventListener  // a pointer to the object which receives the static pollEvents dispatch
-    SUCCESS pollEvents() - virtual  // loops through polled events and calls eventListener's handleEvent
+    SUCCESS pollEvents() // loops through polled events and calls eventListener's handleEvent
     
   members
     handleEvent(SDL_Event *event) - virtual  // parses the event struct and calls the appropriate interface virtual
