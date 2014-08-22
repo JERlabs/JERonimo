@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     Logger<CompositeProcess> renProc;
     shared_ptr<Window> win(new Window("RendererTest", 
                                       Point<int>(100, 100), Dimensions<int>(640, 480),
-                                      Window::SHOWN));
+                                      Window::SHOWN | Window::RESIZABLE));
     shared_ptr<DrawOverRenderer<HardRenderer> > ren(new DrawOverRenderer<HardRenderer>(win, true, true));
     renProc.setLoader(LoadWrapper(ren));
     vector<Point<int> > points;

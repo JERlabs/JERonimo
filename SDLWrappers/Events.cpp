@@ -1,12 +1,31 @@
 #include "Events.h"
 
 namespace jer {
-  bitset<NUM_KEYS> Events::keys(0);
-  bitset<NUM_MOUSE_BUTTON> Events::mouseButtons(0);
-  vector<bool> Events::joystickButtons;
-
+  Events *Events::eventListener;
+  Uint32 Events::timestamp;
+  
+  const SUCCESS Events::PollEvents()
+  {
+      if(eventListener == NULL)
+          return FAILED;
+      
+      SUCCESS ret = 0;
+      SDL_Event event;
+      
+      while(SDL_PollEvent(&event))
+      {
+          if(ret < 0)
+              continue;
+          ret = eventListener->handleEvent(&event);
+      }
+      
+      return ret;
+  }
+  
+  
   Events::Events() {
-     //SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+     App::GetApp().loadVideo();
+     App::GetApp().loadEvents();
   }
 
   Events::~Events() {
@@ -16,158 +35,122 @@ namespace jer {
   {
     switch(Event->type)
     {  //newline brackets implemented since this is a lot of nesting
-    case SDL_ACTIVEEVENT: ///Some sort of input or output gained or lost
+    case SDL_WINDOWEVENT: ///Some sort of input or output gained or lost
       {
-        switch(Event->active.state) 
+        const Uint8 &winID = Event->window.windowID;
+        switch(Event->window.event) 
         {
-        case SDL_APPMOUSEFOCUS:   ///Mouse message handling gained or lost
-          return Event->active.gain? mouseFocus():mouseBlur();
+        case SDL_WINDOWEVENT_ENTER:   ///Mouse message handling gained or lost
+          return mouseEnter(winID);
           
-        case SDL_APPINPUTFOCUS:   ///General input message handling gained or lost
-          return Event->active.gain? inputFocus():inputBlur();
+        case SDL_WINDOWEVENT_LEAVE:   ///General input message handling gained or lost
+          return mouseLeave(winID);
 
-        case SDL_APPACTIVE:   ///Output to the screen at all gained or lost
-          return Event->active.gain? restored():minimized();
-
-        default:   ///For some reason there is an unknown ACTIVITY gain or loss state
+        case SDL_WINDOWEVENT_MINIMIZED:   ///Output to the screen at all gained or lost
+          return minimized(winID);
+          
+        case SDL_WINDOWEVENT_RESTORED:
+          return restored(winID);
+          
+        case SDL_WINDOWEVENT_MAXIMIZED:
+          return maximized(winID);
+          
+        case SDL_WINDOWEVENT_SHOWN:
+          return shown(winID);
+          
+        case SDL_WINDOWEVENT_HIDDEN:
+          return hidden(winID);
+          
+        case SDL_WINDOWEVENT_EXPOSED:
+          return exposed(winID);
+          
+        case SDL_WINDOWEVENT_FOCUS_GAINED:
+          return keyboardFocusGain(winID);
+          
+        case SDL_WINDOWEVENT_FOCUS_LOST:
+          return keyboardFocusLost(winID);
+          
+        case SDL_WINDOWEVENT_RESIZED:
+          return resized(winID, Dimensions<int>(Event->window.data1, Event->window.data2));
+          
+        case SDL_WINDOWEVENT_MOVED:
+          return moved(winID, Point<int>(Event->window.data1, Event->window.data2));
+          
+        case SDL_WINDOWEVENT_CLOSE:
+          return windowExited(winID);
+          
+        default:   ///For some reason there is an unknown window event
           return FAILED;
         }
         break;
       }
-    case SDL_VIDEORESIZE:
-      {
-        return resized(Dimensions<int>(Event->resize.w, Event->resize.h));
-        break;
-      }
-    case SDL_VIDEOEXPOSE:
-      {
-        return exposed();
-        break;
-      }
-    case SDL_QUIT:
-      {
-        return exited();
-        break;
-      }
     case SDL_KEYDOWN:
       {
-        if(keys[Event->key.keysym.sym])
+        if(Event->key.repeat)
         {
-          return keyDown(Event->key.keysym.sym, Event->key.keysym.mod, Event->key.keysym.unicode);
+          return keyHeld(Event->key.windowID, Event->key.keysym);
         }
         else
         {
-          keys[Event->key.keysym.sym] = 1;
-          return keyPressed(Event->key.keysym.sym, Event->key.keysym.mod, Event->key.keysym.unicode);
+          return keyPressed(Event->key.windowID, Event->key.keysym);
         }
         break;
       }
     case SDL_KEYUP:
-      {
-        if(keys[Event->key.keysym.sym])
-        {
-          keys[Event->key.keysym.sym] = 0;
-          return keyReleased(Event->key.keysym.sym, Event->key.keysym.mod, Event->key.keysym.unicode);
-        }
-        else
-        {
-          return keyPressed(Event->key.keysym.sym, Event->key.keysym.mod, Event->key.keysym.unicode);
-        }
-        break;
-      }
+        return keyReleased(Event->key.windowID, Event->key.keysym);
+        
     case SDL_MOUSEMOTION:
-      return mouseMove(Delta<Point<int> >(Point<int>(Event->motion.x, Event->motion.y), 
-                                          Point<int>(Event->motion.xrel, Event->motion.yrel),
-                       Event->motion.state & SDL_BUTTON(SDL_BUTTON_LEFT), 
-                       Event->motion.state & SDL_BUTTON(SDL_BUTTON_RIGHT),
-                       Event->motion.state & SDL_BUTTON(SDL_BUTTON_MIDDLE)); 
-      break;
+      return mouseMove(Event->motion.windowID, Event->motion.which,
+                       Delta<Point<int> >(Point<int>(Event->motion.x, Event->motion.y), 
+                                          Point<int>(Event->motion.xrel, Event->motion.yrel)),
+                       bitset<N_MOUSE_BUTTONS>(Event->motion.state));
+                       
     case SDL_MOUSEBUTTONDOWN:
-      {
-        if(mouseButtons[Event->button.button])
-        {
-          return mouseButtonDown(Event->button.button, Point<int>(Event->button.x, Event->button.y));
-        }
-        else
-        {
-          mouseButtons[Event->button.button] = 1;
-          return mouseButtonPressed(Event->button.button, Poimt<int>(Event->button.x, Event->button.y));
-        }
-        break;
-      }
+      return mouseButtonPressed(Event->button.windowID, Event->button.which, Event->button.button, Event->button.clicks,
+                                Point<int>(Event->button.x, Event->button.y));
+      
     case SDL_MOUSEBUTTONUP:
-      {
-        if(mouseButtons[Event->button.button])
-        {
-          mouseButtons[Event->button.button] = 0;
-          return mouseButtonReleased(Event->button.button, Point<int>(Event->button.x, Event->button.y));
-        }
-        else
-        {
-          return mouseButtonUp(Event->button.button, Point<int>(Event->button.x, Event->button.y));
-        }
-        break;
-      }
+        return mouseButtonPressed(Event->button.windowID, Event->button.which, Event->button.button, Event->button.clicks,
+                                  Point<int>(Event->button.x, Event->button.y));
+     
+    case SDL_MOUSEWHEEL:
+        return mouseWheel(Event->wheel.windowID, Event->wheel.which, Point<int>(Event->wheel.x, Event->wheel.y));
+        
     case SDL_JOYAXISMOTION:
       return joyAxis(Event->jaxis.which, Event->jaxis.axis, Event->jaxis.value);
-      break;
+    
     case SDL_JOYBUTTONDOWN:
+      return joyButtonPressed(Event->jbutton.which, Event->jbutton.button);
+      
     case SDL_JOYBUTTONUP:
-      {
-        if(joystickButtons.size() >= Event->jbutton.button)
-        {
-          for(Uint8 i = joystickButtons.size(); i < Event->jbutton.button; i++) //makes sure it accounts for the correct number of joystick buttons.
-            joystickButtons.push_back(0);
-        }
-        if(Event->type == SDL_JOYBUTTONDOWN)
-        {
-          if(joystickButtons[Event->jbutton.button])
-          {
-           return joyButtonDown(Event->jbutton.which, Event->jbutton.button);
-          }
-          else
-          {
-            joystickButtons[Event->jbutton.button] = 1;
-            return joyButtonPressed(Event->jbutton.which, Event->jbutton.button);
-          }
-        }
-        else
-        {
-          if(joystickButtons[Event->jbutton.button])
-          {
-            joystickButtons[Event->jbutton.button] = 0;
-            return joyButtonReleased(Event->jbutton.which, Event->jbutton.button);
-          }
-          else
-          {
-            return joyButtonUp(Event->jbutton.which, Event->jbutton.button);
-          }
-        }
-        break;
-      }
+      return joyButtonReleased(Event->jbutton.which, Event->jbutton.button);
+      
     case SDL_JOYHATMOTION:
-      {
-        return joyHatChange(Event->jhat.which, Event->jhat.hat, Event->jhat.value);
-        break;
-      }
+      return joyHatChange(Event->jhat.which, Event->jhat.hat, Event->jhat.value);
+        
     case SDL_JOYBALLMOTION:
-      {
-        return joyBallMove(Event->jball.which, Event->jball.ball, Point<int>(Event->jball.xrel, Event->jball.yrel));
-        break;
-      }
+      return joyBallMove(Event->jball.which, Event->jball.ball, Point<int>(Event->jball.xrel, Event->jball.yrel));
+      
+    case SDL_DROPFILE:
+    {
+      const SUCCESS ret = droppedFile(Event->drop.file);
+      SDL_free(Event->drop.file);
+      return ret;
+    }
+      
     case SDL_SYSWMEVENT:
-      {
-        return unhandledSystemEvent(Event->syswm.msg);
-        break;
-      }
+      return unhandledSystemEvent(Event->syswm.msg);
+     
+    case SDL_QUIT:
+      return appExited();
+        
     case SDL_USEREVENT:
     default:
       {
-        return userEvent(Event->user.code, Event->user.data1, Event->user.data2);
-        break;
+        return userEvent(Event->user.windowID, Event->user.code, Event->user.data1, Event->user.data2);
       }
     }
 
-    return false;
+    return FAILED;
   }
 }
