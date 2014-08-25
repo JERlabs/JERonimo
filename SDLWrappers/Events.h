@@ -2,13 +2,16 @@
 #define _EVENT_H_
 
 #include <bitset>
+#include <memory>
 
 #include "Declarations.h"
 #include "App.h"
 #include "Window.h"
+#include "ControlInterfaces/Loopable.h"
 
 namespace jer {
     using std::bitset;
+    using std::shared_ptr;
     
     enum {N_MOUSE_BUTTONS=5};
     
@@ -29,6 +32,8 @@ public:
     static void SetListener(Events * const el) {eventListener = el;};
     static const Events * const GetListener() {return eventListener;};
     static const SUCCESS PollEvents();
+    
+protected:
     static const Uint32 GetPreviousEventTimestamp() {return timestamp;};
 
 public:
@@ -84,13 +89,19 @@ public:
     * @window: the id of the window with keyboard focus
     * @key: a struct containing the keycode, scancode, and modifiers of the key event.
     */
-  virtual const SUCCESS keyHeld(const Uint32 window, const SDL_Keysym key) {};
+  virtual const SUCCESS keyHeld(const Uint32 window, const SDL_Keysym &key) {};
 
   /// Called when a key on the keyboard goes from up to down. See Events::keyHeld for parameter synopsis.
-  virtual const SUCCESS keyPressed(const Uint32 window, const SDL_Keysym key) {};
+  virtual const SUCCESS keyPressed(const Uint32 window, const SDL_Keysym &key) {};
   
   /// Called when a key on the keyboard goes from down to up. See Events::keyHeld for parameter synopsis.
-  virtual const SUCCESS keyReleased(const Uint32 window, const SDL_Keysym key) {};
+  virtual const SUCCESS keyReleased(const Uint32 window, const SDL_Keysym &key) {};
+  
+  /// Called when the OS sends text input
+  virtual const SUCCESS textInput(const Uint32 window, const char * const text) {};
+  
+  /// Called when the OS sends text editing
+  virtual const SUCCESS textEdit(const Uint32 window, const char * const text, const int start, const int length) {};
 
   /** Called when the mouse moves.
    * @movement: a Delta containing the current position and relative movement of the mouse
@@ -138,7 +149,7 @@ public:
   virtual const SUCCESS joyAdded(const Sint32 device) {};
   
   /// Called when a joystick device is removed
-  virtual const SUCCESS joyRemoved(const Sint32 device) {};
+  virtual const SUCCESS joyRemoved(const Sint32 id) {};
   
   /// Called when a file is dragged and dropped into an SDL Window
   virtual const SUCCESS droppedFile(const char * const file) {};
@@ -153,6 +164,29 @@ public:
     */
   virtual const SUCCESS userEvent(const Uint32 window, const int code, void * const data1, void * const data2) {};
 
+};
+
+class EventLoop: public Loopable
+{
+private:
+    static shared_ptr<EventLoop> instance;
+    
+public:
+    static EventLoop& GetInstance() {return *instance;};
+    static const shared_ptr<EventLoop> GetReference() {return instance;};
+    
+private:
+    EventLoop() {};
+    EventLoop(const EventLoop& other) {};
+    
+public:
+    virtual ~EventLoop() {};
+    
+public:
+    const SUCCESS loop() override
+    {
+        return Events::PollEvents();
+    };
 };
 
 }

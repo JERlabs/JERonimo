@@ -4,6 +4,8 @@ namespace jer {
   Events *Events::eventListener;
   Uint32 Events::timestamp;
   
+  shared_ptr<EventLoop> EventLoop::instance(new EventLoop);
+  
   const SUCCESS Events::PollEvents()
   {
       if(eventListener == NULL)
@@ -16,6 +18,7 @@ namespace jer {
       {
           if(ret < 0)
               continue;
+          timestamp =  event.common.timestamp;
           ret = eventListener->handleEvent(&event);
       }
       
@@ -98,6 +101,12 @@ namespace jer {
       }
     case SDL_KEYUP:
         return keyReleased(Event->key.windowID, Event->key.keysym);
+        
+    case SDL_TEXTINPUT:
+        return textInput(Event->text.windowID, Event->text.text);
+        
+    case SDL_TEXTEDITING:
+        return textEdit(Event->edit.windowID, Event->edit.text, Event->edit.start, Event->edit.length);
         
     case SDL_MOUSEMOTION:
       return mouseMove(Event->motion.windowID, Event->motion.which,

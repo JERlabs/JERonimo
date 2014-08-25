@@ -5,5 +5,6 @@ set (SOURCES ${SOURCES}
   SDLWrappers/Renderer.cpp
   SDLWrappers/HardRenderer.cpp
   SDLWrappers/Events.cpp
+  SDLWrappers/EventLogger.cpp
   SDLWrappers/SDLWrappers.cpp
   PARENT_SCOPE)

@@ -7,5 +7,7 @@
 #include "SDLWrappers/Renderer.h"
 #include "SDLWrappers/HardRenderer.h"
 #include "SDLWrappers/RenderDisplays.h"
+#include "SDLWrappers/Events.h"
+#include "SDLWrappers/EventLogger.h"
 
 #endif /*_SDL_WRAPPER_H_*/
