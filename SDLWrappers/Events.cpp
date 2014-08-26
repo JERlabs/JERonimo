@@ -119,7 +119,7 @@ namespace jer {
                                 Point<int>(Event->button.x, Event->button.y));
       
     case SDL_MOUSEBUTTONUP:
-        return mouseButtonPressed(Event->button.windowID, Event->button.which, Event->button.button, Event->button.clicks,
+        return mouseButtonReleased(Event->button.windowID, Event->button.which, Event->button.button, Event->button.clicks,
                                   Point<int>(Event->button.x, Event->button.y));
      
     case SDL_MOUSEWHEEL:
