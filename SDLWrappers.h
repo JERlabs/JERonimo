@@ -9,5 +9,7 @@
 #include "SDLWrappers/RenderDisplays.h"
 #include "SDLWrappers/Events.h"
 #include "SDLWrappers/EventLogger.h"
+#include "SDLWrappers/Drawable.h"
+#include "SDLWrappers/CanvasRenderer.h"
 
 #endif /*_SDL_WRAPPER_H_*/

@@ -772,7 +772,7 @@ namespace jer
     const SUCCESS EventLogger::mouseMove(const Uint32 window, const Uint32 mouse, const Delta<Point<int> > &movement,
                                          const bitset<N_MOUSE_BUTTONS> &buttons)
     {
-        out<<"Mouse "<<mouse<<" moved to "<<movement.get()<<" at rate "<<movement<<" in window "<<window<<endl;
+        out<<"Mouse "<<mouse<<" moved to "<<movement.get()<<" at rate "<<movement<<" in window "<<window<<"with button config: "<<buttons<<endl;
         return SUCCEEDED;
     }
     

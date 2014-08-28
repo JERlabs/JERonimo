@@ -73,6 +73,9 @@ namespace jer {
         case SDL_WINDOWEVENT_FOCUS_LOST:
           return keyboardFocusLost(winID);
           
+        case SDL_WINDOWEVENT_SIZE_CHANGED:
+            return changeSize(winID);
+            
         case SDL_WINDOWEVENT_RESIZED:
           return resized(winID, Dimensions<int>(Event->window.data1, Event->window.data2));
           
@@ -110,8 +113,8 @@ namespace jer {
         
     case SDL_MOUSEMOTION:
       return mouseMove(Event->motion.windowID, Event->motion.which,
-                       Delta<Point<int> >(Point<int>(Event->motion.x, Event->motion.y), 
-                                          Point<int>(Event->motion.xrel, Event->motion.yrel)),
+                       Delta<Point<int> >(Point<int>(Event->motion.xrel, Event->motion.yrel), 
+                                          Point<int>(Event->motion.x, Event->motion.y)),
                        bitset<N_MOUSE_BUTTONS>(Event->motion.state));
                        
     case SDL_MOUSEBUTTONDOWN:
