@@ -44,71 +44,74 @@ public:
   virtual const SUCCESS handleEvent(const SDL_Event * const Event);
 
   /// Called when the window gains mouse focus (when mouse clicks on window)
-  virtual const SUCCESS mouseEnter(const Uint32 window) {};
+  virtual const SUCCESS mouseEnter(const Uint32 window) {return SUCCEEDED;};
 
   /// Called when the window loses mouse focus (when mouse clicks outside of window)
-  virtual const SUCCESS mouseLeave(const Uint32 window) {};
+  virtual const SUCCESS mouseLeave(const Uint32 window) {return SUCCEEDED;};
   
   /// Called when the SDL window gains keyboard focus
-  virtual const SUCCESS keyboardFocusGain(const Uint32 window) {};
+  virtual const SUCCESS keyboardFocusGain(const Uint32 window) {return SUCCEEDED;};
   
   /// Called when the SDL window loses keyboard focus
-  virtual const SUCCESS keyboardFocusLost(const Uint32 window) {};
+  virtual const SUCCESS keyboardFocusLost(const Uint32 window) {return SUCCEEDED;};
   
   /// Called when the SDL window is minimized
-  virtual const SUCCESS minimized(const Uint32 window) {};
+  virtual const SUCCESS minimized(const Uint32 window) {return SUCCEEDED;};
 
   /// Called when the SDL window is restored
-  virtual const SUCCESS restored(const Uint32 window) {};
+  virtual const SUCCESS restored(const Uint32 window) {return SUCCEEDED;};
   
   /// Called when the SDL window is maximized
-  virtual const SUCCESS maximized(const Uint32 window) {};
+  virtual const SUCCESS maximized(const Uint32 window) {return SUCCEEDED;};
   
-  /// Called when the SDL window is resized.
-  virtual const SUCCESS resized(const Uint32 window, const Dimensions<int> &size) {};
+  /// Called when the SDL window is resized by the user
+  virtual const SUCCESS resized(const Uint32 window, const Dimensions<int> &size) {return SUCCEEDED;};
+  
+  /// Called when the SDL Window is resized
+  virtual const SUCCESS changeSize(const Uint32 window) {return SUCCEEDED;};
   
   /// Called when the SDL window is moved. 
-  virtual const SUCCESS moved(const Uint32 window, const Point<int> &pos) {};
+  virtual const SUCCESS moved(const Uint32 window, const Point<int> &pos) {return SUCCEEDED;};
 
     /// Called when the SDL window is modified outside of the application, usually by the windows manager and needs to be redrawn.
-  virtual const SUCCESS exposed(const Uint32 window) {};
+  virtual const SUCCESS exposed(const Uint32 window) {return SUCCEEDED;};
   
   /// Called when the SDL Window is shown or something
-  virtual const SUCCESS shown(const Uint32 window) {};
+  virtual const SUCCESS shown(const Uint32 window) {return SUCCEEDED;};
   
   /// Called when the SDL Window is hidden behind other windows
-  virtual const SUCCESS hidden(const Uint32 window) {};
+  virtual const SUCCESS hidden(const Uint32 window) {return SUCCEEDED;};
   
   /// Called when the SDL window is X-ed (won't automatically close). Pure virtaul, Must be overloaded.
-  virtual const SUCCESS windowExited(const Uint32 window)=0;
+  virtual const SUCCESS windowExited(const Uint32 window) {return SUCCEEDED;};
   
   /// Called when the last SDL Window is exited.
-  virtual const SUCCESS appExited() {App::GetApp().stop();};
+  virtual const SUCCESS appExited() {App::GetApp().stop(); return SUCCEEDED;};
 
   /** Called if a key has remained held down. (SDL Key Repeat must be enabled)
     * @window: the id of the window with keyboard focus
     * @key: a struct containing the keycode, scancode, and modifiers of the key event.
     */
-  virtual const SUCCESS keyHeld(const Uint32 window, const SDL_Keysym &key) {};
+  virtual const SUCCESS keyHeld(const Uint32 window, const SDL_Keysym &key) {return SUCCEEDED;};
 
   /// Called when a key on the keyboard goes from up to down. See Events::keyHeld for parameter synopsis.
-  virtual const SUCCESS keyPressed(const Uint32 window, const SDL_Keysym &key) {};
+  virtual const SUCCESS keyPressed(const Uint32 window, const SDL_Keysym &key) {return SUCCEEDED;};
   
   /// Called when a key on the keyboard goes from down to up. See Events::keyHeld for parameter synopsis.
-  virtual const SUCCESS keyReleased(const Uint32 window, const SDL_Keysym &key) {};
+  virtual const SUCCESS keyReleased(const Uint32 window, const SDL_Keysym &key) {return SUCCEEDED;};
   
   /// Called when the OS sends text input
-  virtual const SUCCESS textInput(const Uint32 window, const char * const text) {};
+  virtual const SUCCESS textInput(const Uint32 window, const char * const text) {return SUCCEEDED;};
   
   /// Called when the OS sends text editing
-  virtual const SUCCESS textEdit(const Uint32 window, const char * const text, const int start, const int length) {};
+  virtual const SUCCESS textEdit(const Uint32 window, const char * const text, const int start, const int length) {return SUCCEEDED;};
 
   /** Called when the mouse moves.
    * @movement: a Delta containing the current position and relative movement of the mouse
    * @buttons: a bitmask of the current mouse buttons
    */
   virtual const SUCCESS mouseMove(const Uint32 window, const Uint32 mouse, const Delta<Point<int> > &movement, 
-                                  const bitset<N_MOUSE_BUTTONS> &buttons) {};
+                                  const bitset<N_MOUSE_BUTTONS> &buttons) {return SUCCEEDED;};
 
   /** Called when a mouse button is pressed.
     * @window: id of the window
@@ -118,51 +121,51 @@ public:
     * @mPos: position of mouse relative to the window
     */
   virtual const SUCCESS mouseButtonPressed(const Uint32 window, const Uint32 mouse, 
-                                           const Uint8 button, const Uint8 clicks, const Point<int> &mPos) {};
+                                           const Uint8 button, const Uint8 clicks, const Point<int> &mPos) {return SUCCEEDED;};
 
   /// Called when a mouse button goes from down to up. Mouse position at (mX, mY). See Events::mouseButtonUp.
   virtual const SUCCESS mouseButtonReleased(const Uint32 window, const Uint32 mouse, 
-                                            const Uint8 button, const Uint8 clicks, const Point<int> &mPos) {};
+                                            const Uint8 button, const Uint8 clicks, const Point<int> &mPos) {return SUCCEEDED;};
   
   /// Called when the mouse wheel scrolls at the relative differential of scroll
-  virtual const SUCCESS mouseWheel(const Uint32 window, const Uint32 mouse, const Point<int> &scroll) {};
+  virtual const SUCCESS mouseWheel(const Uint32 window, const Uint32 mouse, const Point<int> &scroll) {return SUCCEEDED;};
   
   /// Called when a joystick axis changes. Value represents the current position along the axis on stick.axis
-  virtual const SUCCESS joyAxis(const SDL_JoystickID stick, const Uint8 axis, const Sint16 value) {};
+  virtual const SUCCESS joyAxis(const SDL_JoystickID stick, const Uint8 axis, const Sint16 value) {return SUCCEEDED;};
 
   /// Called when joystick button which.button is pressed.
-  virtual const SUCCESS joyButtonPressed(const SDL_JoystickID stick, const Uint8 button) {};
+  virtual const SUCCESS joyButtonPressed(const SDL_JoystickID stick, const Uint8 button) {return SUCCEEDED;};
 
   /// Called when joystick button stick.button is released
-  virtual const SUCCESS joyButtonReleased(const SDL_JoystickID stick, const Uint8 button) {};
+  virtual const SUCCESS joyButtonReleased(const SDL_JoystickID stick, const Uint8 button) {return SUCCEEDED;};
 
   /** Called when the joystick hat position changes. hat = "hat id". 
     * value: SDL_HAT_CENTERED, SDL_HAT_UP, SDL_HAT_RIGHT, SDL_HAT_DOWN, SDL_HAT_LEFT, 
     * SDL_HAT_RIGHTUP, SDL_HAT_RIGHTDOWN, SDL_HAT_LEFTDOWN, SDL_HAT_LEFTUP
     */
-  virtual const SUCCESS joyHatChange(const SDL_JoystickID stick, const Uint8 hat, const Uint8 position) {};
+  virtual const SUCCESS joyHatChange(const SDL_JoystickID stick, const Uint8 hat, const Uint8 position) {return SUCCEEDED;};
 
   /// Called when the joystick ball moves. (joystick-ception). ball = "ball id". Relative change rel.
-  virtual const SUCCESS joyBallMove(const SDL_JoystickID stick, const Uint8 ball, const Point<Sint16> &rel) {};
+  virtual const SUCCESS joyBallMove(const SDL_JoystickID stick, const Uint8 ball, const Point<Sint16> &rel) {return SUCCEEDED;};
   
   /// Called when a joystick device is added.
-  virtual const SUCCESS joyAdded(const Sint32 device) {};
+  virtual const SUCCESS joyAdded(const Sint32 device) {return SUCCEEDED;};
   
   /// Called when a joystick device is removed
-  virtual const SUCCESS joyRemoved(const Sint32 id) {};
+  virtual const SUCCESS joyRemoved(const Sint32 id) {return SUCCEEDED;};
   
   /// Called when a file is dragged and dropped into an SDL Window
-  virtual const SUCCESS droppedFile(const char * const file) {};
+  virtual const SUCCESS droppedFile(const char * const file) {return SUCCEEDED;};
   
   /// Called when an unhandled event by the systme's windows manager is sent.
-  virtual const SUCCESS unhandledSystemEvent(SDL_SysWMmsg * const msg) {};
+  virtual const SUCCESS unhandledSystemEvent(SDL_SysWMmsg * const msg) {return SUCCEEDED;};
 
   /** Called when SDL_UserEvent is handled. This event is thrown by the user and is very generic.
     * consists of a code (2^sizeof(int) different allowed values),
     * and two generic data values of type void *, whose data type should be known by the user for their
     * respective code and cast to that type.
     */
-  virtual const SUCCESS userEvent(const Uint32 window, const int code, void * const data1, void * const data2) {};
+  virtual const SUCCESS userEvent(const Uint32 window, const int code, void * const data1, void * const data2) {return SUCCEEDED;};
 
 };
 
