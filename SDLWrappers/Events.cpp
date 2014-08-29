@@ -110,8 +110,8 @@ namespace jer {
         
     case SDL_MOUSEMOTION:
       return mouseMove(Event->motion.windowID, Event->motion.which,
-                       Delta<Point<int> >(Point<int>(Event->motion.x, Event->motion.y), 
-                                          Point<int>(Event->motion.xrel, Event->motion.yrel)),
+                       Delta<Point<int> >(Point<int>(Event->motion.xrel, Event->motion.yrel), 
+                                          Point<int>(Event->motion.x, Event->motion.y)),
                        bitset<N_MOUSE_BUTTONS>(Event->motion.state));
                        
     case SDL_MOUSEBUTTONDOWN:
