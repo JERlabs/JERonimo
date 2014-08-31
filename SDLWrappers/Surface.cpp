@@ -44,7 +44,7 @@ namespace jer
     {
         if(isLoaded())
             return 1;
-        surf.reset(IMG_Load(getFile().c_str()));
+        surf.reset(IMG_Load(getFile().c_str()), SDL_SURFACE_DELETER);
         if(surf == nullptr)
             return FAILED;
         FileLoadable::load();

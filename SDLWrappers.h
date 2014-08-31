@@ -11,5 +11,7 @@
 #include "SDLWrappers/EventLogger.h"
 #include "SDLWrappers/Drawable.h"
 #include "SDLWrappers/CanvasRenderer.h"
+#include "SDLWrappers/Surface.h"
+#include "SDLWrappers/Texture.h"
 
 #endif /*_SDL_WRAPPER_H_*/
