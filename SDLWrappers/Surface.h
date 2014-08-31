@@ -5,7 +5,6 @@
 
 #include "Declarations.h"
 #include "ControlInterfaces/FileLoadable.h"
-#include "ControlInterfaces/Displayable.h"
 
 namespace jer
 {
