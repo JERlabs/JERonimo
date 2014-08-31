@@ -4,6 +4,7 @@
 extern "C"
 {
 	#include "SDL.h"
+    #include "SDL_image.h"
 }
 #include "ControlInterfaces/Declarations.h"
 
@@ -33,9 +34,17 @@ namespace jer
     template<class RENDERER> class RedrawRenderer;
     /// Template class for Renderers which present the renderer, and then clear the renderer on each frame. Subclass of Displayable.
     
-    class Mouse;
-    /// Class which maintains the current state of mice the program receives input from, by ID. Not instantiable outside the scope of the class
+    class Events;
+    /// Interface class containing static functions for global event handling and virtual member functions called by handleEvent overridable by subclasses to define event behavior
     
+    class EventLogger;
+    /// Outputs text describing what event was thrown, good for testing input.
+    
+    class Surface;
+    /// FileLoadable and Drawable which hold an SDL_Surface. It handles the loading and drawing of and SDL_Surface
+    
+    class ClosedSurface;
+    /// Subclass of private Surface, it has the same functionality as Surface except the user cannot gain non-const access to the contained Surface
 }
 
 #endif /*_SDL_WRAPPER_DECLARATIONS_H_*/

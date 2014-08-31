@@ -17,10 +17,10 @@ namespace jer
         virtual ~FileLoadable() {};
         FileLoadable(const string &name): fileName(name) {};
         FileLoadable() {};
-        FileLoadable(const FileLoadable& other): fileName(other.fileName) {};
+        FileLoadable(const FileLoadable& other): Loadable(other), fileName(other.fileName) {};
         
     public:
-        void setFile(const string& name) {fileName = name;};
+        void setFile(const string& name) {if(!isLoaded()) fileName = name;};
         const string &getFile() const {return fileName;};
     };
 }

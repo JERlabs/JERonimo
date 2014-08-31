@@ -7,4 +7,6 @@ set (SOURCES ${SOURCES}
   SDLWrappers/Events.cpp
   SDLWrappers/EventLogger.cpp
   SDLWrappers/SDLWrappers.cpp
+  SDLWrappers/Surface.cpp
+  SDLWrappers/Texture.cpp
   PARENT_SCOPE)

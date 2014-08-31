@@ -25,6 +25,8 @@ namespace jer
     public:
         const SDL_Renderer * const getRenderer() const {return ren;};
         SDL_Renderer * const getRenderer() {return ren;};
+        operator const SDL_Renderer * const () const {return ren;};
+        operator SDL_Renderer * const () {return ren;};
         
     protected:
         SDL_Renderer * const mutateRenderer() const {return ren;};

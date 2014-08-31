@@ -17,6 +17,7 @@ namespace jer
         
     public:
         Loadable(): loaded(false) {};
+        Loadable(const Loadable& other): loaded(other.loaded) {};
         virtual ~Loadable() {};
 
         virtual const SUCCESS load()=0;  /// Overload to load object
