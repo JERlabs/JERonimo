@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "Declarations.h"
+#include "App.h"
 #include "Space2D.h"
 #include "ControlInterfaces/FileLoadable.h"
 
@@ -31,7 +32,7 @@ namespace jer
         
     public:
         virtual ~Surface() {};
-        Surface(const string &name): FileLoadable(name), surf(nullptr, SDL_SURFACE_DELETER) {};
+        Surface(const string &name): FileLoadable(name), surf(nullptr, SDL_SURFACE_DELETER) {App::GetApp().loadFileType(name);};
         Surface(): surf(nullptr, SDL_SURFACE_DELETER) {};
         Surface(const Surface &other): FileLoadable(other), surf(other.surf) {};
         Surface(SDL_Surface * const s): Surface(shared_ptr<SDL_Surface>(s, SDL_SURFACE_DELETER)) {};
@@ -47,7 +48,7 @@ namespace jer
     public:
         SDL_Surface * const copy() const {return copy(surf->format);};
         SDL_Surface * const copy(const SDL_PixelFormat *fmt) const;
-        const shared_ptr<SDL_Surface> &getSurf() {return surf;};
+        const shared_ptr<SDL_Surface> getSurf() {return surf;};
         const shared_ptr<const SDL_Surface> getSurf() const {return surf;};
         operator const SDL_Surface * const () const {return getSurf().get();};
         operator SDL_Surface * const () {return getSurf().get();};
