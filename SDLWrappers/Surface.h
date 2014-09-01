@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "Declarations.h"
+#include "Space2D.h"
 #include "ControlInterfaces/FileLoadable.h"
 
 namespace jer
@@ -52,6 +53,7 @@ namespace jer
         operator SDL_Surface * const () {return getSurf().get();};
         SDL_Surface * const operator->() {return getSurf().get();};
         const SDL_Surface * const operator->() const {return getSurf().get();};
+        const Dimensions<int> getDim() const {return Dimensions<int>(surf->w, surf->h);};
         
     public:
         virtual const SUCCESS load() override;

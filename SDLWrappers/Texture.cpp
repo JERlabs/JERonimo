@@ -37,7 +37,10 @@ namespace jer
     const Dimensions<int> Texture::getDim() const
     {
         Dimensions<int> ret;
-        SDL_QueryTexture(tex.get(), NULL, NULL, ret.x().getPtr(), ret.y().getPtr());
+        if(isLoaded())
+            SDL_QueryTexture(tex.get(), NULL, NULL, ret.x().getPtr(), ret.y().getPtr());
+        else if(src->isLoaded())
+            ret = src->getDim();
         return ret;
     }
     

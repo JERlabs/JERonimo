@@ -12,7 +12,7 @@ int main(int argc, char **argv)
     if(testText.load() < SUCCEEDED)
     {
         std::cout<<"Texture failed to load"<<std::endl;
-        return SUCCEEDED;
+        return FAILED;
     }
     testText.blit(Point<int>(10, 10));
     ren.display();
