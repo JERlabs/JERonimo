@@ -21,7 +21,7 @@ namespace jer
 		
 	private:
 		Runnable *mainApp;
-		Uint32 initFlags;
+		Uint32 initFlags, imgFlags;
         string winTitle;
 	
 	public:
@@ -44,6 +44,7 @@ namespace jer
 		
 	private:
 		const SUCCESS loadSubSystem(const Uint32 flags);
+        const SUCCESS loadIMGSubSystem(const Uint32 flags);
 		
 	public:
 		const SUCCESS loadTimer() {return loadSubSystem(SDL_INIT_TIMER);};
@@ -53,6 +54,10 @@ namespace jer
 		const SUCCESS loadHaptic() {return loadSubSystem(SDL_INIT_HAPTIC);};
 		const SUCCESS loadGameController() {return loadSubSystem(SDL_INIT_GAMECONTROLLER);};
 		const SUCCESS loadEvents() {return loadSubSystem(SDL_INIT_EVENTS);};
+        const SUCCESS loadFileType(const string &fileName);
+        const SUCCESS loadJPG() {return loadIMGSubSystem(IMG_INIT_JPG);};
+        const SUCCESS loadPNG() {return loadIMGSubSystem(IMG_INIT_PNG);};
+        const SUCCESS loadTIF() {return loadIMGSubSystem(IMG_INIT_TIF);};
 	};
 }
 
