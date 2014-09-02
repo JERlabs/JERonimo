@@ -19,7 +19,11 @@ public:
     AppLoop(const Texture &s, MyDisplayQueue *d): stamp(s), current(NULL), displayer(d) {};
     
 public:
-    const SUCCESS loop() override {return EventLoop::GetInstance().loop();};
+    const SUCCESS loop() override 
+	{
+		displayer->sort();
+		return EventLoop::GetInstance().loop();
+	};
     
 public:
     const SUCCESS mouseButtonPressed(const Uint32 window, const Uint32 mouse, const Uint8 button, const Uint8 clicks, const Point<int> &mPos)
@@ -53,6 +57,17 @@ public:
         current->setImage(new ScaledTexture(stamp, movement.get()-current->getPixelPosition()));
         return SUCCEEDED;
     }
+	
+	const SUCCESS keyPressed(const Uint32 window, const SDL_Keysym &key)
+	{
+		if(key.scancode == SDL_SCANCODE_Z && current == NULL)
+		{
+			cout<<"Undoing"<<endl;
+			if(displayer->size() > 1)
+			displayer->pop_back();
+		}
+		return SUCCEEDED;
+	}
     
 };
 
@@ -66,7 +81,7 @@ int main(int argc, char **argv)
     
     shared_ptr<Window> win(new Window("Stamps Woah", Point<int>(0, 0), Dimensions<int>(640, 480), Window::SHOWN | Window::RESIZABLE));
     shared_ptr<RedrawRenderer<HardRenderer> > ren(new RedrawRenderer<HardRenderer>(win, true, true));
-    PriorityControlElement<DisplayWrapper> renWrap(shared_ptr<Displayable>(ren), 10000);
+    PriorityControlElement<DisplayWrapper> renWrap(shared_ptr<Displayable>(ren), 0);
     data->push_back(win);
     data->push_back(ren);
     
