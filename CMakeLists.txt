@@ -5,7 +5,7 @@ project (JERonimo)
 include_directories (.)
 
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
-set (SUBDIRS Space2D ControlInterfaces SDLWrappers)
+set (SUBDIRS Space2D ControlInterfaces SDLWrappers GameUtilities)
 
 set (SOURCES)
 foreach(subdir ${SUBDIRS})

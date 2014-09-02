@@ -13,6 +13,7 @@
 #include "SDLWrappers/CanvasRenderer.h"
 #include "SDLWrappers/Surface.h"
 #include "SDLWrappers/ScaledSurface.h"
+#include "SDLWrappers/ScaledTexture.h"
 #include "SDLWrappers/Texture.h"
 
 #endif /*_SDL_WRAPPER_H_*/

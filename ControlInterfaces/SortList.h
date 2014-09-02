@@ -10,7 +10,10 @@ namespace jer
 {
     template<class T>
     class SortList: public GameList<PriorityControlInterface<T> >
-    {        
+    {       
+    public:
+        typedef T CONTAINED_TYPE;
+        
     private:
         unsigned int partition;
         
@@ -41,6 +44,9 @@ namespace jer
     template<class T>
     class SortList<T *>: public GameList<PriorityControlInterface<T> *>
     {
+    public:
+        typedef T CONTAINED_TYPE;
+        
     private:
         unsigned int partition;
         

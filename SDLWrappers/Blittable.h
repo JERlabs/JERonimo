@@ -16,6 +16,7 @@ namespace jer
         virtual const SUCCESS blit(const Rectangle<int> &src, const Rectangle<int> &dst) const {return FAILED;};
         virtual const SUCCESS blit(const Rectangle<int> &dst) const {return FAILED;};
         virtual const SUCCESS blit(const Point<int> &dst) const {return FAILED;};
+        virtual const SUCCESS blit(const Rectangle<int> &src, const Point<int> &dst) {return FAILED;};
     };
 }
 

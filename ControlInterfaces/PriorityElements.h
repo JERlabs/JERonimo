@@ -16,7 +16,7 @@ namespace jer
         virtual const int getPriority() const {return 0;}; // not abstract cuz you dont always have to implement it y'know
     };
     
-    class PriorityElement: public PriorityInterface
+    class PriorityElement: public virtual PriorityInterface
     {
     private:
         int priority;
@@ -42,7 +42,22 @@ namespace jer
     }
     
     template<class T>
-    class PriorityControlInterface: public T, public PriorityInterface {};
+    class PriorityControlInterface: public T, public virtual PriorityInterface 
+    {
+    public:
+        PriorityControlInterface(const T& copy): T(copy) {};
+        PriorityControlInterface() {};
+    };
+    
+    template<class T>
+    class PriorityControlElement: public PriorityControlInterface<T>, public virtual PriorityElement 
+    {
+    public:
+        PriorityControlElement(const int initP=0): PriorityElement(initP) {};
+        PriorityControlElement(const PriorityElement& other): PriorityElement(other) {};
+        PriorityControlElement(const T& copy, const int initP=0): PriorityControlInterface<T>(copy), PriorityElement(initP) {};
+        PriorityControlElement(const PriorityControlElement<T> &other): PriorityControlInterface<T>(other), PriorityElement(other) {};
+    };
     
     using PriorityLoadable      = PriorityControlInterface<Loadable>;
     using PriorityLoopable      = PriorityControlInterface<Loopable>;

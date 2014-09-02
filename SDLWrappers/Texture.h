@@ -52,7 +52,7 @@ namespace jer
         operator SDL_Texture * const () {return getTex().get();};
         
     public:
-        const Dimensions<int> getDim() const;
+        virtual const Dimensions<int> getDim() const;
         
     public:
         virtual const SUCCESS load() override;
@@ -60,6 +60,7 @@ namespace jer
         virtual const SUCCESS blit(const Rectangle<int> &src, const Rectangle<int> &dst) const override;
         virtual const SUCCESS blit(const Rectangle<int> &dst) const override;
         virtual const SUCCESS blit(const Point<int> &dst) const override {return blit(Rectangle<int>(dst, getDim()));};
+        virtual const SUCCESS blit(const Rectangle<int> &src, const Point<int> &dst) {return blit(src, Rectangle<int>(dst, getDim()));};
     };
 }
 
