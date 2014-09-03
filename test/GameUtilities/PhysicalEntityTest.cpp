@@ -28,8 +28,7 @@ public:
         SUCCESS ret = EventLoop::GetInstance().loop();
         if(mouse != NULL)
         {
-            if(pythagoras(mouse->getPosition()-entity->getPosition()) > 2.0)
-                entity->gravitate(*mouse);
+            entity->gravitate(*mouse);
         }
         ret |= entity->loop();
         return ret;
@@ -42,7 +41,7 @@ public:
             return SUCCEEDED;
         
         if(this->mouse == NULL)
-            this->mouse = new PhysicalObject(10, mPos);
+            this->mouse = new PhysicalObject(10.0, mPos);
         
         return SUCCEEDED;
     }
@@ -101,7 +100,7 @@ int main(int argc, char **argv)
     MyDisplayQueue *displayer = new MyDisplayQueue;
     displayer->push_back(renWrap);
     
-    PhysicalEntity *entity = new PhysicalEntity(tex, PhysicalObject(1, Point<double>(320, 240)));
+    PhysicalEntity *entity = new PhysicalEntity(tex, PhysicalObject(1.0, Point<double>(320, 240)));
     displayer->push_back(shared_ptr<PhysicalEntity>(entity));
     
     AppLoop *appLoop = new AppLoop(entity);

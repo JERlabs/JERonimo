@@ -2,7 +2,7 @@
 
 namespace jer
 {
-    double Mass::GRAVITATIONAL_CONSTANT(1.0);
+    double Mass::GRAVITATIONAL_CONSTANT(10.0);
     
     const Scalar<double> Mass::GetGravityForce(const Mass &first, const Mass &second, const Scalar<double> &distance)
     {
