@@ -23,6 +23,7 @@ namespace jer
         Entity(const Blittable * const img, const Point<int> &p): image(img), position(p) {};
         Entity(const shared_ptr<const Blittable> img): image(img) {};
         Entity(const Blittable * const img): image(img) {};
+        Entity(const Point<int> &p): Entity(nullptr, p) {};
         Entity(const Entity& other): image(other.image), position(other.position) {};
         Entity() {};
         Entity& operator= (const Entity &other);

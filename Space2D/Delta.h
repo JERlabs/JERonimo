@@ -32,7 +32,7 @@ namespace jer
         
     public:
         Delta(const T &increment, const T &init): T(increment), value(init) {};
-        Delta(const T &increment): T(increment), value(){};
+        Delta(const T &increment): T(increment), value() {};
         Delta(const Delta<T> &other): T(other), value(other.value) {};
         Delta(): T(), value() {};
         
@@ -55,14 +55,16 @@ namespace jer
         BASE_TYPE *delta;
         
     public:
-        Delta(const Delta<T> &increment, const Delta<T> &init): BASE_TYPE(increment), value(init), delta(this) {};
-        explicit Delta(const Delta<T> &increment): BASE_TYPE(increment), value(), delta(this) {};
+        Delta(const BASE_TYPE &increment, const Delta<T> &init): BASE_TYPE(increment), value(init), delta(this) {};
+        explicit Delta(const BASE_TYPE &increment): BASE_TYPE(increment), value(), delta(this) {};
         Delta(): BASE_TYPE(), value(), delta(this) {};
+        BASE_TYPE& operator= (const BASE_TYPE& other) {*delta = other; return *this;};
         
     public:
         const BASE_TYPE &get(int i=1) const {if(i == N_DERIVATIVE) return value; else return value.get(i);};
         void set(const Delta<T>& val) {value = val;};
-		void increment(const double iterations=1.0) {value += iterations*(*delta); value.increment();};
+        void set(const T& val) {value.set(val);};
+		void increment(const double iterations=1.0) {value += iterations*(*delta); value.increment(iterations);};
         const SUCCESS loop() override {increment(); return SUCCEEDED;};
     };
     
@@ -113,7 +115,7 @@ namespace jer
         
     public:
         const T &get(int i=1) const {return *value;};
-        void increment(const double iterations=1.0) {value += iterations*(*this);};
+        void increment(const double iterations=1.0) {*value += iterations*(*this);};
         const SUCCESS loop() {increment(); return SUCCEEDED;};
         //void increment() {increment(1.0);};
     };
@@ -164,10 +166,21 @@ namespace jer
             has = false;
         }
         
+        void set(const T& v)
+        {
+            if(this->value == NULL)
+            {
+                this->value = new Delta<T>(v);
+                has = true;
+            }
+            
+            this->value->set(v);
+        }
+        
         
     public:
         const BASE_TYPE &get(int i=1) const {if(i == N_DERIVATIVE) return *value; else return value->get(i);};        
-        void increment(const double iterations=1.0) {value += iterations*(*delta); value->increment();};
+        void increment(const double iterations=1.0) {*value += iterations*(*delta); value->increment();};
         const SUCCESS loop() override {increment(); return SUCCEEDED;};
     };
     
