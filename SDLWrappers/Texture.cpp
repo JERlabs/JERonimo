@@ -85,7 +85,9 @@ namespace jer
         {
             if(ren->isLoaded() && isLoaded())
             {
-                const SDL_Rect srcRect(src), dstRect(dest);
+                SDL_Rect srcRect(src), dstRect(dest);
+                dstRect.x += getOffset().x();
+                dstRect.y += getOffset().y();
                 return SDL_RenderCopy(*ren, tex.get(), &srcRect, &dstRect);
             }
         }
@@ -98,7 +100,9 @@ namespace jer
         {
             if(ren->isLoaded() && isLoaded())
             {
-                const SDL_Rect dstRect(dest);
+                SDL_Rect dstRect(dest);
+                dstRect.x += getOffset().x();
+                dstRect.y += getOffset().y();
                 return SDL_RenderCopy(*ren, tex.get(), NULL, &dstRect);
             }
         }

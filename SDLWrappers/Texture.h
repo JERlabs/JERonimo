@@ -53,6 +53,7 @@ namespace jer
         
     public:
         virtual const Dimensions<int> getDim() const;
+        virtual const Point<int> getOffset() const {return Point<int>(0, 0);};
         
     public:
         virtual const SUCCESS load() override;

@@ -229,7 +229,7 @@ inline const Point<T> operator* (const T& lhs, const Point<T> &rhs) {
 /// Point/scale division
 template<typename T>
 inline const Point<T> operator/ (const Point<T> &lhs, const T &scale) {
-  return Point<T>(lhs)/scale;
+  return Point<T>(lhs.x()/scale, lhs.y()/scale);
 };
 
 template<typename T>
