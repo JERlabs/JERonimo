@@ -94,7 +94,7 @@ int main(int argc, char **argv)
     data->push_back(win);
     data->push_back(ren);
     
-    Texture *tex = new ScaledTexture(Texture(files->access<Surface>(string("test.png")), ren.get()), Dimensions<int>(50, 50));
+    shared_ptr<Texture> tex(new ScaledTexture(Texture(files->access<Surface>(string("test.png")), ren.get()), Dimensions<int>(50, 50)));
     data->push_back(shared_ptr<Texture>(tex));
     
     MyDisplayQueue *displayer = new MyDisplayQueue;
