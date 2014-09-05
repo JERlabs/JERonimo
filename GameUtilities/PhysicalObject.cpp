@@ -21,4 +21,9 @@ namespace jer
         acceleration = Point<double>(0.0, 0.0);
         return ret;
     }
+    
+    const SUCCESS PhysicalObject::collided(const PhysicalObject &object)
+    {
+        
+    }
 }

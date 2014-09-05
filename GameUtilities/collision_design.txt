@@ -1,0 +1,15 @@
+Design for collision handling
+
+Collidable
+    enumeration of collide types
+    int type - contains information on what kind of collision box the Collidable is
+    bool canCollide(int t): virtual - returns true if the object can handle Collidable's of type t, false if not
+    
+    Point<double> getVertex(): virtual - returns the position of the Collidable, be it the top-left corner, or the center
+    void setVertex(const Point<double>& vert): virtual - sets the vertex
+    Dimensions<double> getDimensions(): virtual - returns two points of data, be it length and width, radius, etc.
+    void setDimensions(const Dimensions<double> &dim): virtual - sets dimensions
+    Scalar<double> getData(int index): virtual - returns data that the user needs to coordinate
+    
+    bool collides(Collidable other): virtual - returns whether the object collides with the other object
+    
