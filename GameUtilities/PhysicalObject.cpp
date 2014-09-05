@@ -24,6 +24,17 @@ namespace jer
     
     const SUCCESS PhysicalObject::collided(const PhysicalObject &object)
     {
-        
+		Point<double> mInit((getVelocity()-other.getVelocity())*getMass());
+		Vector m1, m2;
+		if(object.getCollider()->getType() == Collidable::CIRCLE && getCollider()->getType() == Collidable::CIRCLE)
+		{
+			m1.theta(Vector(getPosition()-object.getPosition()).theta());
+			if(m1.theta() < mInit)
+				m2.theta(m1.theta()-Degrees(90.0));
+			else
+				m2.theta(m1.theta()+Degrees(90.0));
+			
+		}
+		
     }
 }
