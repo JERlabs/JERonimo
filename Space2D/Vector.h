@@ -99,16 +99,16 @@ class Vector {
   template<typename T>
   inline Vector& Vector::operator+= (Point<T> const &p2) {
       const Point<T> tmp(*this);
-      Mag = pythagoras(p2.x() + tmp.x(), p2.y() + tmp.y());
-      Theta = getTheta(p2.x() + tmp.x(), p2.y() + tmp.y());
+      Mag = pythagoras<T>(p2.x() + tmp.x(), p2.y() + tmp.y());
+      Theta = getTheta<T>(p2.x() + tmp.x(), p2.y() + tmp.y());
       return *this;
   }
   
   template<typename T>
   inline Vector& Vector::operator-= (Point<T> const &p2) {
       const Point<T> tmp(*this);
-      Mag = pythagoras(tmp.x() - p2.x(), tmp.y() - p2.y());
-      Theta = getTheta(tmp.x() - p2.x(), tmp.y() - p2.y());
+      Mag = pythagoras<T>(tmp.x() - p2.x(), tmp.y() - p2.y());
+      Theta = getTheta<T>(tmp.x() - p2.x(), tmp.y() - p2.y());
       return *this;
   }
 
