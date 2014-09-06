@@ -9,26 +9,28 @@ namespace jer
     class RectangleCollidable: public Collidable
     {
     private:
-        const Point<double> *point;
-        const Dimensions<double> *dim;
-        const bool erasePoint;
-        const bool eraseDim;
+        Rectangle<double> box;   /// Position is an offset of the position of the box
         
     public:
-        virtual ~RectangleCollidable();
-        RectangleCollidable(const Rectangle<double> d): Collidable(RECTANGLE), point(new Point<double>(d.position)), dim(new Dimensions<double>(d.size)), erasePoint(true), eraseDim(true) {};
-        RectangleCollidable(const Point<double> * const p, const Point<double> * const): Collidable(RECTANGLE), point(p), dim(d), erasePoint(false), eraseDim(false) {};
+        virtual ~RectangleCollidable() {};
+        RectangleCollidable(const Rectangle<double> b, const Point<double> * const p=NULL): Collidable(RECTANGLE, p), box(b) {};
         
     public:
-        virtual const Point<double> getVertex() const override {return *point;};
-        virtual const Dimensions<double> getDimensions() const override {return *dim;};
-        virtual void setVertex(const Point<double> * const vertRef) override;
-        virtual void setDimensions(const Dimensions<double> * const dimRef) override;
+        virtual const Point<double> getOffset() const override {return box.position;};
+        virtual const Dimensions<double> getDimensions() const override {return box.size;};
+        virtual void setOffset(const Point<double> &off) override {box.position = off;};
+        virtual void setDimensions(const Dimensions<double> &dim) override {box.size = dim;};
         
+	protected:
+		const Point<double> getTopLeft() const {return box.position + getPosition();};
+		const Point<double> getBottomRight() const {return getTopLeft() + box.size;};
+		const Point<double> getBottomLeft() const {return getTopLeft() + box.size.y();};
+		const Point<double> getTopRight() const {return getTopLeft() + box.size.x();};
+		
     public:
         virtual const bool canCollide(const int t) const override;
         virtual const bool collides(const Collidable &other) const override;
-        virtual Collidable * const copy() const override;
+        virtual Collidable * const copy() const override {return new RectangleCollidable(box, getPositionRef());};
     };
 }
 

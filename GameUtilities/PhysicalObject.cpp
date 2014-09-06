@@ -47,7 +47,7 @@ namespace jer
     
     const SUCCESS PhysicalObject::checkCollision(PhysicalObject &object)
     {
-        if(collider == NULL || object.getCollider() == NULL)
+        if(getCollider() == NULL || object.getCollider() == NULL)
         {
             return SUCCEEDED;
         }

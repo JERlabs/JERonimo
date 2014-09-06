@@ -43,7 +43,7 @@ namespace jer
     public:
         ~PhysicalObject() {};
         PhysicalObject(const Mass &m, const Point<double>& initPos, const Point<double>& initVel, const Point<double>& initAcc, Collidable * const col=NULL):
-                        mass(m), acceleration(initAcc, Delta<Point<double> >(initVel, initPos)), velocity(&acceleration.get(2)), position(&acceleration.get(1)), collider(col) {if(bool(collider)) collider->setVertex(&getPosition());};
+                        mass(m), acceleration(initAcc, Delta<Point<double> >(initVel, initPos)), velocity(&acceleration.get(2)), position(&acceleration.get(1)), collider(col) {if(bool(collider)) collider->setPosition(&getPosition());};
         PhysicalObject(const Mass &m, const Point<double>& initPos, const Point<double>& initVel, Collidable * const col=NULL): PhysicalObject(m, initPos, initVel, Point<double>(), col) {};
         PhysicalObject(const Mass &m, const Point<double>& initPos, Collidable * const col=NULL): PhysicalObject(m, initPos, Point<double>(), col) {};
         PhysicalObject(const Mass &m, Collidable * const col): PhysicalObject(m, Point<double>(), col) {};
@@ -65,7 +65,7 @@ namespace jer
         void setPosition(const Point<double> &pos) {acceleration.set(pos);};
         
         const Collidable * const getCollider() const {return collider.get();};
-        void setCollider(Collidable * const col) {collider.reset(col);};
+        void setCollider(Collidable * const col) {collider.reset(col); collider->setPosition(&getPosition());};
         
     public:
         void force(const Point<double> &f) {acceleration += f;};
