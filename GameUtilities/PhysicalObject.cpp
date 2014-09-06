@@ -2,7 +2,7 @@
 
 namespace jer
 {
-    double Mass::GRAVITATIONAL_CONSTANT(10.0);
+    double Mass::GRAVITATIONAL_CONSTANT(0.1);
     
     const Scalar<double> Mass::GetGravityForce(const Mass &first, const Mass &second, const Scalar<double> &distance)
     {
@@ -24,17 +24,19 @@ namespace jer
     
     const SUCCESS PhysicalObject::collided(PhysicalObject &object, const Radians angle)
     {
-        Mag_t<double> initVel(pythagoras<double>((getVelocity().x()-object.getVelocity().x()), (getVelocity().y()-object.getVelocity().y())));  
+        Vector initVec(getVelocity()-object.getVelocity());
+        Mag_t<double> initVel(initVec.mag());
+        Radians initTheta(initVec.theta());
+        
         // Frame of reference with the object at rest with this approaching it with an angle of 0
-        Point<double> p2(Vector(Mag_t<double>(2.0*getMass()*getX(initVel, angle)/(getMass()+object.getMass())), angle));  // Gets the velocity of 2 based on elastic collision equation
+        Point<double> p2(Vector(Mag_t<double>(2.0*getMass()*getX(initVel, initTheta+angle)/(getMass()+object.getMass())), initTheta+angle));  // Gets the velocity of 2 based on elastic collision equation
         Point<double> p1((initVel*getMass()-p2.x()*object.getMass())/getMass(), -p2.y()*object.getMass()/getMass());   // Gets the velocity of 1 based off of elastic collision rulez
         
         Vector v1(p1);
         Vector v2(p2);
         
-        Radians temp;
-        v1.theta(v1.theta()+(temp = getTheta(getVelocity())));
-        v2.theta(v2.theta()+temp);
+        v1.theta(-v1.theta()+initTheta);
+        v2.theta(angle);
         
         v1 += object.getVelocity();
         v2 += object.getVelocity();

@@ -1,8 +1,3 @@
-#include "GameUtilities.h"
-
-using namespace jer;
-using namespace std;
-
 #include "SDLWrappers.h"
 #include "ControlInterfaces.h"
 #include "GameUtilities.h"
