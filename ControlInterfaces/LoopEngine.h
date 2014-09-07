@@ -19,7 +19,7 @@ namespace jer
         virtual ~LoopEngine() {};
         
     public:
-        virtual const SUCCESS loop() override // the generic form of the function attempts to use data locality
+        virtual const SUCCESS loop() override
         {
             return this->foreach(&Loopable::loop);
         };

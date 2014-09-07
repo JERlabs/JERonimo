@@ -46,7 +46,7 @@ namespace jer
                         mass(m), acceleration(initAcc, Delta<Point<double> >(initVel, initPos)), velocity(&acceleration.get(2)), position(&acceleration.get(1)), collider(col) {if(bool(collider)) collider->setPosition(&getPosition());};
         PhysicalObject(const Mass &m, const Point<double>& initPos, const Point<double>& initVel, Collidable * const col=NULL): PhysicalObject(m, initPos, initVel, Point<double>(), col) {};
         PhysicalObject(const Mass &m, const Point<double>& initPos, Collidable * const col=NULL): PhysicalObject(m, initPos, Point<double>(), col) {};
-        PhysicalObject(const Mass &m, Collidable * const col): PhysicalObject(m, Point<double>(), col) {};
+        PhysicalObject(const Mass &m, Collidable * const col=NULL): PhysicalObject(m, Point<double>(), col) {};
         PhysicalObject(Collidable * const col=NULL): PhysicalObject(0.0, col) {};
         PhysicalObject(const Mass &m, const Delta<Delta<Point<double> > > &init, Collidable * const col=NULL): PhysicalObject(m, init.get(1), init.get(2), init, col) {};
         PhysicalObject(const PhysicalObject &other): PhysicalObject(other.mass, other.acceleration, bool(other.collider)? other.collider->copy():NULL) {};
@@ -64,7 +64,7 @@ namespace jer
         const Point<double> &getPosition() const {return *position;};
         void setPosition(const Point<double> &pos) {acceleration.set(pos);};
         
-        const Collidable * const getCollider() const {return collider.get();};
+        Collidable * const getCollider() const {return collider.get();};
         void setCollider(Collidable * const col) {collider.reset(col); collider->setPosition(&getPosition());};
         
     public:

@@ -36,8 +36,6 @@ public:
         return SUCCEEDED;
     }
     
-    
-    
     const SUCCESS mouseButtonReleased(const Uint32 window, const Uint32 mouse, const Uint8 button, const Uint8 clicks, const Point<int> &mPos)
     {
         if(button != SDL_BUTTON_LEFT || clicks > 1 || current == NULL)
