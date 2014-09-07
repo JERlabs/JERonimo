@@ -12,6 +12,10 @@ namespace jer
                 tex.swap(cop.tex);
                 src.swap(cop.src);
             }
+            else
+            {
+                tex = other.tex;
+            }
             
             ren = other.ren;
             

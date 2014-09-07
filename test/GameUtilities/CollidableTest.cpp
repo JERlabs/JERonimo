@@ -42,13 +42,15 @@ int main(int argc, char **argv)
     data->push_back(ren);
     
     shared_ptr<Texture> tex(new ScaledTexture(Texture(files->access<Surface>(string("test.png")), ren.get()), Dimensions<int>(50, 50)));
-    data->push_back(shared_ptr<Texture>(tex));
+    shared_ptr<Texture> tex2(new ScaledTexture(tex.get(), Dimensions<int>(100, 100)));
+    data->push_back(tex);
+    data->push_back(tex2);
     
     EasyDisplay *displayer = new EasyDisplay;
     displayer->push_back(ren);
     
-    PhysicalEntity *entity1 = new PhysicalEntity(tex, PhysicalObject(10.0, Point<double>(100, 240), Vector(Mag_t<double>(0.3), Degrees(0.0)), new RectangleCollidable(Rectangle<double>(Point<double>(-25.0, -25.0), Dimensions<double>(50.0, 50.0)))));
-    PhysicalEntity *entity2 = new PhysicalEntity(tex, PhysicalObject(1.0, Point<double>(300, 240), new RectangleCollidable(Rectangle<double>(Point<double>(-25.0, -25.0), Dimensions<double>(50.0, 50.0)))));
+    PhysicalEntity *entity1 = new PhysicalEntity(tex2, PhysicalObject(10.0, Point<double>(100, 240), Vector(Mag_t<double>(0.3), Degrees(0.0)), new RectangleCollidable(Rectangle<double>(Point<double>(-25.0, -25.0), Dimensions<double>(50.0, 50.0)))));
+    PhysicalEntity *entity2 = new PhysicalEntity(tex, PhysicalObject(1.0, Point<double>(300, 240), new RectangleCollidable(Rectangle<double>(Point<double>(-50.0, -50.0), Dimensions<double>(100.0, 100.0)))));
     
     displayer->push_back(shared_ptr<PhysicalEntity>(entity1));
     displayer->push_back(shared_ptr<PhysicalEntity>(entity2));
