@@ -20,7 +20,8 @@ nbproject/*
 config.log
 doc/*
 *-swp
-test/*/*Test
+/*Test
+!test/*/*Test.cpp
 .ninja_deps
 .ninja_log
 CMakeCache.txt
