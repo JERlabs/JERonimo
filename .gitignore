@@ -21,6 +21,7 @@ config.log
 doc/*
 *-swp
 /*Test
+!/*Test.cpp
 .ninja_deps
 .ninja_log
 CMakeCache.txt
