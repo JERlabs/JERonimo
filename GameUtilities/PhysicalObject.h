@@ -32,6 +32,9 @@ namespace jer
     class PhysicalObject: public Loopable
     {
     private:
+        static double REST_THRESHOLD;
+        
+    private:
         Mass mass;
         
         Delta<Delta<Point<double> > > acceleration;
