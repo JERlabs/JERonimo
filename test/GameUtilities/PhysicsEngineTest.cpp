@@ -24,7 +24,7 @@ public:
         if(button != SDL_BUTTON_LEFT || clicks != 1)
             return SUCCEEDED;
         
-        current.reset(new PhysicalEntity(new ScaledTexture(image, Dimensions<int>(100, 100)), PhysicalObject(100.0, mPos, new RectangleCollidable(Rectangle<double>(Point<double>(-50, -50), Dimensions<double>(100, 100))))));
+        current.reset(new PhysicalEntity(new ScaledTexture(image, Dimensions<int>(100, 100)), PhysicalObject(100.0, mPos, new CircleCollidable(Point<double>(0, 0), 50))));
         displayer->push_back(current);
         return SUCCEEDED;
     }
@@ -34,9 +34,10 @@ public:
         if(button != SDL_BUTTON_LEFT || clicks > 1 || current == nullptr)
             return SUCCEEDED;
         
-		Dimensions<double> d(Point<double>(mPos)-(current->getPosition()));
-        current->setImage(new ScaledTexture(image, d*2.0));
-		current->setMass(100*pythagoras(d*2.0));
+		Scalar<double> d(pythagoras(Point<double>(mPos)-(current->getPosition())));
+        current->setImage(new ScaledTexture(image, Dimensions<double>(d, d)*2.0));
+		current->getCollider()->setDimensions(Dimensions<double>(d, d));
+		current->setMass(d*d*M_PI);
 		world->push_back(current);
         current.reset();
         return SUCCEEDED;
@@ -48,12 +49,10 @@ public:
         if(current == nullptr)
             return SUCCEEDED;
         
-		Dimensions<double> d(Point<double>(movement.get())-current->getPosition());
-        current->setImage(new ScaledTexture(image, d*2.0));
-		current->getCollider()->setOffset(Point<double>(-abs(d.x()), -abs(d.y())));
-		current->getCollider()->setDimensions(d*2.0);
-		current->setVelocity(Vector(Mag_t<double>(0.0), getTheta(d)));
-        return SUCCEEDED;
+		Scalar<double> d(pythagoras(Point<double>(movement.get())-(current->getPosition())));
+        current->setImage(new ScaledTexture(image, Dimensions<double>(d, d)*2.0));
+		
+		return SUCCEEDED;
     }
 	
 	const SUCCESS keyPressed(const Uint32 window, const SDL_Keysym &key)
@@ -108,8 +107,3 @@ int main(int argc, char **argv)
     return App::GetApp().run();	
 	
 }
-
-
-
-
-

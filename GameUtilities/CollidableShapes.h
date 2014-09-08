@@ -32,6 +32,31 @@ namespace jer
         virtual const bool collides(const Collidable &other) const override;
         virtual Collidable * const copy() const override {return new RectangleCollidable(box, getPositionRef());};
     };
+	
+	class CircleCollidable: public Collidable
+	{
+	private:
+		Point<double> offset;   /// Offset of the center of the circle from the center of the image
+		Scalar<double> radius;  /// The radius of the collision box
+		
+	public:
+		virtual ~CircleCollidable() {};
+		CircleCollidable(const Point<double> &off, const Scalar<double> &r, const Point<double> * const p=NULL): Collidable(CIRCLE, p), offset(off), radius(r) {};
+		
+	public:
+		virtual const Point<double> getOffset() const override {return offset;};
+		virtual const Dimensions<double> getDimensions() const override {return Dimensions<double>(radius, 0.0);};
+		virtual void setOffset(const Point<double> &off) override {offset = off;};
+		virtual void setDimensions(const Dimensions<double> &dim) override {radius = dim.x();};
+		
+	protected:
+		const Point<double> getCenter() const {return offset+getPosition();};
+		
+	public:
+		virtual const bool canCollide(const int t) const override;
+		virtual const bool collides(const Collidable &other) const override;
+		virtual Collidable * const copy() const override {return new CircleCollidable(offset, radius, getPositionRef());};
+	};
 }
 
 
