@@ -35,12 +35,13 @@ namespace jer
         Mag_t<double> initVel(initVec.mag());
         Radians initTheta(initVec.theta());
         
+        antigravitate(object);
+        object.antigravitate(*this);
+        
 		if(fabs(initVel) < REST_THRESHOLD)
-		{
+        {
 			setVelocity(getVelocity()+initVec/2.0);
 			object.setVelocity(object.getVelocity()-initVec/2.0);
-			antigravitate(object);
-			object.antigravitate(*this);
 			return SUCCEEDED;
 		}
 		
@@ -53,6 +54,10 @@ namespace jer
         
         v1.theta(-v1.theta()+initTheta);
         v2.theta(angle);
+        
+        v1 += object.getVelocity();
+        v2 += object.getVelocity();
+        
         
         Point<double> dif(object.getPosition()-*position);
         while(getCollider()->collides(*object.getCollider()))

@@ -24,7 +24,7 @@ public:
         if(button != SDL_BUTTON_LEFT || clicks != 1)
             return SUCCEEDED;
         
-        current.reset(new PhysicalEntity(new ScaledTexture(image, Dimensions<int>(100, 100)), PhysicalObject(100.0, mPos, new CircleCollidable(Point<double>(0, 0), 50))));
+        current.reset(new PhysicalEntity(new ScaledTexture(image, Dimensions<int>(100, 100)), PhysicalObject(100.0, mPos, new RectangleCollidable(Point<double>(0, 0), 50))));
         displayer->push_back(current);
         return SUCCEEDED;
     }
