@@ -73,6 +73,7 @@ namespace jer
     public:
         void force(const Point<double> &f) {acceleration += f;};
         void gravitate(const PhysicalObject &other);
+        void antigravitate(const PhysicalObject &other);
         const SUCCESS checkCollision(PhysicalObject &object);
         
     public:

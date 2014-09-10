@@ -16,6 +16,12 @@ namespace jer
         force(Vector(Mag_t<double>(-Mass::GetGravityForce(getMass(), other.getMass(), distance.mag())/getMass()), distance.theta()));
     }
     
+    void PhysicalObject::antigravitate(const PhysicalObject &other)
+    {
+        Vector distance(getPosition()-other.getPosition());
+        force(Vector(Mag_t<double>(Mass::GetGravityForce(getMass(), other.getMass(), distance.mag())/getMass()), distance.theta()));
+    }
+    
     const SUCCESS PhysicalObject::loop()
     {
         const SUCCESS ret = acceleration.loop();
@@ -29,18 +35,17 @@ namespace jer
         Mag_t<double> initVel(initVec.mag());
         Radians initTheta(initVec.theta());
         
-        antigravitate(object);
-        object.antigravitate(*this);
-        
 		if(fabs(initVel) < REST_THRESHOLD)
         {
 			setVelocity(getVelocity()+initVec/2.0);
 			object.setVelocity(object.getVelocity()-initVec/2.0);
+            antigravitate(object);
+            object.antigravitate(*this);
 			return SUCCEEDED;
 		}
 		
         // Frame of reference with the object at rest with this approaching it with an angle of 0
-        Point<double> p2(Vector(Mag_t<double>(2.0*getMass()*getX(initVel, initTheta+angle)/(getMass()+object.getMass())), initTheta+angle));  // Gets the velocity of 2 based on elastic collision equation
+        Point<double> p2(Vector(Mag_t<double>(2.0*getMass()*getX(initVel, initTheta-angle)/(getMass()+object.getMass())), initTheta-angle));  // Gets the velocity of 2 based on elastic collision equation
         Point<double> p1((initVel*getMass()-p2.x()*object.getMass())/getMass(), -p2.y()*object.getMass()/getMass());   // Gets the velocity of 1 based off of elastic collision rulez
         
         if(abs(p1.x()) < REST_THRESHOLD && abs(p2.x()) < REST_THRESHOLD)

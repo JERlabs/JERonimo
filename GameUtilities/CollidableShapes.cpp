@@ -68,7 +68,7 @@ namespace jer
 			}
 		
 		case CIRCLE:
-			return pythagoras(getCenter() - (other.getPosition() + other.getOffset())) < 2.0*radius;
+			return pythagoras(getCenter() - (other.getPosition() + other.getOffset())) < other.getDimensions().x()+radius;
 			
 		default:
 			if(other.canCollide(getType()))
