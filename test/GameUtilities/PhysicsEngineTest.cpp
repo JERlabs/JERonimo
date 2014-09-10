@@ -12,32 +12,51 @@ private:
 	PhysicsEngine * world;
 	EasyDisplay * displayer;
 	const Texture& image;
+	const Texture& image2;
 	shared_ptr<PhysicalEntity> current;
+	
 	
 public:
 	virtual ~EventHandler() {};
-	EventHandler(PhysicsEngine * const w, EasyDisplay * const d, const Texture& img): world(w), displayer(d), image(img), current(nullptr) {};
+	EventHandler(PhysicsEngine * const w, EasyDisplay * const d, const Texture& img, const Texture& img2): world(w), displayer(d), image(img), image2(img2),  current(nullptr) {};
 	
 public:
 	const SUCCESS mouseButtonPressed(const Uint32 window, const Uint32 mouse, const Uint8 button, const Uint8 clicks, const Point<int> &mPos)
     {
-        if(button != SDL_BUTTON_LEFT || clicks != 1)
-            return SUCCEEDED;
-        
-        current.reset(new PhysicalEntity(new ScaledTexture(image, Dimensions<int>(100, 100)), PhysicalObject(100.0, mPos, new CircleCollidable(Point<double>(0, 0), 50))));
-        displayer->push_back(current);
-        return SUCCEEDED;
+        if(button == SDL_BUTTON_LEFT && clicks == 1)
+		{
+			current.reset(new PhysicalEntity(new ScaledTexture(image, Dimensions<int>(100, 100)), PhysicalObject(100.0, mPos, new CircleCollidable(Point<double>(0, 0), 50))));
+		}
+		else if(button == SDL_BUTTON_RIGHT && clicks == 1)
+		{
+			current.reset(new PhysicalEntity(new ScaledTexture(image2, Dimensions<int>(100, 100)), PhysicalObject(100.0, mPos, new RectangleCollidable(Rectangle<double>(Point<double>(-50, -50), Dimensions<double>(100, 100))))));
+		}
+		
+		displayer->push_back(current);
+		return SUCCEEDED;
     }
     
     const SUCCESS mouseButtonReleased(const Uint32 window, const Uint32 mouse, const Uint8 button, const Uint8 clicks, const Point<int> &mPos)
     {
-        if(button != SDL_BUTTON_LEFT || clicks > 1 || current == nullptr)
-            return SUCCEEDED;
-        
-		Scalar<double> d(pythagoras(Point<double>(mPos)-(current->getPosition())));
-        current->setImage(new ScaledTexture(image, Dimensions<double>(d, d)*2.0));
-		current->getCollider()->setDimensions(Dimensions<double>(d, d));
-		current->setMass(d*d*M_PI);
+        if(clicks == 1 && current != nullptr)
+        {
+			Point<double> d(Point<double>(mPos)-(current->getPosition()));
+			if(button == SDL_BUTTON_RIGHT)
+			{
+				current->setImage(new ScaledTexture(image2, d*2.0));
+				current->getCollider()->setOffset(d*-1.0);
+				current->getCollider()->setDimensions(d*2.0);
+				current->setMass(4.0*double(d.x()*d.y()));
+			}
+			else if(button == SDL_BUTTON_LEFT)
+			{
+				Scalar<double> rad(pythagoras(d));
+				current->setImage(new ScaledTexture(image, Dimensions<double>(rad, rad)*2.0));
+				current->getCollider()->setDimensions(Dimensions<double>(rad, rad));
+				current->setMass(rad*rad*M_PI);
+			}
+		}
+		
 		world->push_back(current);
         current.reset();
         return SUCCEEDED;
@@ -49,8 +68,16 @@ public:
         if(current == nullptr)
             return SUCCEEDED;
         
-		Scalar<double> d(pythagoras(Point<double>(movement.get())-(current->getPosition())));
-        current->setImage(new ScaledTexture(image, Dimensions<double>(d, d)*2.0));
+		if(buttons[SDL_BUTTON_LEFT-1])
+		{
+			Scalar<double> rad(pythagoras(Point<double>(movement.get())-(current->getPosition())));
+			current->setImage(new ScaledTexture(image, Dimensions<double>(rad, rad)*2.0));
+		}
+		else if(buttons[SDL_BUTTON_RIGHT-1])
+		{
+			Dimensions<double> d(Point<double>(movement.get())-current->getPosition());
+			current->setImage(new ScaledTexture(image2, d*2.0));
+		}
 		
 		return SUCCEEDED;
     }
@@ -72,7 +99,8 @@ public:
 
 int main(int argc, char **argv)
 {
-	string image(argc > 1? argv[1]:"test.png");
+	string image(argc > 1? argv[1]:"circle.png");
+	string image2(argc > 2? argv[2]:"test.png");
 	
 	CompositeProcess compProc;
     EasyData *data = new EasyData;
@@ -87,6 +115,9 @@ int main(int argc, char **argv)
     
     Texture *tex = new Texture(files->access<Surface>(image), ren.get());
     data->push_back(shared_ptr<Texture>(tex));
+	
+	Texture *tex2 = new Texture(files->access<Surface>(image2), ren.get());
+	data->push_back(shared_ptr<Texture>(tex2));
     
     EasyDisplay *displayer = new EasyDisplay;
     displayer->push_back(ren);
@@ -96,7 +127,7 @@ int main(int argc, char **argv)
 	looper->push_back(EventLoop::GetReference());
     looper->push_back(shared_ptr<PhysicsEngine>(engine));
 	
-	EventHandler handler(engine, displayer, *tex);
+	EventHandler handler(engine, displayer, *tex, *tex2);
     Events::SetListener(&handler);
     
     compProc.setLoader(data);
