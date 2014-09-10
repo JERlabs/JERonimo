@@ -35,7 +35,7 @@ namespace jer
         Mag_t<double> initVel(initVec.mag());
         Radians initTheta(initVec.theta());
         
-		if(fabs(initVel) < REST_THRESHOLD)
+		if(fabs(getX(initVel, initTheta-angle)) < REST_THRESHOLD)
         {
 			setVelocity(getVelocity()+initVec/2.0);
 			object.setVelocity(object.getVelocity()-initVec/2.0);
