@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     FileManager *files = new FileManager;
     data->push_back(shared_ptr<FileManager>(files));
     
-    shared_ptr<Window> win(new Window("Physics Woah", Point<int>(50, 50), Dimensions<int>(640, 480), Window::SHOWN | Window::RESIZABLE));
+    shared_ptr<Window> win(new Window("Physics Woah", Point<int>(0, 0), Dimensions<int>(640, 480), Window::SHOWN | Window::RESIZABLE));
     shared_ptr<RedrawRenderer<HardRenderer> > ren(new RedrawRenderer<HardRenderer>(win, true, true));
     data->push_back(win);
     data->push_back(ren);
