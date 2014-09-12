@@ -87,8 +87,8 @@ namespace jer
                 else
                     return SUCCEEDED;
             else if(object.getCollider()->canCollide(collider->getType()))
-                if(object.getCollider()->collides(*object.getCollider()))
-                    return object.collided(*this, Collidable::GetCollisionAngle(getCollider(), object.getCollider()));
+                if(object.getCollider()->collides(*getCollider()))
+                    return object.collided(*this, Collidable::GetCollisionAngle(object.getCollider(), getCollider()));
                 else
                     return SUCCEEDED;
             else
