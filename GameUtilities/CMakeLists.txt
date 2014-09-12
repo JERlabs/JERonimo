@@ -5,4 +5,5 @@ set (SOURCES ${SOURCES}
   GameUtilities/CollidableShapes.cpp
   GameUtilities/Collidable.cpp
   GameUtilities/PhysicsEngine.cpp
+  GameUtilities/FPSManager.cpp
   PARENT_SCOPE)
