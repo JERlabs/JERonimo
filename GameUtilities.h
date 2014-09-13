@@ -3,3 +3,4 @@
 #include "GameUtilities/PhysicalEntity.h"
 #include "GameUtilities/CollidableShapes.h"
 #include "GameUtilities/PhysicsEngine.h"
+#include "GameUtilities/FPSManager.h"

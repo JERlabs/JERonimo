@@ -21,13 +21,14 @@ namespace jer
         double lagMultiplier;
         
     public:
-        FPSManager(const unsigned short target=30, const unsigned short milsPerCyc=200): targetFPS(target), millisecondsPerCycle(milsPerCyc), cycleFrames(0), cycles(0), lagMultiplier(1.0) {};
+        FPSManager(const unsigned short target=60, const unsigned short milsPerCyc=200): targetFPS(target), millisecondsPerCycle(milsPerCyc), frames(0),  cycleFrames(0), cycles(0), lagMultiplier(1.0) {};
         
     public:
         const unsigned short getTargetFPS() const {return targetFPS;};
         const unsigned int getMillisecondsPerCycle() const {return millisecondsPerCycle;};
         
         const unsigned long long getFrames() const {return frames;};
+		const double getFPS() const {return lagMultiplier*double(targetFPS);};
         
         void setTargetFPS(const unsigned short targ) {targetFPS = targ;};
         void setMillisecondsPerCycle(const unsigned int mils) {millisecondsPerCycle = mils;};
