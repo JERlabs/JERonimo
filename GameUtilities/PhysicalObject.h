@@ -44,7 +44,7 @@ namespace jer
         unique_ptr<Collidable> collider;
         
     public:
-        ~PhysicalObject() {};
+        virtual ~PhysicalObject() {};
         PhysicalObject(const Mass &m, const Point<double>& initPos, const Point<double>& initVel, const Point<double>& initAcc, Collidable * const col=NULL):
                         mass(m), acceleration(initAcc, Delta<Point<double> >(initVel, initPos)), velocity(&acceleration.get(2)), position(&acceleration.get(1)), collider(col) {if(bool(collider)) collider->setPosition(&getPosition());};
         PhysicalObject(const Mass &m, const Point<double>& initPos, const Point<double>& initVel, Collidable * const col=NULL): PhysicalObject(m, initPos, initVel, Point<double>(), col) {};

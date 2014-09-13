@@ -102,7 +102,9 @@ int main(int argc, char **argv)
 	string image(argc > 1? argv[1]:"circle.png");
 	string image2(argc > 2? argv[2]:"test.png");
 	
-	CompositeProcess compProc;
+	cout<<"Images to use are "<<image<<" and "<<image2<<endl;
+	
+	Logger<CompositeProcess> compProc;
     EasyData *data = new EasyData;
     
     FileManager *files = new FileManager;
