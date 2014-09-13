@@ -33,6 +33,8 @@ namespace jer
             windows.erase(id);
             id = 0;
         }
+		
+		return Loadable::unload();
     }
     
     const string &Window::getName() const
