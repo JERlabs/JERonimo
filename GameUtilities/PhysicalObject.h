@@ -8,6 +8,7 @@
 #include "Space2D/Vector.h"
 #include "Space2D/Delta.h"
 #include "Collidable.h"
+#include "FPSManager.h"
 
 namespace jer
 {
@@ -42,17 +43,19 @@ namespace jer
         const Point<double> *position;
         
         unique_ptr<Collidable> collider;
+		
+		const FPSManager *fpsMan;
         
     public:
         virtual ~PhysicalObject() {};
-        PhysicalObject(const Mass &m, const Point<double>& initPos, const Point<double>& initVel, const Point<double>& initAcc, Collidable * const col=NULL):
-                        mass(m), acceleration(initAcc, Delta<Point<double> >(initVel, initPos)), velocity(&acceleration.get(2)), position(&acceleration.get(1)), collider(col) {if(bool(collider)) collider->setPosition(&getPosition());};
-        PhysicalObject(const Mass &m, const Point<double>& initPos, const Point<double>& initVel, Collidable * const col=NULL): PhysicalObject(m, initPos, initVel, Point<double>(), col) {};
-        PhysicalObject(const Mass &m, const Point<double>& initPos, Collidable * const col=NULL): PhysicalObject(m, initPos, Point<double>(), col) {};
-        PhysicalObject(const Mass &m, Collidable * const col=NULL): PhysicalObject(m, Point<double>(), col) {};
-        PhysicalObject(Collidable * const col=NULL): PhysicalObject(0.0, col) {};
-        PhysicalObject(const Mass &m, const Delta<Delta<Point<double> > > &init, Collidable * const col=NULL): PhysicalObject(m, init.get(1), init.get(2), init, col) {};
-        PhysicalObject(const PhysicalObject &other): PhysicalObject(other.mass, other.acceleration, bool(other.collider)? other.collider->copy():NULL) {};
+        PhysicalObject(const Mass &m, const Point<double>& initPos, const Point<double>& initVel, const Point<double>& initAcc, Collidable * const col=NULL, const FPSManager * const fps=NULL):
+                        mass(m), acceleration(initAcc, Delta<Point<double> >(initVel, initPos)), velocity(&acceleration.get(2)), position(&acceleration.get(1)), collider(col), fpsMan(fps) {if(bool(collider)) collider->setPosition(&getPosition());};
+        PhysicalObject(const Mass &m, const Point<double>& initPos, const Point<double>& initVel, Collidable * const col=NULL, const FPSManager * const fps=NULL): PhysicalObject(m, initPos, initVel, Point<double>(), col, fps) {};
+        PhysicalObject(const Mass &m, const Point<double>& initPos, Collidable * const col=NULL, const FPSManager * const fps=NULL): PhysicalObject(m, initPos, Point<double>(), col, fps) {};
+        PhysicalObject(const Mass &m, Collidable * const col=NULL, const FPSManager * const fps=NULL): PhysicalObject(m, Point<double>(), col, fps) {};
+        PhysicalObject(Collidable * const col=NULL, const FPSManager * const fps=NULL): PhysicalObject(0.0, col, fps) {};
+        PhysicalObject(const Mass &m, const Delta<Delta<Point<double> > > &init, Collidable * const col=NULL, const FPSManager * const fps=NULL): PhysicalObject(m, init.get(1), init.get(2), init, col, fps) {};
+        PhysicalObject(const PhysicalObject &other): PhysicalObject(other.mass, other.acceleration, bool(other.collider)? other.collider->copy():NULL, other.fpsMan) {};
         
     public:
         const Mass &getMass() const {return mass;};
@@ -69,6 +72,9 @@ namespace jer
         
         Collidable * const getCollider() const {return collider.get();};
         void setCollider(Collidable * const col) {collider.reset(col); collider->setPosition(&getPosition());};
+		
+		const FPSManager * const getFPSManager() const {return fpsMan;};
+		void setFPSManager(const FPSManager * const fps) {fpsMan = fps;};
         
     public:
         void force(const Point<double> &f) {acceleration += f;};

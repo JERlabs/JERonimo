@@ -24,9 +24,9 @@ namespace jer
     
     const SUCCESS PhysicalObject::loop()
     {
-        const SUCCESS ret = acceleration.loop();
+		acceleration.increment(fpsMan==NULL? 1.0:fpsMan->getLagMultiplier());
         acceleration = Point<double>(0.0, 0.0);
-        return ret;
+        return SUCCEEDED;
     }
     
     const SUCCESS PhysicalObject::collided(PhysicalObject &object, const Radians angle)

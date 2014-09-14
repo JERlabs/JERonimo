@@ -64,7 +64,16 @@ namespace jer
         const BASE_TYPE &get(int i=1) const {if(i == N_DERIVATIVE) return value; else return value.get(i);};
         void set(const Delta<T>& val) {value = val;};
         void set(const T& val) {value.set(val);};
-		void increment(const double iterations=1.0) {value += iterations*(*delta); value.increment(iterations);};
+		void increment(const double iterations=1.0)
+		{
+			const int iter(iterations);
+			value += (1.0+iterations-iter)*(*delta);
+			value.increment(1.0+iterations-iter);
+			if(iter >= 1) 
+				increment(iter-1);
+			else if(iter < -1)
+				increment(iter+1);
+		};
         const SUCCESS loop() override {increment(); return SUCCEEDED;};
     };
     
@@ -180,7 +189,16 @@ namespace jer
         
     public:
         const BASE_TYPE &get(int i=1) const {if(i == N_DERIVATIVE) return *value; else return value->get(i);};        
-        void increment(const double iterations=1.0) {*value += iterations*(*delta); value->increment();};
+        void increment(const double iterations=1.0)
+		{
+			const int iter(iterations);
+			*value += (1.0+iterations-iter)*(*delta); 
+			value->increment(1.0+iterations-iter);
+			if(iter > 1)
+				increment(iter-1);
+			else if(iter < -1)
+				increment(iter+1);
+		};
         const SUCCESS loop() override {increment(); return SUCCEEDED;};
     };
     
