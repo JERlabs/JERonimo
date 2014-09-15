@@ -25,11 +25,11 @@ public:
     {
         if(button == SDL_BUTTON_LEFT && clicks == 1)
 		{
-			current.reset(new PhysicalEntity(new ScaledTexture(image, Dimensions<int>(100, 100)), PhysicalObject(100.0, mPos, new CircleCollidable(Point<double>(0, 0), 50))));
+			current.reset(new PhysicalEntity(new ScaledTexture(image, Dimensions<int>(100, 100)), new PhysicalObject(100.0, mPos, new CircleCollidable(Point<double>(0, 0), 50))));
 		}
 		else if(button == SDL_BUTTON_RIGHT && clicks == 1)
 		{
-			current.reset(new PhysicalEntity(new ScaledTexture(image2, Dimensions<int>(100, 100)), PhysicalObject(100.0, mPos, new RectangleCollidable(Rectangle<double>(Point<double>(-50, -50), Dimensions<double>(100, 100))))));
+			current.reset(new PhysicalEntity(new ScaledTexture(image2, Dimensions<int>(100, 100)), new PhysicalObject(100.0, mPos, new RectangleCollidable(Rectangle<double>(Point<double>(-50, -50), Dimensions<double>(100, 100))))));
 		}
 		
 		displayer->push_back(current);
@@ -40,25 +40,26 @@ public:
     {
         if(clicks == 1 && current != nullptr)
         {
-			Point<double> d(Point<double>(mPos)-(current->getPosition()));
+			Point<double> d(Point<double>(mPos)-(current->getPhysicalObject()->getPosition()));
 			if(button == SDL_BUTTON_RIGHT)
 			{
 				current->setImage(new ScaledTexture(image2, d*2.0));
-				current->getCollider()->setOffset(d*-1.0);
-				current->getCollider()->setDimensions(d*2.0);
-				current->setMass(4.0*double(d.x()*d.y()));
+				current->getPhysicalObject()->getCollider()->setOffset(d*-1.0);
+				current->getPhysicalObject()->getCollider()->setDimensions(d*2.0);
+				current->getPhysicalObject()->setMass(4.0*double(d.x()*d.y()));
 			}
 			else if(button == SDL_BUTTON_LEFT)
 			{
 				Scalar<double> rad(pythagoras(d));
 				current->setImage(new ScaledTexture(image, Dimensions<double>(rad, rad)*2.0));
-				current->getCollider()->setDimensions(Dimensions<double>(rad, rad));
-				current->setMass(rad*rad*M_PI);
+				current->getPhysicalObject()->getCollider()->setDimensions(Dimensions<double>(rad, rad));
+				current->getPhysicalObject()->setMass(rad*rad*M_PI);
 			}
+			
+			world->push_back(current->getPhysicalObject());
+			current.reset();
 		}
 		
-		world->push_back(current);
-        current.reset();
         return SUCCEEDED;
     }
     
@@ -70,12 +71,12 @@ public:
         
 		if(buttons[SDL_BUTTON_LEFT-1])
 		{
-			Scalar<double> rad(pythagoras(Point<double>(movement.get())-(current->getPosition())));
+			Scalar<double> rad(pythagoras(Point<double>(movement.get())-(current->getPhysicalObject()->getPosition())));
 			current->setImage(new ScaledTexture(image, Dimensions<double>(rad, rad)*2.0));
 		}
 		else if(buttons[SDL_BUTTON_RIGHT-1])
 		{
-			Dimensions<double> d(Point<double>(movement.get())-current->getPosition());
+			Dimensions<double> d(Point<double>(movement.get())-current->getPhysicalObject()->getPosition());
 			current->setImage(new ScaledTexture(image2, d*2.0));
 		}
 		

@@ -11,6 +11,6 @@ namespace jer
     
     const SUCCESS Entity::display() const
     {
-        return image->blit(position);
+        return image->blit(getPixelPosition());
     }
 }

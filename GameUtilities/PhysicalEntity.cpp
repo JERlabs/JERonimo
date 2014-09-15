@@ -4,8 +4,11 @@ namespace jer
 {
     const SUCCESS PhysicalEntity::loop()
     {
-        const SUCCESS ret = PhysicalObject::loop();
-        setPixelPosition(getPosition());
-        return ret;
+		if(physics != nullptr)
+		{
+			const SUCCESS ret = physics->loop();
+			setPixelPosition(physics->getPosition());
+			return ret;
+		}
     }
 }

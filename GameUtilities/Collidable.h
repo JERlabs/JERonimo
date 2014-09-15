@@ -41,7 +41,7 @@ namespace jer
     public:
         virtual const bool canCollide(const int t) const {return false;};
         virtual const bool collides(const Collidable &other) const {if(other.canCollide(type)) return other.collides(*this);};
-        virtual Collidable * const copy() const {return new Collidable(*this);};
+        virtual Collidable * const clone() const {return new Collidable(*this);};
     };
 }
 

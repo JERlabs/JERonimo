@@ -15,7 +15,9 @@ namespace jer
     {
     private:
         shared_ptr<const Blittable> image;
-        Point<int> position;
+		
+	protected:
+        mutable Point<int> position;
         
     public:
         virtual ~Entity() {};
@@ -29,7 +31,7 @@ namespace jer
         Entity& operator= (const Entity &other);
         
     public:
-        const Point<int> getPixelPosition() const {return position;};
+        virtual const Point<int> getPixelPosition() const {return position;};
         void setPixelPosition(const Point<int> &p) {position = p;};
         const shared_ptr<const Blittable> getImage() const {return image;};
         void setImage(const shared_ptr<const Blittable> img) {image = img;};

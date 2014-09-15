@@ -55,7 +55,7 @@ namespace jer
         PhysicalObject(const Mass &m, Collidable * const col=NULL, const FPSManager * const fps=NULL): PhysicalObject(m, Point<double>(), col, fps) {};
         PhysicalObject(Collidable * const col=NULL, const FPSManager * const fps=NULL): PhysicalObject(0.0, col, fps) {};
         PhysicalObject(const Mass &m, const Delta<Delta<Point<double> > > &init, Collidable * const col=NULL, const FPSManager * const fps=NULL): PhysicalObject(m, init.get(1), init.get(2), init, col, fps) {};
-        PhysicalObject(const PhysicalObject &other): PhysicalObject(other.mass, other.acceleration, bool(other.collider)? other.collider->copy():NULL, other.fpsMan) {};
+        PhysicalObject(const PhysicalObject &other): PhysicalObject(other.mass, other.acceleration, bool(other.collider)? other.collider->clone():NULL, other.fpsMan) {};
         
     public:
         const Mass &getMass() const {return mass;};
@@ -81,6 +81,7 @@ namespace jer
         void gravitate(const PhysicalObject &other);
         void antigravitate(const PhysicalObject &other);
         const SUCCESS checkCollision(PhysicalObject &object);
+		virtual PhysicalObject * const clone() const {return new PhysicalObject(*this);};
         
     public:
         virtual const SUCCESS loop() override;
