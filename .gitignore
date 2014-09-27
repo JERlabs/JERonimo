@@ -33,3 +33,5 @@ rules.ninja
 Makefile
 *.exe
 *.dll
+*.zip*
+JERonimo/
