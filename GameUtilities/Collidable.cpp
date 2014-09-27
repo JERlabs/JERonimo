@@ -10,14 +10,7 @@ namespace jer
 		Radians theta(getTheta(c2->getPosition() - c1->getPosition()));
 		if(c1->getType() == RECTANGLE || c2->getType() == RECTANGLE)
 		{
-			if(theta < TAO/8.0 && theta >= -TAO/8.0)
-				return Radians::ANGLE_RIGHT;
-			else if(theta >= TAO/8.0 && theta < 3.0*TAO/8.0)
-				return Radians::ANGLE_UP;
-			else if(theta >= 3.0*TAO/8.0 && theta < 5.0*TAO/8.0)
-				return Radians::ANGLE_LEFT;
-			else
-				return Radians::ANGLE_DOWN;
+            //TODO: Figure out a better way to calculate collision angle, most likely from a more specific return value from collides itself
 		}
 		else
 			return theta;
