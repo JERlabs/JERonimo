@@ -43,11 +43,11 @@ public:
     {
         if(button == SDL_BUTTON_LEFT && clicks == 1)
 		{
-			current.reset(new PhysicalEntity(new ScaledTexture(image, Dimensions<int>(100, 100)), PhysicalObject(100.0, mPos, new CircleCollidable(Point<double>(0, 0), 50), fps)));
+			current.reset(new PhysicalEntity(new ScaledTexture(image, Dimensions<int>(100, 100)), new PhysicalObject(100.0, mPos, new CircleCollidable(Point<double>(0, 0), 50), fps)));
 		}
 		else if(button == SDL_BUTTON_RIGHT && clicks == 1)
 		{
-			current.reset(new PhysicalEntity(new ScaledTexture(image2, Dimensions<int>(100, 100)), PhysicalObject(100.0, mPos, new RectangleCollidable(Rectangle<double>(Point<double>(-50, -50), Dimensions<double>(100, 100))), fps)));
+			current.reset(new PhysicalEntity(new ScaledTexture(image2, Dimensions<int>(100, 100)), new PhysicalObject(100.0, mPos, new RectangleCollidable(Rectangle<double>(Point<double>(-50, -50), Dimensions<double>(100, 100))), fps)));
 		}
 		
 		displayer->push_back(current);
@@ -58,25 +58,25 @@ public:
     {
         if(clicks == 1 && current != nullptr)
         {
-			Point<double> d(Point<double>(mPos)-(current->getPosition()));
+			Point<double> d(Point<double>(mPos)-(current->getPhysicalObject()->getPosition()));
 			if(button == SDL_BUTTON_RIGHT)
 			{
 				current->setImage(new ScaledTexture(image2, d*2.0));
-				current->getCollider()->setOffset(d*-1.0);
-				current->getCollider()->setDimensions(d*2.0);
-				current->setMass(4.0*double(d.x()*d.y()));
+				current->getPhysicalObject()->getCollider()->setOffset(d*-1.0);
+				current->getPhysicalObject()->getCollider()->setDimensions(d*2.0);
+				current->getPhysicalObject()->setMass(4.0*double(d.x()*d.y()));
 			}
 			else if(button == SDL_BUTTON_LEFT)
 			{
 				Scalar<double> rad(pythagoras(d));
 				current->setImage(new ScaledTexture(image, Dimensions<double>(rad, rad)*2.0));
-				current->getCollider()->setDimensions(Dimensions<double>(rad, rad));
-				current->setMass(rad*rad*M_PI);
+				current->getPhysicalObject()->getCollider()->setDimensions(Dimensions<double>(rad, rad));
+				current->getPhysicalObject()->setMass(rad*rad*M_PI);
 			}
+			
+			world->push_back(current->getPhysicalObject());
+            current.reset();
 		}
-		
-		world->push_back(current);
-        current.reset();
         return SUCCEEDED;
     }
     
@@ -88,12 +88,12 @@ public:
         
 		if(buttons[SDL_BUTTON_LEFT-1])
 		{
-			Scalar<double> rad(pythagoras(Point<double>(movement.get())-(current->getPosition())));
+			Scalar<double> rad(pythagoras(Point<double>(movement.get())-(current->getPhysicalObject()->getPosition())));
 			current->setImage(new ScaledTexture(image, Dimensions<double>(rad, rad)*2.0));
 		}
 		else if(buttons[SDL_BUTTON_RIGHT-1])
 		{
-			Dimensions<double> d(Point<double>(movement.get())-current->getPosition());
+			Dimensions<double> d(Point<double>(movement.get())-current->getPhysicalObject()->getPosition());
 			current->setImage(new ScaledTexture(image2, d*2.0));
 		}
 		
@@ -111,6 +111,10 @@ public:
 				world->pop_back();
 			}
 		}
+		if(key.scancode == SDL_SCANCODE_ESCAPE)
+		{
+			return appExited();
+		}
 		return SUCCEEDED;
 	}
 };
@@ -126,7 +130,7 @@ int main(int argc, char **argv)
     FileManager *files = new FileManager;
     data->push_back(shared_ptr<FileManager>(files));
     
-    shared_ptr<Window> win(new Window("Physics Woah", Point<int>(50, 50), Dimensions<int>(640, 480), Window::SHOWN | Window::RESIZABLE));
+    shared_ptr<Window> win(new Window("Physics Woah", Point<int>(50, 50), Dimensions<int>(640, 480), Window::SHOWN | Window::RESIZABLE | Window::FULLSCREEN_DESKTOP));
     shared_ptr<RedrawRenderer<HardRenderer> > ren(new RedrawRenderer<HardRenderer>(win, true, true));
     data->push_back(win);
     data->push_back(ren);
@@ -147,7 +151,7 @@ int main(int argc, char **argv)
     looper->push_back(shared_ptr<PhysicsEngine>(engine));
 	
 	FPSManager *fps;
-	looper->push_back(shared_ptr<FPSManager>(fps = new FPSManager(50)));
+	looper->push_back(shared_ptr<FPSManager>(fps = new FPSManager(75, 1000)));
 	
 	EventHandler handler(engine, displayer, *tex, *tex2, fps);
     Events::SetListener(&handler);

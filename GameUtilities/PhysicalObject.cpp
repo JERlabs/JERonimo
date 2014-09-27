@@ -2,7 +2,7 @@
 
 namespace jer
 {
-    double Mass::GRAVITATIONAL_CONSTANT(0.1);
+    double Mass::GRAVITATIONAL_CONSTANT(0.05);
     double PhysicalObject::REST_THRESHOLD(0.1);
     
     const Scalar<double> Mass::GetGravityForce(const Mass &first, const Mass &second, const Scalar<double> &distance)
@@ -48,7 +48,7 @@ namespace jer
         Point<double> p2(Vector(Mag_t<double>(2.0*getMass()*getX(initVel, initTheta-angle)/(getMass()+object.getMass())), initTheta-angle));  // Gets the velocity of 2 based on elastic collision equation
         Point<double> p1((initVel*getMass()-p2.x()*object.getMass())/getMass(), -p2.y()*object.getMass()/getMass());   // Gets the velocity of 1 based off of elastic collision rulez
         
-        if(abs(p1.x()) < REST_THRESHOLD && abs(p2.x()) < REST_THRESHOLD)
+        if(fabs(p1.x()) < REST_THRESHOLD && fabs(p2.x()) < REST_THRESHOLD)
         {
             p1.x(0.0);
             p2.x(0.0);
@@ -83,7 +83,7 @@ namespace jer
         {
             if(collider->canCollide(object.getCollider()->getType()))
                 if(collider->collides(*object.getCollider()))
-                    return collided(object, Collidable::GetCollisionAngle(getCollider(), object.getCollider()));
+                    return object.collided(*this, Collidable::GetCollisionAngle(object.getCollider(), getCollider()));   // this ensures that object collider is called by the farther derived collided function, likewise a derived class needs to make sure its own derived collided function is called
                 else
                     return SUCCEEDED;
             else if(object.getCollider()->canCollide(collider->getType()))

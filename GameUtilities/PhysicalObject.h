@@ -16,7 +16,7 @@ namespace jer
     
     class Mass: public Scalar<double>
     {
-    private:
+    protected:
         static double GRAVITATIONAL_CONSTANT;
         
     public:
@@ -32,7 +32,7 @@ namespace jer
     
     class PhysicalObject: public Loopable
     {
-    private:
+    protected:
         static double REST_THRESHOLD;
         
     private:
@@ -80,7 +80,7 @@ namespace jer
         void force(const Point<double> &f) {acceleration += f;};
         void gravitate(const PhysicalObject &other);
         void antigravitate(const PhysicalObject &other);
-        const SUCCESS checkCollision(PhysicalObject &object);
+        virtual const SUCCESS checkCollision(PhysicalObject &object);
 		virtual PhysicalObject * const clone() const {return new PhysicalObject(*this);};
         
     public:

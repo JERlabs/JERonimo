@@ -1,5 +1,6 @@
 #include "GameUtilities/Entity.h"
 #include "GameUtilities/PhysicalObject.h"
+#include "GameUtilities/StaticObject.h"
 #include "GameUtilities/PhysicalEntity.h"
 #include "GameUtilities/CollidableShapes.h"
 #include "GameUtilities/PhysicsEngine.h"

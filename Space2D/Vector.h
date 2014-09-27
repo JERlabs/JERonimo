@@ -37,12 +37,20 @@ class Vector {
       return Mag;
     };
     
+    Mag_t<double> &mag() {
+      return Mag;
+    };
+    
     /// Sets the magnitude of the vector to m
     Vector& mag(const Mag_t<double> &m);
     virtual void mag(const double &m) {Mag = Mag_t<double>(m);};
     
     /// Returns the angle of the vector
     const Radians &theta() const {
+      return Theta;
+    };
+    
+    Radians &theta() {
       return Theta;
     };
     
