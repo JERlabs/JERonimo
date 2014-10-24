@@ -2,6 +2,7 @@
 
 namespace jer
 {
+    /*
 	const Radians Collidable::GetCollisionAngle(const Collidable * const c1, const Collidable * const c2)
 	{
 		if(c1 == NULL || c2 == NULL)
@@ -15,4 +16,5 @@ namespace jer
 		else
 			return theta;
 	}
+	*/
 }

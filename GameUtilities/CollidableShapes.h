@@ -29,8 +29,11 @@ namespace jer
 		
     public:
         virtual const bool canCollide(const int t) const override;
-        virtual const bool collides(const Collidable &other) const override;
+        virtual const bool collides(const Collidable &other, Radians * const angle=NULL) const override;
         virtual RectangleCollidable * const clone() const override {return new RectangleCollidable(box, getPositionRef());};
+        
+    public:
+        virtual const bool collidesPoint(const Point<double> p) const override;
     };
 	
 	class CircleCollidable: public Collidable
@@ -54,7 +57,7 @@ namespace jer
 		
 	public:
 		virtual const bool canCollide(const int t) const override;
-		virtual const bool collides(const Collidable &other) const override;
+		virtual const bool collides(const Collidable &other, Radians * const angle=NULL) const override;
 		virtual CircleCollidable * const clone() const override {return new CircleCollidable(offset, radius, getPositionRef());};
 	};
 }

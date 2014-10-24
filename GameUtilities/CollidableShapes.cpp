@@ -7,7 +7,12 @@ namespace jer
         return t == RECTANGLE || t == POINT;
     }
     
-    const bool RectangleCollidable::collides(const Collidable &other) const
+    const bool RectangleCollidable::collidesPoint(const Point<double> p) const
+    {
+        return p.x() < bottomRight.x() && p.x() > topLeft.x() && p.y() < bottomRight.y() && p.y() > topLeft.y();
+    }
+    
+    const bool RectangleCollidable::collides(const Collidable &other, Radians * const angle) const
     {
 		Point<double> topLeft(getTopLeft());
 		Point<double> bottomRight(getBottomRight());
@@ -15,20 +20,40 @@ namespace jer
         switch(other.getType())
         {
         case POINT:
-            return other.getPosition().x() < bottomRight.x() && other.getPosition().x() > topLeft.x() &&
-				other.getPosition().y() < bottomRight.y() && other.getPosition().y() > topLeft.y();
+            if(angle)  // if an address was passed in
+                *angle = getTheta(getPosition() - other.getPosition());
+            return collidesPoint(other.getPosition());
 		case RECTANGLE:
 			{
 				Point<double> otherTopLeft(other.getOffset()+other.getPosition());
 				Point<double> otherBottomRight(otherTopLeft+other.getDimensions());
-				
-				return otherTopLeft.x() < bottomRight.x() && otherBottomRight.x() > topLeft.x() &&
+                
+				const bool ret = otherTopLeft.x() < bottomRight.x() && otherBottomRight.x() > topLeft.x() &&
 					otherTopLeft.y() < bottomRight.y() && otherBottomRight.y() > topLeft.y();
+                
+                if(ret == false) return false;
+                
+                Uint8 collisions = 0;
+                if(collidesPoint(otherTopLeft)) collisions |= 1;
+                if(collidesPoint(otherTopLeft+other.getDimensions().x())) collisions |= 2;
+                if(collidesPoint(otherTopLeft+other.getDimensions().y())) collisions |= 4;
+                if(collidesPoint(otherBottomRight)) collisions |= 8;
+                
+                if(other.collidesPoint(getTopLeft())) collisions |= 16;
+                if(other.collidesPoint(getTopRight())) collisions |= 32;
+                if(other.collidesPoint(getBottomLeft())) collisions |= 64;
+                if(other.collidesPoint(getBottomRight())) collisions |= 128;
+                
+                switch(collisions)
+                {
+                    
+                }
+                
 			}
 			/*
 		case CIRCLE:
 			{
-				To be completed
+				See CircleCollidable::collides
 			}
 			*/
 		default:
