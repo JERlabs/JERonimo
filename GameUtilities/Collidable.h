@@ -18,7 +18,7 @@ namespace jer
     public:
         virtual ~Collidable() {};
         Collidable(const int t = POINT, const Point<double> * const p=NULL): type(t), position(p) {};
-        Collidable(const Collidable &other): type(other.type), position(other.position) {};
+        Collidable(const Collidable &other): pe(other.type), position(other.position) {};
         
     public:
         const int getType() const {return type;};
@@ -40,7 +40,8 @@ namespace jer
         
     public:
         virtual const bool canCollide(const int t) const {return false;};
-        virtual const bool collides(const Collidable &other) const {if(other.canCollide(type)) return other.collides(*this);};
+        virtual const bool collides(const Collidable &other, Radians * const angle=NULL) const {if(other.canCollide(type)) return other.collides(*this, angle);};  // angle is a pointer to where the angle of collision should be stored
+        virtual const bool collidesPoint(const Point<double> p) const {return p == getPosition();};
         virtual Collidable * const clone() const {return new Collidable(*this);};
     };
 }
