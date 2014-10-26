@@ -11,78 +11,101 @@
 #endif
 typedef double PIXEL_TYPE;
 
-namespace jer {
-/** namespace containing code related to 2D space algorithm 
-  * such as coordinate plane geometry, vector math, 
-  * and certain physics calculations 
-  * The template types should be a numerical type with at least support for 
-  * binary operator+, binary operator-, binary operator*, operator/, operator=, and operator==
-  */
-  
+namespace jer {  
   class Vector;   // forward declaration of vector
   template<typename T> class Point;  // forward declaration of Point, a template class (depending on the chosen units)
   
   
+  /** Base class for Scalar Types, which covers autoboxing of the value it holds of type T.
+   * T should support arithmetic operators, comparative operators, and assignment operators.
+   */
   template<typename T>
   class Scalar {
-  /// Base class for Scalars (like X_t), which covers autoboxing of the value it holds of type T (hopefully some sort of numerical value)
   protected:
-    T val;
+    T val; 
     
   public:
+	/// Returns address of contained value.
     T * const getPtr() {return &val;};
     const T * const getPtr() const {return &val;};
+	
+	/// Implicit conversion operator to T
     operator T&() {return val;};
     operator const T&() const {return val;};
+	
+	/// Default constructor
     Scalar(): val(T(0.0)) {};
+	
+	/// Composite constructor
     Scalar(const T& v): val(v) {};
+	
+	/// Copy constructor
     Scalar(const Scalar &other): val(other.val) {};
   };
   
+    /** Specialization of Scalar for squared Scalar values.
+	 * Also autoboxes to T, such that things like x*x + y*y are legal
+	 */
   template<typename T>
   class Scalar<Scalar<T> > {
-  /// Specialization of Scalar for squared Scalar values, also autoboxes to T, such that things like x*x + y*y are legal.
 	protected:
 	  Scalar<T> val;
 	
 	public:
+	  /// Returns address of contained value.
+	  T * const getPtr() {return &val;};
+	  const T * const getPtr() const {return &val;};
+	
+	  /// Implicit conversion to operator T
 	  operator T&() {return val;};
 	  operator const T&() const {return val;};
+	  
+	  /// Default constructor
 	  Scalar(): val(Scalar<T>(0.0)) {};
+	  
+	  /// Composite constructor
 	  Scalar(const T& v): val(Scalar<T>(v)) {};
 	  Scalar(const Scalar<T> &other): val(other) {};
+	  
+	  /// Copy constructor
+	  Scalar(const Scalar<Scalar<T> >& other): val(other) {};
   };
   
+  /// Overload of the multiplication of two Scalar values resulting in a squared Scalar value (Scalar of Scalars)  
   template<typename T>
   const Scalar<Scalar<T> > operator* (const Scalar<T>& lhs, const Scalar<T>& rhs) {
-  /// Overload of the multiplication of two Scalar values resulting in a squared Scalar value (Scalar of Scalars)
 	return lhs*T(rhs);
   }
-  
+
+  /// Scalar class representing X coordinate values  
   template<typename T>
   class X_t: public Scalar<T> {
-  /// Scalar class representing X coordinate values
   public:
-    X_t(): Scalar<T>() {};
-    X_t(const T& x): Scalar<T>(x) {};
-    X_t(const Scalar<T> &other): Scalar<T>(other) {};
+    X_t(): Scalar<T>() {};  ///< Default constructor
+    X_t(const T& x): Scalar<T>(x) {};  ///< Constructor
+    X_t(const Scalar<T> &other): Scalar<T>(other) {};  ///< Constructor
   };
   
+  /// Scalar class representing Y coordinate values
   template<typename T>
   class Y_t: public Scalar<T> {
-  /// Scalar class representing Y coordinate values
   public:
-      Y_t(): Scalar<T>() {};
-      Y_t(const T& y): Scalar<T>(y) {};
-      Y_t(const Scalar<T> &other): Scalar<T>(other) {};
+      Y_t(): Scalar<T>() {};  ///< Default constructor
+      Y_t(const T& y): Scalar<T>(y) {};   ///< Constructor
+      Y_t(const Scalar<T> &other): Scalar<T>(other) {};   ///< Constructor
   };
-  
+
+  /// Scalar class representing magnitudes or hypotenuses  
   template<typename T>
   class Mag_t: public Scalar<T> {
-  /// Scalar class representing magnitudes or hypotenuses
   public:
-    Mag_t(): Scalar<T>() {};
-    explicit Mag_t(const T& m): Scalar<T>(m) {};  ///< Constructor requires that magnitudes be declared explicitly, so Vector parameters aren't swapped
+    Mag_t(): Scalar<T>() {};   ///< Default constructor
+	
+	/** Composite constructor.
+	 * This constructor is explicit so that types aren't mixed due to autoboxing. 
+	 * For example, in Vector's constructor which takes a Mag_t object and Radians object which both have single-argument-T constructors
+	*/
+    explicit Mag_t(const T& m): Scalar<T>(m) {};
     Mag_t(const Mag_t<T> &other): Scalar<T>(other) {};  ///< Copy Constructor
   };
   
@@ -111,16 +134,20 @@ namespace jer {
       return T(T(lhs)/T(rhs));
   }  
   
+  /// Class representing degree measures of angles, stored as doubles.
   class Degrees: public Scalar<double> {
-  /// Class representing degree measures of angles stored, as doubles.
   public:
-    Degrees(): Scalar<double>() {}; ///< Default Constructor
+    Degrees(): Scalar<double>() {}; ///< Default constructor
+	/** Constructor
+	 * Made explicit so client doesn't confuse Degrees and Radians when passing in angle values.
+	 */
     explicit Degrees(const double& a=0.0): Scalar<double>(a) {};
-	/// Explicit conversion from double so that code using angles doesn't have ambiguity as to whether it's a magnitude, angle in degrees, or angle in radians
     // not sure exactly why this is here, I'm removing it for now
     //Degrees(const Mag_t &other): Scalar(other) {};  
+	/** Constructor
+	 * Made explicit so client doesn't confuse Degrees and Radians when passing in angle values.
+	 */
     explicit Degrees(const Scalar<double> &other): Scalar<double>(other) {};
-	/// Conversion from Scalar is explicit so that scalar arithmetic doesn't get implicit-casted to Degrees
     
     static const Degrees ANGLE_RIGHT;  ///< Corresponds to an angle 0 quarter around the unit circle (0 degrees)
     static const Degrees ANGLE_UP;     ///< Corresponds to an angle 1 quarter around the unit circle (90 degrees)
@@ -151,18 +178,29 @@ namespace jer {
   inline const double operator/ (const Degrees & lhs, const Degrees & rhs) {
       return double(double(lhs)/double(rhs));
   }
-  
+
+  /// Class representing radian measures of angles, stored as doubles.
   class Radians: public Scalar<double> {
-  /// Class representing radian measures of angles stored, as doubles.
   public:
-    operator Degrees();  ///< Cast operator to Degrees. This allows implicit casts between Radians and Degrees, converting their values as well.
-    operator const Degrees() const;   ///< Constant cast operator to Degrees. see <code>operator Degrees()</code>
+	/** Cast operator to Degrees.
+	 * This allows implicit casts between Radians and Degrees, converting their values appropriately.
+	 */
+    operator Degrees();
+    operator const Degrees() const;   ///< Constant cast operator to Degrees.
     Radians(): Scalar<double>() {};	///< Default constructor
+	/** Constructor
+	 * Explicit so that Radian and Degree values aren't confused when passing angles to objects
+	 */
     explicit Radians(const double &a): Scalar<double>(a) {};
-	/// Explicit conversion from double so that code using angles doesn't have ambiguity as to whether it's a magnitude, angle in degrees, or angle in radians
-    Radians(const Degrees &other);  ///< Implicit conversion from Degrees. See <code>operator Degrees()</code>
+	/** Constructor
+	 * This allows implicit casts between Degrees and Radians, converting their values appropriately.
+	 * @see operator Degrees()
+	 */
+    Radians(const Degrees &other);
+	/** Constructor
+	 * Explicit so that Radian and Degree values aren't confused when passing angles to objects.
+	 */
     explicit Radians(const Scalar<double> &other): Scalar<double>(other) {};
-	/// Conversion from Scalar is explicit so that scalar arithmetic doesn't get implicit-casted to Degrees
   
     static const Radians ANGLE_RIGHT;	///< Corresponds to an angle 0 quarter around the unit circle (0 radians)
     static const Radians ANGLE_UP;		///< Corresponds to an angle 1 quarter around the unit circle (pi/2 radians)
@@ -194,9 +232,10 @@ namespace jer {
       return double(double(lhs)/double(rhs));
   }
   
-  const Radians TAO(2*M_PI);  ///< Constant for TAO.
+  /// Constant for TAO.
+  const Radians TAO(2*M_PI);
 
-  /// Constant for 360 degrees. Created for type purity purposes. Doubts that it will be used.
+  /// Constant for 360 degrees used for type purity.
   const Degrees ANGLE_360(360.0);
   
   /// Converts from Degrees to Radians
@@ -209,7 +248,7 @@ namespace jer {
     return (Radians(r)/TAO)*ANGLE_360;
   }
   
-  /// Radians Degrees function needs to be defined after RAD_TO_DEGREES.
+  // Radians Degrees function needs to be defined after RAD_TO_DEGREES.
   inline Radians::operator Degrees() {
     return RAD_TO_DEGREES(this->val);
   }
@@ -218,29 +257,29 @@ namespace jer {
     return RAD_TO_DEGREES(this->val);
   }
   
-  /// Radians constructor needs to be defined after DEGREES_TO_RAD.
+  // Radians constructor needs to be defined after DEGREES_TO_RAD.
   inline Radians::Radians(const Degrees &other): Scalar<double>(DEGREES_TO_RAD(other)) {}
   
   
-  /// Returns the square root of x squared + y squared.
+  /// Finds the hypotenuse of a right-triangles with x and y as legs
   template<typename T>
   inline const Mag_t<double> pythagoras(const X_t<T> &x, const Y_t<T> &y) {
     return Mag_t<double>(sqrt(x*x + y*y));
   }
   
-  /// Returns m times cos theta.
+  /// Finds the x component of a vector with magnitude m and angle theta.
   template<typename T>
   inline const X_t<T> getX(const Mag_t<T>& m, const Radians& theta) {
     return m * cos(theta);
   }
   
-  /// Returns m times sin theta.
+  /// Finds the y component of a vector with magnitude m and angle theta.
   template<typename T>
   inline const Y_t<T> getY(const Mag_t<T>& m, const Radians& theta) {
     return m * sin(theta);
   }
   
-  /// Returns arc tangent of y/x.
+  /// Finds the angle of the hypotenuse of a right triangle formed by legs of lengths x and y.
   template<typename T>
   inline const Radians getTheta(const X_t<T>& x, const Y_t<T>& y) {
     if(x == 0.0) {
