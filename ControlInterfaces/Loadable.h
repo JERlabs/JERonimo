@@ -43,6 +43,7 @@ namespace jer
         virtual ~LoadWrapper() {if(get()->isLoaded()) get()->unload();};
         LoadWrapper(Loadable * const comp=nullptr): shared_ptr<Loadable>(comp) {};
         LoadWrapper(const shared_ptr<Loadable>& other): shared_ptr<Loadable>(other) {};
+        LoadWrapper(const LoadWrapper& other): shared_ptr<Loadable>(other), Loadable(other) {};
         
     public:
         virtual const SUCCESS load() override 

@@ -23,6 +23,7 @@ namespace jer
         virtual ~DisplayWrapper() {};
         DisplayWrapper(Displayable * const comp=nullptr): shared_ptr<Displayable>(comp) {};
         DisplayWrapper(const shared_ptr<Displayable>& other): shared_ptr<Displayable>(other) {};
+        DisplayWrapper(const DisplayWrapper& other): shared_ptr<Displayable>(other) {};
         
     public:
         virtual const SUCCESS display() const override {return get()? get()->display():-1;};

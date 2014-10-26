@@ -23,6 +23,7 @@ namespace jer
         virtual ~LoopWrapper() {};
         LoopWrapper(Loopable * const comp=nullptr): shared_ptr<Loopable>(comp) {};
         LoopWrapper(const shared_ptr<Loopable>& other): shared_ptr<Loopable>(other) {};
+        LoopWrapper(const LoopWrapper& other): shared_ptr<Loopable>(other) {};
         
     public:
         virtual const SUCCESS loop() override {return get()? get()->loop():-1;};
