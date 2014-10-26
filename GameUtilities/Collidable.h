@@ -9,7 +9,7 @@ namespace jer
     {
     public:
         enum {POINT=0, RECTANGLE=-1, CIRCLE=-2};
-        static const Radians GetCollisionAngle(const Collidable * const c1, const Collidable * const c2);
+        //static const Radians GetCollisionAngle(const Collidable * const c1, const Collidable * const c2);
         
     private:
         int type;
@@ -18,7 +18,7 @@ namespace jer
     public:
         virtual ~Collidable() {};
         Collidable(const int t = POINT, const Point<double> * const p=NULL): type(t), position(p) {};
-        Collidable(const Collidable &other): pe(other.type), position(other.position) {};
+        Collidable(const Collidable &other): type(other.type), position(other.position) {};
         
     public:
         const int getType() const {return type;};

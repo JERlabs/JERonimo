@@ -9,35 +9,51 @@ namespace jer
     
     const bool RectangleCollidable::collidesPoint(const Point<double> p) const
     {
-        return p.x() < bottomRight.x() && p.x() > topLeft.x() && p.y() < bottomRight.y() && p.y() > topLeft.y();
+        return p.x() < getBottomRight().x() && p.x() > getTopLeft().x() && p.y() > getBottomRight().y() && p.y() < getTopLeft().y();
     }
     
     const bool RectangleCollidable::collides(const Collidable &other, Radians * const angle) const
     {
-		Point<double> topLeft(getTopLeft());
-		Point<double> bottomRight(getBottomRight());
+		Point<double> bottomLeft(getBottomLeft());
+		Point<double> topRight(getTopRight());
 		
         switch(other.getType())
         {
         case POINT:
-            if(angle)  // if an address was passed in
-                *angle = getTheta(getPosition() - other.getPosition());
-            return collidesPoint(other.getPosition());
+          {
+            bool ret = collidesPoint(other.getPosition());
+            if(ret && angle)  // if an address was passed in and it does collide
+            {
+                Point<double> center = getPosition()+getOffset()+getDimensions()/2.0;
+                *angle = getTheta(other.getPosition()-center);
+                angle->validate();
+                Radians refAngle = getTheta(topRight-center)-Radians::ANGLE_RIGHT;
+                if(*angle <= refAngle && *angle >= -refAngle)
+                    *angle = Radians::ANGLE_RIGHT;
+                else if(*angle <= -Radians::ANGLE_LEFT-refAngle && *angle >= refAngle)
+                    *angle = Radians::ANGLE_UP;
+                else if((*angle <= -Radians::ANGLE_LEFT && *angle >= -Radians::ANGLE_LEFT-refAngle) || (*angle >= Radians::ANGLE_LEFT && *angle <= Radians::ANGLE_LEFT+refAngle))
+                    *angle = Radians::ANGLE_LEFT;
+                else if(*angle <= -refAngle && *angle >= Radians::ANGLE_LEFT+refAngle)
+                    *angle = Radians::ANGLE_DOWN;
+            }
+            return ret;
+          }
 		case RECTANGLE:
 			{
-				Point<double> otherTopLeft(other.getOffset()+other.getPosition());
-				Point<double> otherBottomRight(otherTopLeft+other.getDimensions());
+				Point<double> otherBottomLeft(other.getOffset()+other.getPosition());
+				Point<double> otherTopRight(otherBottomLeft+other.getDimensions());
                 
-				const bool ret = otherTopLeft.x() < bottomRight.x() && otherBottomRight.x() > topLeft.x() &&
-					otherTopLeft.y() < bottomRight.y() && otherBottomRight.y() > topLeft.y();
+				const bool ret = otherBottomLeft.x() < topRight.x() && otherTopRight.x() > bottomLeft.x() &&
+					otherBottomLeft.y() < topRight.y() && otherTopRight.y() > bottomLeft.y();
                 
-                if(ret == false) return false;
+                if(ret == false || angle == NULL) return ret;
                 
                 Uint8 collisions = 0;
-                if(collidesPoint(otherTopLeft)) collisions |= 1;
-                if(collidesPoint(otherTopLeft+other.getDimensions().x())) collisions |= 2;
-                if(collidesPoint(otherTopLeft+other.getDimensions().y())) collisions |= 4;
-                if(collidesPoint(otherBottomRight)) collisions |= 8;
+                if(collidesPoint(otherBottomLeft)) collisions |= 1;
+                if(collidesPoint(otherBottomLeft+other.getDimensions().x())) collisions |= 2;
+                if(collidesPoint(otherBottomLeft+other.getDimensions().y())) collisions |= 4;
+                if(collidesPoint(otherTopRight)) collisions |= 8;
                 
                 if(other.collidesPoint(getTopLeft())) collisions |= 16;
                 if(other.collidesPoint(getTopRight())) collisions |= 32;
@@ -46,6 +62,8 @@ namespace jer
                 
                 switch(collisions)
                 {
+                case 0:
+                    return false;                        
                 case 5:
 				case 160:
 					*angle = Radians::ANGLE_RIGHT;
@@ -56,9 +74,9 @@ namespace jer
 					break;
 				case 20:
 					{
-						Point center(getPosition()+getOffset());
+						Point<double> center(getPosition()+getOffset()+getDimensions()/2.0);
 						Radians threshold(getTheta(getTopRight()-center));
-						Radians actual(getTheta(otherBottomLeft-center));
+						Radians actual(getTheta(otherTopRight-center-other.getDimensions().x()));
 						if(actual < threshold)
 							*angle = Radians::ANGLE_RIGHT;
 						else
@@ -67,9 +85,9 @@ namespace jer
 					}
 				case 129:
 					{
-						Point center(getPosition()+getOffset());
+                        Point<double> center(getPosition()+getOffset()+getDimensions()/2.0);
 						Radians threshold(getTheta(getBottomRight()-center));
-						Radians actual(getTheta(otherTopLeft-center));
+						Radians actual(getTheta(otherBottomLeft-center));
 						if(actual < threshold)
 							*angle = Radians::ANGLE_DOWN;
 						else
@@ -78,9 +96,9 @@ namespace jer
 					}
 				case 66:
 					{
-						Point center(getPosition()+getOffset());
+                        Point<double> center(getPosition()+getOffset()+getDimensions()/2.0);
 						Radians threshold(getTheta(getBottomLeft()-center));
-						Radians actual(getTheta(otherTopRight-center));
+						Radians actual(getTheta(otherBottomLeft+other.getDimensions().x()-center));
 						if(actual < threshold)
 							*angle = Radians::ANGLE_LEFT;
 						else
@@ -89,9 +107,9 @@ namespace jer
 					}
 				case 24:
 					{
-						Point center(getPosition()+getOffset());
+                        Point<double> center(getPosition()+getOffset()+getDimensions()/2.0);
 						Radians threshold(getTheta(getTopLeft()-center));
-						Radians actual(getTheta(otherBottomRight-center));
+						Radians actual(getTheta(otherTopRight-center));
 						if(actual < threshold)
 							*angle = Radians::ANGLE_UP;
 						else
@@ -106,8 +124,12 @@ namespace jer
 				case 48:
 					*angle = Radians::ANGLE_UP;
 					 break;
+                default:
+                    *angle = getTheta(other.getPosition()+other.getOffset()-getPosition()-getOffset());
+                    break;
                 }
                 
+                return true;
 			}
 			/*
 		case CIRCLE:
@@ -117,7 +139,15 @@ namespace jer
 			*/
 		default:
 			if(other.canCollide(getType()))
-				return other.collides(*this);
+            {
+                bool ret = other.collides(*this, angle);
+                if(angle)
+                {
+                    *angle += TAO/2.0;
+                    angle->validate();
+                }
+                return ret;
+            }
 			return false;
         }
     }
@@ -127,11 +157,13 @@ namespace jer
 		return t == RECTANGLE || t == POINT || t == CIRCLE;
 	}
 	
-	const bool CircleCollidable::collides(const Collidable& other) const
+	const bool CircleCollidable::collides(const Collidable& other, Radians * const angle) const
 	{
 		switch(other.getType())
 		{
 		case POINT:
+            if(angle)
+                *angle = getTheta(other.getPosition()-getCenter());
 			return pythagoras(getCenter()-other.getPosition()) < radius;
 			
 		case RECTANGLE:
@@ -142,23 +174,42 @@ namespace jer
 				
 				for(int i = 0; i < 4; i++)
 				{
-					if(collides(Collidable(POINT, corners+i)))
+					if(collides(Collidable(POINT, corners+i), angle))
 						return true;
-					else if(other.collides(Collidable(POINT, cardinals+i)))
+					else if(other.collides(Collidable(POINT, cardinals+i), angle))
+                    {
+                        if(angle)
+                        {
+                            *angle += TAO/2.0;
+                            angle->validate();
+                        }
 						return true;
+                    }
 				}
 				
 				return false;
 			}
 		
 		case CIRCLE:
-			return pythagoras(getCenter() - (other.getPosition() + other.getOffset())) < other.getDimensions().x()+radius;
+        {
+			Vector v((other.getPosition() + other.getOffset())-getCenter());
+            if(angle)
+                *angle = v.theta();
+            return v.mag() < other.getDimensions().x()+radius;
+        }
 			
 		default:
 			if(other.canCollide(getType()))
-				return other.collides(*this);
+            {
+                bool ret = other.collides(*this, angle);
+                if(angle)
+                {
+                    *angle += TAO/2.0;
+                    angle->validate();
+                }
+                return ret;
+            }
 			return false;
 		}
 	}
-    
 }

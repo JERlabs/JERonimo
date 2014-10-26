@@ -56,7 +56,7 @@ namespace jer {
 	  T * const getPtr() {return &val;};
 	  const T * const getPtr() const {return &val;};
 	
-	  /// Implicit conversion to operator T
+	  /// Implicit conversion operator to T
 	  operator T&() {return val;};
 	  operator const T&() const {return val;};
 	  
@@ -137,6 +137,17 @@ namespace jer {
   /// Class representing degree measures of angles, stored as doubles.
   class Degrees: public Scalar<double> {
   public:
+      /** Implicit conversion operator to T
+       * Overloads Scalar because it ensures that the value is within the correct range
+       */
+      void validate()
+      {
+          // Keep val between -180 and 180
+          while(val >= 180.0) val -= 360.0;
+          while(val < -180.0) val += 360.0;
+      }
+      
+  public:
     Degrees(): Scalar<double>() {}; ///< Default constructor
 	/** Constructor
 	 * Made explicit so client doesn't confuse Degrees and Radians when passing in angle values.
@@ -148,6 +159,9 @@ namespace jer {
 	 * Made explicit so client doesn't confuse Degrees and Radians when passing in angle values.
 	 */
     explicit Degrees(const Scalar<double> &other): Scalar<double>(other) {};
+    
+    /// Copy constructor
+    Degrees(const Degrees& other): Scalar<double>(other) {};
     
     static const Degrees ANGLE_RIGHT;  ///< Corresponds to an angle 0 quarter around the unit circle (0 degrees)
     static const Degrees ANGLE_UP;     ///< Corresponds to an angle 1 quarter around the unit circle (90 degrees)
@@ -182,6 +196,15 @@ namespace jer {
   /// Class representing radian measures of angles, stored as doubles.
   class Radians: public Scalar<double> {
   public:
+      /** Implicit conversion operator to T
+       * Overloads Scalar because it ensures that the value is within the correct range
+       */
+      void validate()
+      {
+          // Keep val between -PI and PI
+          while(val >= M_PI) val -= 2*M_PI;
+          while(val < -M_PI) val += 2*M_PI;
+      }
 	/** Cast operator to Degrees.
 	 * This allows implicit casts between Radians and Degrees, converting their values appropriately.
 	 */
@@ -201,6 +224,9 @@ namespace jer {
 	 * Explicit so that Radian and Degree values aren't confused when passing angles to objects.
 	 */
     explicit Radians(const Scalar<double> &other): Scalar<double>(other) {};
+    
+    /// Copy constructor
+    Radians(const Radians& other): Scalar<double>(other) {};
   
     static const Radians ANGLE_RIGHT;	///< Corresponds to an angle 0 quarter around the unit circle (0 radians)
     static const Radians ANGLE_UP;		///< Corresponds to an angle 1 quarter around the unit circle (pi/2 radians)
@@ -297,5 +323,4 @@ namespace jer {
     return Radians(atan(y/x));
   }
 }
-
 #endif

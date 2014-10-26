@@ -22,10 +22,10 @@ namespace jer
         virtual void setDimensions(const Dimensions<double> &dim) override {box.size = dim;};
         
 	protected:
-		const Point<double> getTopLeft() const {return box.position + getPosition();};
-		const Point<double> getBottomRight() const {return getTopLeft() + box.size;};
-		const Point<double> getBottomLeft() const {return getTopLeft() + box.size.y();};
-		const Point<double> getTopRight() const {return getTopLeft() + box.size.x();};
+		const Point<double> getBottomLeft() const {return box.position + getPosition();};
+		const Point<double> getTopRight() const {return getBottomLeft() + box.size;};
+		const Point<double> getTopLeft() const {return getBottomLeft() + box.size.y();};
+		const Point<double> getBottomRight() const {return getBottomLeft() + box.size.x();};
 		
     public:
         virtual const bool canCollide(const int t) const override;

@@ -81,14 +81,15 @@ namespace jer
         }
         else
         {
+            Radians angle;
             if(collider->canCollide(object.getCollider()->getType()))
-                if(collider->collides(*object.getCollider()))
-                    return object.collided(*this, Collidable::GetCollisionAngle(object.getCollider(), getCollider()));   // this ensures that object collider is called by the farther derived collided function, likewise a derived class needs to make sure its own derived collided function is called
+                if(collider->collides(*object.getCollider(), &angle))
+                    return object.collided(*this, angle+TAO/2.0);   // this ensures that object collider is called by the farther derived collided function, likewise a derived class needs to make sure its own derived collided function is called
                 else
                     return SUCCEEDED;
             else if(object.getCollider()->canCollide(collider->getType()))
-                if(object.getCollider()->collides(*getCollider()))
-                    return object.collided(*this, Collidable::GetCollisionAngle(object.getCollider(), getCollider()));
+                if(object.getCollider()->collides(*getCollider(), &angle))
+                    return object.collided(*this, angle);
                 else
                     return SUCCEEDED;
             else
