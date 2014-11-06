@@ -130,7 +130,7 @@ int main(int argc, char **argv)
     FileManager *files = new FileManager;
     data->push_back(shared_ptr<FileManager>(files));
     
-    shared_ptr<Window> win(new Window("Physics Woah", Point<int>(50, 50), Dimensions<int>(640, 480), Window::SHOWN | Window::RESIZABLE | Window::FULLSCREEN_DESKTOP));
+    shared_ptr<Window> win(new Window("Physics Woah", Point<int>(50, 50), Dimensions<int>(640, 480), Window::SHOWN | Window::RESIZABLE));
     shared_ptr<RedrawRenderer<HardRenderer> > ren(new RedrawRenderer<HardRenderer>(win, true, true));
     data->push_back(win);
     data->push_back(ren);
@@ -151,7 +151,7 @@ int main(int argc, char **argv)
     looper->push_back(shared_ptr<PhysicsEngine>(engine));
 	
 	FPSManager *fps;
-	looper->push_back(shared_ptr<FPSManager>(fps = new FPSManager(75, 1000)));
+	looper->push_back(shared_ptr<FPSManager>(fps = new FPSManager(60, 200)));
 	
 	EventHandler handler(engine, displayer, *tex, *tex2, fps);
     Events::SetListener(&handler);

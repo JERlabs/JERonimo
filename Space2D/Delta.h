@@ -24,6 +24,8 @@ namespace jer
      */
     {
 	public:
+		friend Delta<Delta<T> >;
+	public:
 		typedef T BASE_TYPE;
 		enum {N_DERIVATIVE=1};
 		
@@ -35,9 +37,15 @@ namespace jer
         Delta(const T &increment): T(increment), value() {};
         Delta(const Delta<T> &other): T(other), value(other.value) {};
         Delta(): T(), value() {};
+		
+	private:
+		void incrementChild(const double iterations, const short childDeriv)
+		{
+			increment(iterations);
+		}
         
     public:
-        const BASE_TYPE &get(int i=1) const {return value;};
+        const BASE_TYPE &get(short i=1) const {return value;};
         void set(const T& val) {value = val;};
         void increment(const double iterations=1.0) {value += iterations*(*this);};
         const SUCCESS loop() override {increment(); return SUCCEEDED;};
@@ -59,27 +67,44 @@ namespace jer
         explicit Delta(const BASE_TYPE &increment): BASE_TYPE(increment), value(), delta(this) {};
         Delta(): BASE_TYPE(), value(), delta(this) {};
         BASE_TYPE& operator= (const BASE_TYPE& other) {*delta = other; return *this;};
-        
+      
+	private:
+		void incrementChild(const double iterations, const short childDeriv)
+		{
+			if(childDeriv == N_DERIVATIVE)
+				increment(iterations);
+			else
+			{
+				increment(iterations/(N_DERIVATIVE-childDeriv+1.0));    // Changes delta to average delta for the entire change
+				value.incrementChild(iterations, childDeriv);
+				increment(-iterations/(N_DERIVATIVE-childDeriv+1.0));	// Reverts delta
+			}
+		}
+	  
     public:
-        const BASE_TYPE &get(int i=1) const {if(i == N_DERIVATIVE) return value; else return value.get(i);};
+        const BASE_TYPE &get(short i=1) const {if(i == N_DERIVATIVE) return value; else return value.get(i);};
         void set(const Delta<T>& val) {value = val;};
         void set(const T& val) {value.set(val);};
 		void increment(const double iterations=1.0)
 		{
-			const int iter(iterations);
-			value += (1.0+iterations-iter)*(*delta);
-			value.increment(1.0+iterations-iter);
-			if(iter >= 1) 
-				increment(iter-1);
-			else if(iter < -1)
-				increment(iter+1);
+			value += iterations*(*this);
 		};
-        const SUCCESS loop() override {increment(); return SUCCEEDED;};
+		
+		void incrementAll(const double iterations=1.0)
+		{
+			for(short i = 1; i <= N_DERIVATIVE; i++)   // runs the recursive increment function on each derivative starting from the base
+				incrementChild(iterations, i);
+		};
+		
+        const SUCCESS loop() override {incrementAll(); return SUCCEEDED;};
     };
     
     template<class T>
     class Delta<T *>: public T, public Loopable
     {
+	public:
+		friend Delta<Delta<T> *>;
+		
     public:
         typedef T BASE_TYPE;
         enum {N_DERIVATIVE=1};
@@ -123,10 +148,13 @@ namespace jer
         }
         
     public:
-        const T &get(int i=1) const {return *value;};
+        const T &get(short i=1) const {return *value;};
         void increment(const double iterations=1.0) {*value += iterations*(*this);};
         const SUCCESS loop() {increment(); return SUCCEEDED;};
         //void increment() {increment(1.0);};
+		
+	private:
+		void incrementChild(const double iterations, const short childDeriv) {increment(iterations);};
     };
     
     template<class T>
@@ -188,18 +216,31 @@ namespace jer
         
         
     public:
-        const BASE_TYPE &get(int i=1) const {if(i == N_DERIVATIVE) return *value; else return value->get(i);};        
+        const BASE_TYPE &get(short i=1) const {if(i == N_DERIVATIVE) return *value; else return value->get(i);};        
         void increment(const double iterations=1.0)
 		{
-			const int iter(iterations);
-			*value += (1.0+iterations-iter)*(*delta); 
-			value->increment(1.0+iterations-iter);
-			if(iter > 1)
-				increment(iter-1);
-			else if(iter < -1)
-				increment(iter+1);
+			*value += iterations*(*this);
 		};
-        const SUCCESS loop() override {increment(); return SUCCEEDED;};
+		
+		void incrementChild(const double iterations, const short childDeriv)
+		{
+			if(childDeriv == N_DERIVATIVE)
+				increment(iterations);
+			else
+			{
+				increment(iterations/(N_DERIVATIVE-childDeriv+1.0));    // Changes delta to average delta for the entire change
+				value->incrementChild(iterations, childDeriv);
+				increment(-iterations/(N_DERIVATIVE-childDeriv+1.0));	// Reverts delta
+			}
+		};
+		
+		void incrementAll(const double iterations=1.0)
+		{
+			for(short i = 1; i <= N_DERIVATIVE; i++)
+				incrementChild(iterations, i);
+		}
+		
+        const SUCCESS loop() override {incrementAll(); return SUCCEEDED;};
     };
     
 }

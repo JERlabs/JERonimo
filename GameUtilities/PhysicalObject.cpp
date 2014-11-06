@@ -2,7 +2,7 @@
 
 namespace jer
 {
-    double Mass::GRAVITATIONAL_CONSTANT(0.05);
+    double Mass::GRAVITATIONAL_CONSTANT(0.1);
     double PhysicalObject::REST_THRESHOLD(0.1);
     
     const Scalar<double> Mass::GetGravityForce(const Mass &first, const Mass &second, const Scalar<double> &distance)
@@ -24,7 +24,7 @@ namespace jer
     
     const SUCCESS PhysicalObject::loop()
     {
-		acceleration.increment(fpsMan==NULL? 1.0:fpsMan->getLagMultiplier());
+		acceleration.incrementAll(fpsMan==NULL? 1.0:fpsMan->getLagMultiplier());
         acceleration = Point<double>(0.0, 0.0);
         return SUCCEEDED;
     }
