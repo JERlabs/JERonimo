@@ -7,7 +7,7 @@ namespace jer
         if(SDL_GetTicks() > (cycles+1)*millisecondsPerCycle)
         {
             cycles++;
-            lagMultiplier = 1000.0*double(cycleFrames)/double(millisecondsPerCycle)/double(targetFPS);
+            lagMultiplier = double(targetFPS)/(1000.0*double(cycleFrames)/double(millisecondsPerCycle));
             cycleFrames = 0;
         }
         

@@ -28,7 +28,7 @@ namespace jer
         const unsigned int getMillisecondsPerCycle() const {return millisecondsPerCycle;};
         
         const unsigned long long getFrames() const {return frames;};
-		const double getFPS() const {return lagMultiplier*double(targetFPS);};
+		const double getFPS() const {return double(targetFPS)/getLagMultiplier();};
         
         void setTargetFPS(const unsigned short targ) {targetFPS = targ;};
         void setMillisecondsPerCycle(const unsigned int mils) {millisecondsPerCycle = mils;};

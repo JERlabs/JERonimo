@@ -137,9 +137,7 @@ namespace jer {
   /// Scalar Class representing degree measures of angles, stored as doubles.
   class Degrees: public Scalar<double> {
   public:
-      /** Implicit conversion operator to T
-       * Overloads Scalar because it ensures that the value is within the correct range
-       */
+      /// Ensures that the value is in the correct range between -180 and 180
       void validate()
       {
           // Keep val between -180 and 180
@@ -149,12 +147,12 @@ namespace jer {
       
   public:
     Degrees(): Scalar<double>() {}; ///< Default constructor
+    
 	/** Constructor
 	 * Made explicit so client doesn't confuse Degrees and Radians when passing in angle values.
 	 */
-    explicit Degrees(const double& a=0.0): Scalar<double>(a) {};
-    // not sure exactly why this is here, I'm removing it for now
-    //Degrees(const Mag_t &other): Scalar(other) {};  
+    explicit Degrees(const double& a): Scalar<double>(a) {};
+    
 	/** Constructor
 	 * Made explicit so client doesn't confuse Degrees and Radians when passing in angle values.
 	 */
@@ -196,9 +194,7 @@ namespace jer {
   /// Scalar Class representing radian measures of angles, stored as doubles.
   class Radians: public Scalar<double> {
   public:
-      /** Implicit conversion operator to T
-       * Overloads Scalar because it ensures that the value is within the correct range
-       */
+      /// Ensures that the value is in the correct range between -PI and PI
       void validate()
       {
           // Keep val between -PI and PI
