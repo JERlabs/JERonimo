@@ -134,7 +134,7 @@ namespace jer {
       return T(T(lhs)/T(rhs));
   }  
   
-  /// Class representing degree measures of angles, stored as doubles.
+  /// Scalar Class representing degree measures of angles, stored as doubles.
   class Degrees: public Scalar<double> {
   public:
       /** Implicit conversion operator to T
@@ -193,7 +193,7 @@ namespace jer {
       return double(double(lhs)/double(rhs));
   }
 
-  /// Class representing radian measures of angles, stored as doubles.
+  /// Scalar Class representing radian measures of angles, stored as doubles.
   class Radians: public Scalar<double> {
   public:
       /** Implicit conversion operator to T
