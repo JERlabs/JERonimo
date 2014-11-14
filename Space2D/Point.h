@@ -7,6 +7,10 @@
 
 namespace jer {
 
+/** Cartesian coordinate pair with support for numeric operators
+ * Addition, subtraction, multiplication, division, etc. work in ways which maintain type consistencies.
+ * Supports implicit conversions to and from polar coordinate Vector's.
+ */
 template<typename T>
 class Point {
   protected:
@@ -16,7 +20,7 @@ class Point {
     /// Construct a point from an X and Y value
     Point (const X_t<T>& x, const Y_t<T>& y): X(x), Y(y) {};
     
-    /// Construct a point from another point
+    /// Construct a point from another point, converting its parts if necessary
     template<typename U>
     Point (Point<U> const& p2): X(T(U(p2.x()))), Y(T(U(p2.y()))) {};
     
@@ -31,66 +35,76 @@ class Point {
       return X;
     };
     
+    /// Return a mutable reference to the X-coordinate as an X_t
     X_t<T>& x() {
         return X;
     };
     
-    /// Set the X coordinate, returns *this
+    /// Set the X coordinate to x, returns reference to self for chain function calls
     Point<T>& x(const X_t<T> & x) {
         X=x;
         return *this;
     };
     
-    // Damn overloads
+    /// For override use in velocity \deprecated
     virtual void x(const double & x) {
         X=x;
     };
     
-    /// Return the Y coordinate as a long double
+    /// Return the Y-coordinate as a Y_t
     const Y_t<T> &y() const {
       return Y;
     };
     
+    /// Returns a mutable reference to the Y-coordinate as a Y_t
     Y_t<T> &y() {
         return Y;
     };
     
-    /// Set the Y coordinate, returns *this
+    /// Set the Y coordinate, returns reference to self for chain function calls
     Point<T>& y(const Y_t<T>& y) {
         Y=y; 
         return *this;
     };
     
+    /// For override use in velocity \deprecated
     virtual void y(const double& y) {
         Y=y;
     };
     
-    /// Set x,y of this point to equal x,y of another point
+    /// Assigns coordinate pair from p2
     Point<T>& operator = (Point<T> const& p2);
     
-    /// Set x to x+p2.x(), set y to y+p2.y()
+    /// Adds x and y coordinates of p2 to x and y coordinates of <code>this</code> respectively
     Point<T>& operator += (Point<T> const& p2);
+    
+    /// Adds argument to the x coordinate of <code>this</code>
     Point<T>& operator += (const X_t<T>& x);
+    
+    /// Adds argument to the y coordinate of <code>this</code>
     Point<T>& operator += (const Y_t<T>& y);
     
-    /// Set x to x-p2.x(), set y to y-p2.y()
+    /// Subtracts x and y coordinates of p2 from x and y coordinates of <code>this</code> respectively
     Point<T>& operator -= (Point<T> const& p2);
+    
+    /// Subtracts argument from the x coordinate of <code>this</code>
     Point<T>& operator -= (const X_t<T>& x);
+    
+    /// Subtracts argument from the x coordinate of <code>this</code>
     Point<T>& operator -= (const Y_t<T>& y);
     
-    /// Apply a size transformation of magnitude scale
+    /// Multiplies both X and Y coordinate by scale
     Point<T>& operator *= (const T& scale);
     
-    
-    /// Apply a size transformation of magnitude 1/scale
+    /// Divides both X and Y coordinate by scale
     Point<T>& operator /= (const T& scale);
     
-    /// Checks for equality in both X and Y.
+    /// Evaluates equality of X and Y coordinates of <code>this</code> and <code>p</code>
     const bool operator == (const Point<T> &p) const {
       return X == p.x() && Y == p.y();
     };
     
-    /// Returns opposite of ==.
+    /// Evaluates inequality of X and Y coordinates of <code>this</code> and <code>p</code>
     const bool operator != (const Point<T> &p) const {
       return !(*this == p);
     };
@@ -152,102 +166,131 @@ inline Point<T>& Point<T>::operator /= (const T &scale) {
 }
 
 template<typename T>
-using Dimensions = Point<T>;   ///< Same as point, but different name. oooooohhhhh.
+using Dimensions = Point<T>;   ///< Alias for Point for use in conceptual disambiguity
 
-/// Point+Point addition.
+/** Returns a Point with X and Y coordinates formed from the sum of the X and Y coordinates of the operands
+ * \see Point::operator+=
+ */
 template<typename T>
 inline const Point<T> operator+ (const Point<T>& lhs, const Point<T>& rhs) {
   return Point<T>(lhs) += rhs;
 };
 
-/// Point+X addition.
+/** Returns a Point with X and Y coordinates formed from the sum of the X coordinates of the operands, and the Y cooridnate of the left hand operand
+ * \see Point::operator+=
+ */
 template<typename T>
 inline const Point<T> operator+ (const Point<T>& lhs, const X_t<T>& rhs) {
   return Point<T>(lhs) += rhs;
 };
 
-/// Point+Y addition
+/** Returns a Point with X and Y coordinates formed from the sum of the Y coordinates of the operands, and the X cooridnate of the left hand operand
+ * \see Point::operator+=
+ */
 template<typename T>
 inline const Point<T> operator+ (const Point<T>& lhs, const Y_t<T>& rhs) {
   return Point<T>(lhs) += rhs;
 };
 
-/// X+Point addition
+/** Returns a Point with X and Y coordinates formed from the sum of the X coordinates of the operands, and the Y cooridnate of the right hand operand
+ * \see Point::operator+=
+ */
 template<typename T>
 inline const Point<T> operator+ (const X_t<T>& lhs, const Point<T>& rhs) {
   return rhs+lhs;
 };
 
-/// Y+Point addition
+/** Returns a Point with X and Y coordinates formed from the sum of the Y coordinates of the operands, and the X cooridnate of the right hand operand
+ * \see Point::operator+=
+ */
 template<typename T>
 inline const Point<T> operator+ (const Y_t<T>& lhs, const Point<T>& rhs) {
   return rhs+lhs;
 };
 
-/// Point-Point subtraction
+/** Returns a Point with X and Y coordinates formed from the difference of the X and Y coordinates of the operands
+ * \see Point::operator-=
+ */
 template<typename T>
 inline const Point<T> operator- (const Point<T>& lhs, const Point<T>& rhs) {
   return Point<T>(lhs) -= rhs;
 };
 
-/// Point-X addition.
+/** Returns a Point with X and Y coordinates formed from the difference of the X coordinates of the operands, and the Y cooridnate of the left hand operand
+ * \see Point::operator-=
+ */
 template<typename T>
 inline const Point<T> operator- (const Point<T>& lhs, const X_t<T>& rhs) {
   return Point<T>(lhs) -= rhs;
 };
 
-/// Point-Y addition
+/** Returns a Point with X and Y coordinates formed from the difference of the Y coordinates of the operands, and the X cooridnate of the left hand operand
+ * \see Point::operator-=
+ */
 template<typename T>
 inline const Point<T> operator- (const Point<T>& lhs, const Y_t<T>& rhs) {
   return Point<T>(lhs) -= rhs;
 };
 
-/// X-Point addition
+/** Returns a Point with X and Y coordinates formed from the difference of the X coordinates of the operands, and the Y cooridnate of the right hand operand
+ * \see Point::operator-=
+ */
 template<typename T>
 inline const Point<T> operator- (const X_t<T>& lhs, const Point<T>& rhs) {
-  return rhs+lhs;
+  return -(rhs-lhs);
 };
 
-/// Y-Point addition
+/** Returns a Point with X and Y coordinates formed from the difference of the Y coordinates of the operands, and the X cooridnate of the right hand operand
+ * \see Point::operator-=
+ */
 template<typename T>
 inline const Point<T> operator- (const Y_t<T>& lhs, const Point<T>& rhs) {
-  return lhs+rhs;
+  return -(rhs-lhs);
 };
 
-/// Point*scale multiplication
+/** Returns a Point with the X and Y coordinates formed from scaling the X and Y coordinates of the left hand operand by the right hand operand
+ * \see Point::operator*=
+ */
 template<typename T>
 inline const Point<T> operator* (const Point<T> &lhs, const T& scale) {
   return Point<T>(lhs) *= scale;
 };
 
-/// scale*Point multiplication
+/** Returns a Point with the X and Y coordinates formed from scaling the X and Y coordinates of the right hand operand by the left hand operand
+ * \see Point::operator*=
+ */
 template<typename T>
 inline const Point<T> operator* (const T& lhs, const Point<T> &rhs) {
   return rhs * lhs;
 };
 
-/// Point/scale division
+/** Returns a Point with the X and Y coordinates formed from inversely scaling the X and Y coordinates of the left hand operand by right hand operand
+ * \see Point::operator/=
+ */
 template<typename T>
 inline const Point<T> operator/ (const Point<T> &lhs, const T &scale) {
   return Point<T>(lhs.x()/scale, lhs.y()/scale);
 };
 
+/// Returns a Point with the X and Y coordinates fromed from the opposite of X and Y coordinates of the operand
 template<typename T>
 inline const Point<T> operator- (const Point<T> &lhs) {
   return Point<T>(-lhs.x(), -lhs.y());
 }
 
-/// Returns the square root of p.x() squared + p.y() squared.
+/// Returns the hypotenuse of a right triangle formed from legs with measures of the X and Y coordinates of <code>p</code>
 template<typename T>
 inline const T pythagoras(const Point<T>& p) {
   return pythagoras(p.x(), p.y());
 }
 
+/// Returns the angle (in Radians) between the hypotenuse and adjacent leg of a right triangle formed from legs with measures of the X and Y coordinates of <code>p</code>
 template<typename T>
 inline const Radians getTheta(const Point<T> &p) {
   return getTheta(p.x(), p.y());
 }
 
+/// Outputs the X and Y coordinates of <code>p</code> to the stream <code>os</code> in the format "(x, y)"
 template<typename T>
 inline std::ostream &operator<< (std::ostream &os, Point<T> p) {
     return os<<"("<<p.x()<<", "<<p.y()<<")";
