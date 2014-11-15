@@ -40,7 +40,9 @@ class Point {
         return X;
     };
     
-    /// Set the X coordinate to x, returns reference to self for chain function calls
+    /** Set the X coordinate to x
+     * \return reference to self for chain function calls
+     */
     Point<T>& x(const X_t<T> & x) {
         X=x;
         return *this;
@@ -61,7 +63,9 @@ class Point {
         return Y;
     };
     
-    /// Set the Y coordinate, returns reference to self for chain function calls
+    /** Set the Y coordinate
+     * \return reference to self for chain function calls
+     */
     Point<T>& y(const Y_t<T>& y) {
         Y=y; 
         return *this;
