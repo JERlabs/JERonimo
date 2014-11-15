@@ -24,7 +24,7 @@ namespace jer
      */
     {
 	public:
-		friend Delta<Delta<T> >;
+		friend class Delta<Delta<T> >;
 	public:
 		typedef T BASE_TYPE;
 		enum {N_DERIVATIVE=1};
@@ -103,7 +103,7 @@ namespace jer
     class Delta<T *>: public T, public Loopable
     {
 	public:
-		friend Delta<Delta<T> *>;
+		friend class Delta<Delta<T> *>;
 		
     public:
         typedef T BASE_TYPE;
