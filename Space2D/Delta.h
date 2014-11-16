@@ -24,7 +24,7 @@ namespace jer
      */
     {
 	public:
-		friend Delta<Delta<T> >;
+		friend Delta<Delta<T> >;  ///< Allows all assortments of Delta's to access one anothers private members
 	public:
 		typedef T BASE_TYPE;
 		enum {N_DERIVATIVE=1};
